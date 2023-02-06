@@ -47,3 +47,6 @@ From the project repository, `git add *` to track all the new files, then `git c
 If you can, ask for reviews from people using different operating systems or microprocessors.
 
 The reviewer should then do a ``git fetch`` to update their repo relative to the origin, then the review can  check it out (``git checkout <branchname>``). If it works for the reviewer, too, then the PR can be approved. If not, say what happened in the PR discussion and figure out how to fix it. Once it works for at least one other person, it probably makes sense to merge it into master.
+
+#Team Members:
+Darius Argueta
