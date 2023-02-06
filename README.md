@@ -53,5 +53,6 @@ Darius Argueta
 Demetrios Petrou
 Isaiah Peralta
 Cano Morales
+Victoria Ryan
 Aaron Bun
 David Motta
