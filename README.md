@@ -50,4 +50,10 @@ The reviewer should then do a ``git fetch`` to update their repo relative to the
 
 #Team Members:
 Darius Argueta
+Demetrios Petrou
 Isaiah Peralta
+Cano Morales
+Victoria Ryan
+Aaron Bun
+David Motta
+Aram Elmayan
