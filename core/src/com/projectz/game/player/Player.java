@@ -14,12 +14,17 @@ public class Player extends Actor {
     private float speed;
     private Texture playerTexture;
 
+    //default constructor
+    //this is where we give the player a texture/skin
+    // speed is defaulted ( smaller equals slower...vice versa)
+
     public Player () {
         position = new Vector2();
         speed = 30f;
         playerTexture = new Texture("player.png");
     }
 
+    //changes the position of player object based on input
     @Override
     public void act(float deltaTime) {
         super.act(deltaTime);
@@ -36,6 +41,8 @@ public class Player extends Actor {
             position.x += speed * deltaTime;
         }
     }
+
+    //draw method for player
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
@@ -44,6 +51,7 @@ public class Player extends Actor {
 
     }
 
+    //used for memoery management
     public void dispose() {
         playerTexture.dispose();
     }

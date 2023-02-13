@@ -25,15 +25,23 @@ public class ProjectZ extends ApplicationAdapter {
 
 	@Override
 	public void create() {
+
+		//Libgdx said this is how I should do it (required for multiple scenes)
 		stage = new Stage();
 		player = new Player();
 		stage.addActor(player);
+
+		//Processes the input for wasd (can be furthered enhanced for other features)
 		Gdx.input.setInputProcessor(inputProcessor);
 	}
 
 	@Override
 	public void render() {
+
+		//set default color to black
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+		//default call to create stage (from documentation page)
 		stage.act(Gdx.graphics.getDeltaTime());
 		stage.draw();
 	}
