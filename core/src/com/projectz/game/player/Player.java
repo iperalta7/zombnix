@@ -51,7 +51,7 @@ public class Player extends Actor {
 
     }
 
-    //used for memoery management
+    //used for memory management
     public void dispose() {
         playerTexture.dispose();
     }
