@@ -1,5 +1,6 @@
 package com.projectz.game.inventory;
 
+import com.projectz.game.items.Item;
 import com.projectz.game.items.Item.ItemType;
 
 public class ItemSlot{
@@ -37,6 +38,26 @@ public class ItemSlot{
         else{
             return stack.getItem().getName();
         }
+    }
+    
+    public boolean isEmpty(){
+        return stack == null;
+    }
+    
+    public boolean add(Item item, int count){
+        if(stack == null){
+            stack = new ItemStack(item, count);
+            return true;
+        }
+        else if(item == stack.getItem()){
+            if (stack.getCount() + count > item.getMaxStackSize()){
+                return false;
+            }
+            
+            stack.add(count);
+            return true;
+        }
+        return false;
     }
     
     public void Use(){

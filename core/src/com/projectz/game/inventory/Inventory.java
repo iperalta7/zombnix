@@ -7,6 +7,7 @@ import com.projectz.game.items.Item.ItemType;
 
 public class Inventory{
     
+    private int currentSlot = 0;
     private ItemSlot primary;
     private ItemSlot secondary;
     private ArrayList<ItemSlot> slots;
@@ -31,6 +32,32 @@ public class Inventory{
         // If it is not, check the secondary and add if IT is.
         // If neither are empty, swap current weapon with incoming item.
         
+        if(item.getType() == ItemType.Weapon){
+            
+            if(primary.isEmpty()){
+                primary.setStack(new ItemStack(item, 1));
+                return true;
+            }
+            else if(secondary.isEmpty()){
+                secondary.setStack(new ItemStack(item, 1));
+                return true;
+            }
+            else{
+                if(currentSlot == 0){
+                    primary.drop();
+                    primary.setStack(new ItemStack(item, 1));
+                    return true;
+                }
+                else if(currentSlot == 1){
+                    secondary.drop();
+                    secondary.setStack(new ItemStack(item, 1));
+                    return true;
+                }
+            }
+            
+            return false;
+        }
+        
         
         // check for existing itemstack in slots
         for(int i = 0; i < slots.size(); i++){
@@ -51,6 +78,10 @@ public class Inventory{
         // Slot doesn't exist with item
         
         return false;
+    }
+    
+    public void setCurrentSlot(int i){
+        currentSlot = i;
     }
     
     public void swapPrimary(){
