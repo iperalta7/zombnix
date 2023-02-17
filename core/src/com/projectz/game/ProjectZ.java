@@ -5,8 +5,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.projectz.game.inventory.Inventory;
-import com.projectz.game.items.ItemHealPotion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.projectz.game.player.Player;
 import com.projectz.game.utils.MyInputProcessor;
@@ -15,7 +13,6 @@ public class ProjectZ extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	
-	Inventory inventory;
 	
 	private Player player;
 	MyInputProcessor inputProcessor = new MyInputProcessor();
@@ -25,15 +22,6 @@ public class ProjectZ extends ApplicationAdapter {
 	public void create () {
 		batch = new SpriteBatch();
 		img = new Texture("badlogic.jpg");
-		
-		// Testing the inventory system.
-		inventory = new Inventory();
-		inventory.printInventory();
-		inventory.addItem(new ItemHealPotion());
-		inventory.printInventory();
-
-		
-
 		//Libgdx said this is how I should do it (required for multiple scenes)
 		stage = new Stage();
 		player = new Player();

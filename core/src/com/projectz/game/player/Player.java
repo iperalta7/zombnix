@@ -4,6 +4,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.projectz.game.inventory.Inventory;
+import com.projectz.game.items.Item;
+import com.projectz.game.items.ItemHealPotion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -17,6 +20,8 @@ public class Player extends Actor {
     private float speed;
     private Texture playerTexture;
 
+	Inventory inventory;
+    
     //default constructor
     //this is where we give the player a texture/skin
     // speed is defaulted ( smaller equals slower...vice versa)
@@ -27,6 +32,15 @@ public class Player extends Actor {
         playerTexture = new Texture("player.png");
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
+        
+        
+		// Testing the inventory system.
+        
+		inventory = new Inventory();
+		inventory.printInventory();
+		inventory.addItem(Item.HealingPotion, 5);
+		inventory.printInventory();
+
     }
 
     //changes the position of player object based on input
@@ -44,6 +58,9 @@ public class Player extends Actor {
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             position.x += speed * deltaTime;
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
+            inventory.useConsumable(Item.HealingPotion);
         }
 
         // update the camera position to follow the player

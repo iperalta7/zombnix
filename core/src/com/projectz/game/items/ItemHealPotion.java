@@ -3,7 +3,7 @@ package com.projectz.game.items;
 public class ItemHealPotion extends Item{
 
     public ItemHealPotion() {
-        super("Healing Potion", ItemType.Consumable, 3);
+        super("Healing Potion", ItemType.Consumable, 5);
     }
 
     @Override

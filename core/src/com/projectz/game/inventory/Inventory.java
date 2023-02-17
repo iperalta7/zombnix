@@ -24,7 +24,7 @@ public class Inventory{
     }
     
     /** Returns true if the item was added to the inventory successfully, false if not. */
-    public boolean addItem(Item item){
+    public boolean addItem(Item item, int count){
         if(item == null) return false;
         
         // TODO: Enable addition of weapons to the inventory.
@@ -62,7 +62,7 @@ public class Inventory{
         // check for existing itemstack in slots
         for(int i = 0; i < slots.size(); i++){
             if(slots.get(i).getStack() == null){
-                slots.get(i).setStack(new ItemStack(item, 1));
+                slots.get(i).setStack(new ItemStack(item, count));
                 return true;
             }
             else if(slots.get(i).getStack().getItem().equals(item)){
@@ -99,9 +99,11 @@ public class Inventory{
         }
     }
     
-    public void useConsumable(int slot){
-        if(isInSlotBounds(slot)){
-            slots.get(slot).Use();
+    public void useConsumable(Item item){
+        for(int i = 0; i < slotCount; i++){
+            if(slots.get(i).getItemName() == item.getName()){
+                slots.get(i).Use();
+            }
         }
     }
     

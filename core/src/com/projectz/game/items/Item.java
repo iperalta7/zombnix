@@ -2,6 +2,8 @@ package com.projectz.game.items;
 
 public abstract class Item {
     
+    public static final ItemHealPotion HealingPotion = new ItemHealPotion();
+    
     private String name;
     public enum ItemType {Weapon, Consumable};
     private ItemType type;

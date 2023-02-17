@@ -27,6 +27,8 @@ public class MyInputProcessor implements InputProcessor {
             case Input.Keys.D:
                 System.out.println("D");
                 return true;
+            case Input.Keys.NUM_3:
+                return true;
         }
         return false;
     }
