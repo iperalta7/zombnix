@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.projectz.game.player.Player;
-import com.projectz.game.utils.MyInputProcessor;
 
 public class ProjectZ extends ApplicationAdapter {
 	SpriteBatch batch;
