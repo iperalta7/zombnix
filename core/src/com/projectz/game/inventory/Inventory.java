@@ -7,7 +7,10 @@ import com.projectz.game.items.Item.ItemType;
 
 public class Inventory{
     
+<<<<<<< HEAD
     private int currentSlot = 0;
+=======
+>>>>>>> 696678b (Commit before rebase)
     private ItemSlot primary;
     private ItemSlot secondary;
     private ArrayList<ItemSlot> slots;
@@ -24,7 +27,11 @@ public class Inventory{
     }
     
     /** Returns true if the item was added to the inventory successfully, false if not. */
+<<<<<<< HEAD
     public boolean addItem(Item item, int count){
+=======
+    public boolean addItem(Item item){
+>>>>>>> 696678b (Commit before rebase)
         if(item == null) return false;
         
         // TODO: Enable addition of weapons to the inventory.
@@ -32,6 +39,7 @@ public class Inventory{
         // If it is not, check the secondary and add if IT is.
         // If neither are empty, swap current weapon with incoming item.
         
+<<<<<<< HEAD
         if(item.getType() == ItemType.Weapon){
             
             if(primary.isEmpty()){
@@ -58,11 +66,17 @@ public class Inventory{
             return false;
         }
         
+=======
+>>>>>>> 696678b (Commit before rebase)
         
         // check for existing itemstack in slots
         for(int i = 0; i < slots.size(); i++){
             if(slots.get(i).getStack() == null){
+<<<<<<< HEAD
                 slots.get(i).setStack(new ItemStack(item, count));
+=======
+                slots.get(i).setStack(new ItemStack(item, 1));
+>>>>>>> 696678b (Commit before rebase)
                 return true;
             }
             else if(slots.get(i).getStack().getItem().equals(item)){
@@ -80,10 +94,13 @@ public class Inventory{
         return false;
     }
     
+<<<<<<< HEAD
     public void setCurrentSlot(int i){
         currentSlot = i;
     }
     
+=======
+>>>>>>> 696678b (Commit before rebase)
     public void swapPrimary(){
         ItemStack buffer = primary.getStack();
         primary.setStack(primary.getStack());
@@ -99,11 +116,17 @@ public class Inventory{
         }
     }
     
+<<<<<<< HEAD
     public void useConsumable(Item item){
         for(int i = 0; i < slotCount; i++){
             if(slots.get(i).getItemName() == item.getName()){
                 slots.get(i).Use();
             }
+=======
+    public void useConsumable(int slot){
+        if(isInSlotBounds(slot)){
+            slots.get(slot).Use();
+>>>>>>> 696678b (Commit before rebase)
         }
     }
     

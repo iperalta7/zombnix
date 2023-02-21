@@ -1,6 +1,9 @@
 package com.projectz.game.inventory;
 
+<<<<<<< HEAD
 import com.projectz.game.items.Item;
+=======
+>>>>>>> 696678b (Commit before rebase)
 import com.projectz.game.items.Item.ItemType;
 
 public class ItemSlot{
@@ -40,6 +43,7 @@ public class ItemSlot{
         }
     }
     
+<<<<<<< HEAD
     public boolean isEmpty(){
         return stack == null;
     }
@@ -60,6 +64,8 @@ public class ItemSlot{
         return false;
     }
     
+=======
+>>>>>>> 696678b (Commit before rebase)
     public void Use(){
         if(stack != null){
             stack.getItem().onActivate();
