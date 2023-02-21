@@ -11,7 +11,6 @@ import com.projectz.game.player.Player;
 public class ProjectZ extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
-	
 	private Player player;
 	Stage stage;
 	
