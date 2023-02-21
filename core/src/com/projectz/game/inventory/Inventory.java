@@ -27,11 +27,6 @@ public class Inventory{
     public boolean addItem(Item item, int count){
         if(item == null) return false;
         
-        // TODO: Enable addition of weapons to the inventory.
-        // What that should do is to check if the primary is empty and add if it is.
-        // If it is not, check the secondary and add if IT is.
-        // If neither are empty, swap current weapon with incoming item.
-        
         if(item.getType() == ItemType.Weapon){
             
             if(primary.isEmpty()){
@@ -106,9 +101,4 @@ public class Inventory{
             }
         }
     }
-    
-    private boolean isInSlotBounds(int slot){
-        return slot < 0 || slot >= slotCount;
-    }
-    
 }
