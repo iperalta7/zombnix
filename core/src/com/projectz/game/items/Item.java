@@ -2,16 +2,8 @@ package com.projectz.game.items;
 
 public abstract class Item {
     
-<<<<<<< HEAD
-<<<<<<< HEAD
     public static final ItemHealPotion HealingPotion = new ItemHealPotion();
     
-=======
->>>>>>> 696678b (Commit before rebase)
-=======
-    public static final ItemHealPotion HealingPotion = new ItemHealPotion();
-    
->>>>>>> 95f4c7a (rebase)
     private String name;
     public enum ItemType {Weapon, Consumable};
     private ItemType type;
