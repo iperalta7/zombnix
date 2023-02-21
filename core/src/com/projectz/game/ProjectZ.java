@@ -12,6 +12,9 @@ public class ProjectZ extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
 	
+=======
+
+>>>>>>> 1e39cbf (removed inputProcessor class (not needed for player atm))
 	private Player player;
 	Stage stage;
 	
