@@ -7,13 +7,10 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.projectz.game.player.Player;
-import com.projectz.game.utils.MyInputProcessor;
 
 public class ProjectZ extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
-
-	MyInputProcessor inputProcessor = new MyInputProcessor();
 
 	private Player player;
 	Stage stage;
@@ -25,9 +22,6 @@ public class ProjectZ extends ApplicationAdapter {
 		stage = new Stage();
 		player = new Player();
 		stage.addActor(player);
-
-		//Processes the input for wasd (can be furthered enhanced for other features)
-		Gdx.input.setInputProcessor(inputProcessor);
 	}
 
 	@Override
