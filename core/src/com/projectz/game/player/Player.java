@@ -22,7 +22,7 @@ public class Player extends Actor {
 
     public Player () {
         position = new Vector2();
-        speed = 30f;
+        speed = 50f;
         playerTexture = new Texture("player.png");
 
     }

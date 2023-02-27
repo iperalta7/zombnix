@@ -56,7 +56,7 @@ public class GameScreen implements Screen{
         // TmxMapLoader loader = new TmxMapLoader();
         // map = loader.load("maps/basic_map.tmx");
         map = new TmxMapLoader().load("maps/basic_map.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map);
+        renderer = new OrthogonalTiledMapRenderer(map, 3f);
 
         player = new Player();
 
