@@ -7,11 +7,17 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.projectz.game.player.Player;
+
 public class GameScreen implements Screen{
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer; 
     private OrthographicCamera camera; 
 
+    Player player;
+
+    Stage stage;
  
 
     @Override
@@ -19,8 +25,18 @@ public class GameScreen implements Screen{
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        renderer.setView(camera); 
-        renderer.render(); 
+
+        // update the camera position to follow the player
+        camera.position.x = player.getPosition().x;
+        camera.position.y = player.getPosition().y;
+        camera.update();
+
+        renderer.setView(camera);
+        renderer.render();
+
+        //default call to create stage (from documentation page)
+        stage.act(Gdx.graphics.getDeltaTime());
+        stage.draw();
 
     }
 
@@ -29,7 +45,6 @@ public class GameScreen implements Screen{
         camera.viewportWidth = width; 
         camera.viewportHeight = height;
         camera.position.set(camera.viewportWidth / 3f, camera.viewportHeight / 3f, 0);
-        camera.zoom = 1/ 4f;
         camera.update(); 
         
     }
@@ -43,8 +58,13 @@ public class GameScreen implements Screen{
         map = new TmxMapLoader().load("maps/basic_map.tmx");
         renderer = new OrthogonalTiledMapRenderer(map);
 
-        camera = new OrthographicCamera(); 
-        camera.update();
+        player = new Player();
+
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
+
+        stage = new Stage();
+        stage.addActor(player);
     }   
 
 
