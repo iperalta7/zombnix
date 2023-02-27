@@ -1,6 +1,8 @@
-package com.mygdx.game.screens;
+package com.projectz.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
@@ -17,12 +19,21 @@ import com.projectz.game.ProjectZ;
 
 public class InventoryScreen extends ScreenAdapter {
     private Stage inventoryStage;
-    private Table table;
 
-    //UI elements
+    //UI design
     private Image inventoryBackground;
     private Label inventoryLabel;
     private TextButton closeInventory;
+
+    GameScreen gameScreen;
+
+    //UI elements
+    private int numSlots = 5;
+    private int lengthSlotRow = 1;
+    private Table inventorySlots;
+    private Table playerSlots;
+    private final int slotWidth = 50;
+    private final int slotHeight = 50;
 
     ProjectZ game;
 
@@ -44,6 +55,8 @@ public class InventoryScreen extends ScreenAdapter {
         //closeInventory = new TextButton("Close", new TextButton.TextButtonStyle();
 
     }
+
+
     @Override
     public void render (float delta) {
         inventoryStage.getViewport().update(800, 600, true);
