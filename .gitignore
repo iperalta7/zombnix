@@ -4,6 +4,8 @@
 *.war
 *.ear
 hs_err_pid*
+./gradlew
+
 
 ## Robovm
 /ios/robovm-build/

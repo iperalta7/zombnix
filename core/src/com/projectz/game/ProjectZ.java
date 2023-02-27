@@ -11,13 +11,14 @@ import com.projectz.game.player.Player;
 public class ProjectZ extends ApplicationAdapter {
 	SpriteBatch batch;
 	Texture img;
-
+  
 	private Player player;
 	Stage stage;
-
+	
 	@Override
-	public void create() {
-
+	public void create () {
+		batch = new SpriteBatch();
+		img = new Texture("badlogic.jpg");
 		//Libgdx said this is how I should do it (required for multiple scenes)
 		stage = new Stage();
 		player = new Player();
