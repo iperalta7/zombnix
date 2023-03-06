@@ -7,6 +7,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.projectz.game.player.Player;
+import com.projectz.game.ui.StatusHUD;
+import com.projectz.game.ui.StatusHUDRenderer;
 
 public class ProjectZ extends ApplicationAdapter {
 	SpriteBatch batch;
@@ -14,6 +16,7 @@ public class ProjectZ extends ApplicationAdapter {
   
 	private Player player;
 	Stage stage;
+	StatusHUDRenderer statusHUDRenderer;
 	
 	@Override
 	public void create () {
@@ -23,6 +26,8 @@ public class ProjectZ extends ApplicationAdapter {
 		stage = new Stage();
 		player = new Player();
 		stage.addActor(player);
+		statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player));
+		stage.addActor(statusHUDRenderer);
 	}
 
 	@Override
