@@ -1,25 +1,25 @@
 package com.projectz.game.ui;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.projectz.game.player.Player;
 
 public class StatusHUD {
     private Player player;
-    private Texture healthTexture;
-    private Texture expTexture;
+    private Sprite healthSprite;
+    private Sprite expSprite;
     public StatusHUD(Player player) {
         this.player = player;
         //Default Textures
-        healthTexture = StatusHUDTextures.HEALTH_TEXTURE_10;
-        expTexture = StatusHUDTextures.EXP_TEXTURE_10;
+        healthSprite = StatusHUDSprites.HEALTH_SPRITE_10;
+        expSprite = StatusHUDSprites.EXP_SPRITE_10;
     }
 
-    public Texture getHealthTexture() {
-        return healthTexture;
+    public Sprite getHealthSprite() {
+        return healthSprite;
     }
-    public Texture getExpTexture() {
-        return expTexture;
+    public Sprite getExpSprite() {
+        return expSprite;
     }
     public void update() {
         int health = player.getHealth();
@@ -29,27 +29,27 @@ public class StatusHUD {
     }
     private void updateHealth(int health) {
         if(health == 0) {
-            healthTexture = StatusHUDTextures.HEALTH_TEXTURE_0;
+            healthSprite = StatusHUDSprites.HEALTH_SPRITE_0;
         } else if(health > 0 && health < 15) {
-            healthTexture = StatusHUDTextures.HEALTH_TEXTURE_1;
+            healthSprite = StatusHUDSprites.HEALTH_SPRITE_1;
         } else if(health >= 15 && health < 25) {
-            healthTexture = StatusHUDTextures.HEALTH_TEXTURE_2;
+            healthSprite = StatusHUDSprites.HEALTH_SPRITE_2;
         } else if(health >= 25 && health < 35) {
-            healthTexture = StatusHUDTextures.HEALTH_TEXTURE_3;
+            healthSprite = StatusHUDSprites.HEALTH_SPRITE_3;
         } else if(health >= 35 && health < 45) {
-            healthTexture = StatusHUDTextures.HEALTH_TEXTURE_4;
+            healthSprite = StatusHUDSprites.HEALTH_SPRITE_4;
         } else if(health >= 45 && health < 55) {
-            healthTexture = StatusHUDTextures.HEALTH_TEXTURE_5;
+            healthSprite = StatusHUDSprites.HEALTH_SPRITE_5;
         } else if(health >= 55 && health < 65) {
-            healthTexture = StatusHUDTextures.HEALTH_TEXTURE_6;
+            healthSprite = StatusHUDSprites.HEALTH_SPRITE_6;
         } else if(health >= 65 && health < 75) {
-            healthTexture = StatusHUDTextures.HEALTH_TEXTURE_7;
+            healthSprite = StatusHUDSprites.HEALTH_SPRITE_7;
         } else if(health >= 75 && health < 85) {
-            healthTexture = StatusHUDTextures.HEALTH_TEXTURE_8;
+            healthSprite = StatusHUDSprites.HEALTH_SPRITE_8;
         } else if(health >= 85 && health < 95) {
-            healthTexture = StatusHUDTextures.HEALTH_TEXTURE_9;
+            healthSprite = StatusHUDSprites.HEALTH_SPRITE_9;
         } else if(health >= 95 && health < 100) {
-            healthTexture = StatusHUDTextures.HEALTH_TEXTURE_10;
+            healthSprite = StatusHUDSprites.HEALTH_SPRITE_10;
         }
     }
     public void updateExp(int expValue) {
