@@ -48,7 +48,7 @@ public class StatusHUD {
             healthSprite = StatusHUDSprites.HEALTH_SPRITE_8;
         } else if(health >= 85 && health < 95) {
             healthSprite = StatusHUDSprites.HEALTH_SPRITE_9;
-        } else if(health >= 95 && health < 100) {
+        } else if(health >= 95 && health <= 100) {
             healthSprite = StatusHUDSprites.HEALTH_SPRITE_10;
         }
     }
