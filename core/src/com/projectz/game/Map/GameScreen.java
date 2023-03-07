@@ -4,6 +4,8 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.Gdx; 
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -18,7 +20,9 @@ public class GameScreen implements Screen{
     Player player;
 
     Stage stage;
- 
+
+    Batch batch;
+
 
     @Override
     public void render(float delta){
@@ -27,16 +31,19 @@ public class GameScreen implements Screen{
 
 
         // update the camera position to follow the player
-        camera.position.x = player.getPosition().x;
-        camera.position.y = player.getPosition().y;
+        camera.position.x = player.getPosition().x + player.getWidth()/2;
+        camera.position.y = player.getPosition().y + player.getHeight()/2;
         camera.update();
 
         renderer.setView(camera);
         renderer.render();
 
+
         //default call to create stage (from documentation page)
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+
+
 
     }
 
@@ -59,6 +66,8 @@ public class GameScreen implements Screen{
         renderer = new OrthogonalTiledMapRenderer(map, 3f);
 
         player = new Player();
+        player.setPlayerPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
