@@ -50,15 +50,7 @@ public class StatusHUDRenderer extends Actor {
         fontDrawer.draw(batch, Integer.toString(statusHUD.getPlayer().getExpLevel()), 330, 65);
         //Draw "+x" exp when new exp is collected
         if (timeCount < 1) {
-            fontDrawer.setColor(1.0f, 1.0f, 1.0f, 1.0f);
-            fontDrawer.draw(batch, "+"+Integer.toString(expAddNumber), 400, 65);
-        }
-        else if (timeCount >= 1 && timeCount < 2) {
-            fontDrawer.setColor(1.0f, 1.0f, 1.0f, 0.5f);
-            fontDrawer.draw(batch, "+"+Integer.toString(expAddNumber), 400, 65);
-        }
-        else if (timeCount >= 2 && timeCount < 3) {
-            fontDrawer.setColor(1.0f, 1.0f, 1.0f, 0.2f);
+            fontDrawer.setColor(1.0f, 1.0f, 1.0f, 1-timeCount);
             fontDrawer.draw(batch, "+"+Integer.toString(expAddNumber), 400, 65);
         }
     }
