@@ -23,10 +23,20 @@ public class Player extends Actor {
     private Texture playerTexture;
 
 	Inventory inventory;
+
+
+    private int health;
+    private int expValue;
+    private int expLevel;
+
     
     //default constructor
     //this is where we give the player a texture/skin
     // speed is defaulted ( smaller equals slower...vice versa)
+
+
+    // Health and XP values are initialized
+
 
     public Player () {
         position = new Vector2();
@@ -42,6 +52,11 @@ public class Player extends Actor {
 		inventory.printInventory();
 		inventory.addItem(Item.HealingPotion, 5);
 		inventory.printInventory();
+
+        // Initialize health and xp
+        health = 100;
+        expLevel = 1;
+        expValue = 0;
 
     }
 
@@ -89,6 +104,21 @@ public class Player extends Actor {
     public void dispose() {
         playerTexture.dispose();
     }
+
+
+    public int getHealth() {
+        return health;
+    }
+    public int getExpValue() {
+        return expValue;
+    }
+    public int getExpLevel() {
+        return expLevel;
+    }
+    public void setExpValue(int expValue) {
+        this.expValue = expValue;
+    }
+
 }
 
 

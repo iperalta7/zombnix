@@ -9,12 +9,14 @@ import com.projectz.game.inventory.Inventory;
 import com.projectz.game.items.Item;
 import com.projectz.game.ProjectZ;
 import com.projectz.game.player.Player;
+import com.projectz.game.ui.StatusHUD;
+import com.projectz.game.ui.StatusHUDRenderer;
 
 public class GameScreen extends ScreenAdapter {
     ProjectZ game;
     Stage stage;
     Inventory inventory;
-
+    StatusHUDRenderer statusHUDRenderer;
     Player player;
 
     public GameScreen(ProjectZ game) {
@@ -27,7 +29,8 @@ public class GameScreen extends ScreenAdapter {
     public void create() {
         this.player = new Player();
 	    stage.addActor(player);
-
+        statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
+        stage.addActor(statusHUDRenderer);
         inventory = new Inventory();
         inventory.printInventory();
         inventory.addItem(Item.HealingPotion, 5);
