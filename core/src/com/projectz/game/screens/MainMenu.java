@@ -4,8 +4,9 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.projectz.game.ProjectZ;
-import com.projectz.game.screens.*;
 
 public class MainMenu extends ScreenAdapter {
     private Texture background;
@@ -24,8 +25,7 @@ public class MainMenu extends ScreenAdapter {
     GameScreen game_screen;
     CharacterScreen char_screen;
 
-
-    public MainMenu(final ProjectZ game) {
+    public MainMenu(ProjectZ game) {
         this.game = game;
         this.background = new Texture("background.png");
         this.play_button_unactive = new Texture("play_button_clear.png");
@@ -87,6 +87,7 @@ public class MainMenu extends ScreenAdapter {
         //Draw background for title screen
         game.batch.draw(background, 0,0);
 
+
         //draws buttons on screen and checks if moused is hovered over
         drawButton();
 
@@ -129,4 +130,3 @@ public class MainMenu extends ScreenAdapter {
 
     }
 }
-
