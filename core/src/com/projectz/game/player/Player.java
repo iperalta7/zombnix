@@ -106,6 +106,9 @@ public class Player extends Actor {
     public int getExpLevel() {
         return expLevel;
     }
+    public void setExpValue(int expValue) {
+        this.expValue = expValue;
+    }
 }
 
 

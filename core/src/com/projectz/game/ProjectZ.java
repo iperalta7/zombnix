@@ -26,7 +26,7 @@ public class ProjectZ extends ApplicationAdapter {
 		stage = new Stage();
 		player = new Player();
 		stage.addActor(player);
-		statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player));
+		statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
 		stage.addActor(statusHUDRenderer);
 	}
 
