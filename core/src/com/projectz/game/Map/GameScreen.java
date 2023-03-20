@@ -11,6 +11,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.projectz.game.player.Player;
+import com.projectz.game.ui.StatusHUD;
+import com.projectz.game.ui.StatusHUDRenderer;
 
 public class GameScreen implements Screen{
     private TiledMap map;
@@ -22,8 +24,7 @@ public class GameScreen implements Screen{
     Stage stage;
 
     Batch batch;
-
-
+    StatusHUDRenderer statusHUDRenderer;
     @Override
     public void render(float delta){
         Gdx.gl.glClearColor(0,0,0,1);
@@ -37,7 +38,6 @@ public class GameScreen implements Screen{
 
         renderer.setView(camera);
         renderer.render();
-
 
         //default call to create stage (from documentation page)
         stage.act(Gdx.graphics.getDeltaTime());
@@ -71,9 +71,10 @@ public class GameScreen implements Screen{
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
-
+        statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
         stage = new Stage();
         stage.addActor(player);
+        stage.addActor(statusHUDRenderer);
     }   
 
 

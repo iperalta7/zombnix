@@ -23,6 +23,9 @@ public class Player extends Actor {
     float w = Gdx.graphics.getWidth();
     float h = Gdx.graphics.getHeight();
 
+    private int health;
+    private int expValue;
+    private int expLevel;
     //default constructor
     //this is where we give the player a texture/skin
     // speed is defaulted ( smaller equals slower...vice versa)
@@ -32,6 +35,9 @@ public class Player extends Actor {
         speed = 25f;
         playerTexture = new Texture("player.png");
         weapon = new Weapon(this);
+        health = 100;
+        expLevel = 1;
+        expValue = 0;
     }
 
     public Vector2 getPosition(){
@@ -77,5 +83,17 @@ public class Player extends Actor {
     public void dispose() {
         weapon.dispose();
         playerTexture.dispose();
+    }
+    public int getHealth() {
+        return health;
+    }
+    public int getExpValue() {
+        return expValue;
+    }
+    public int getExpLevel() {
+        return expLevel;
+    }
+    public void setExpValue(int expValue) {
+        this.expValue = expValue;
     }
 }
