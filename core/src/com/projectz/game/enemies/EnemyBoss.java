@@ -14,7 +14,7 @@ public class EnemyBoss extends Enemy{
     public EnemyBoss(){
         super(new Item[] {Item.HealingPotion}, 100);
 
-        Pixmap pixmap200 = new Pixmap(Gdx.files.internal("C:/Users/demet/Documents/URI_Folders/CSC305/s23g/assets/Zombie/zombie_man.png"));
+        Pixmap pixmap200 = new Pixmap(Gdx.files.internal("zombie_man.png"));
 
         Pixmap pixmap100 = new Pixmap(50, 50, pixmap200.getFormat());
         pixmap100.drawPixmap(pixmap200,
@@ -27,17 +27,8 @@ public class EnemyBoss extends Enemy{
     }
 
     public void act(float deltaTime){
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            position.y += speed * deltaTime;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            position.x -= speed * deltaTime;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            position.y -= speed * deltaTime;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            position.x += speed * deltaTime;
+        if(Gdx.input.isKeyPressed(Input.Keys.T)){
+            this.alive = false;
         }
     }
 }

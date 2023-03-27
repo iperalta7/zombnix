@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.projectz.game.player.Player;
+import com.projectz.game.enemies.EnemyBoss;
 
 public class GameScreen implements Screen{
     private TiledMap map;
@@ -16,6 +17,8 @@ public class GameScreen implements Screen{
     private OrthographicCamera camera; 
 
     Player player;
+
+    EnemyBoss enemy;
 
     Stage stage;
  
@@ -37,7 +40,6 @@ public class GameScreen implements Screen{
         //default call to create stage (from documentation page)
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-
     }
 
     @Override
@@ -46,7 +48,7 @@ public class GameScreen implements Screen{
         camera.viewportHeight = height;
         camera.position.set(camera.viewportWidth / 3f, camera.viewportHeight / 3f, 0);
         camera.update(); 
-        
+
     }
 
 
@@ -59,13 +61,15 @@ public class GameScreen implements Screen{
         renderer = new OrthogonalTiledMapRenderer(map, 3f);
 
         player = new Player();
+        enemy = new EnemyBoss();
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
 
         stage = new Stage();
         stage.addActor(player);
-    }   
+        stage.addActor(enemy);
+    }
 
 
     @Override
