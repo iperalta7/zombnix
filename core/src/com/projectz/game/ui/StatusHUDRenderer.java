@@ -59,14 +59,16 @@ public class StatusHUDRenderer extends Actor {
         //Update time
         timeCount += deltaTime;
         //Test code
-        if (Gdx.input.isKeyPressed(Input.Keys.DPAD_UP)) {
+        /*if (Gdx.input.isKeyPressed(Input.Keys.DPAD_UP)) {
             setExpAddNumber(5);
             player.setExpValue(player.getExpValue()+5);
-        }
+        }*/
     }
     public void setExpAddNumber(int number) {
         //Set new exp number to be displayed reset time to 0
         expAddNumber = number;
         timeCount = 0;
     }
+
 }
+

@@ -5,6 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.projectz.game.inventory.Inventory;
+import com.projectz.game.items.Item;
+import com.projectz.game.items.ItemHealPotion;
+import com.projectz.game.inventory.Inventory;
+import com.projectz.game.items.Item;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -22,19 +27,40 @@ public class Player extends Actor {
     private Weapon weapon;
     float w = Gdx.graphics.getWidth();
     float h = Gdx.graphics.getHeight();
+    private OrthographicCamera camera;
+	Inventory inventory;
+
 
     private int health;
     private int expValue;
     private int expLevel;
+
+
     //default constructor
     //this is where we give the player a texture/skin
     // speed is defaulted ( smaller equals slower...vice versa)
+
+
+    // Health and XP values are initialized
+
 
     public Player () {
         position = new Vector2();
         speed = 25f;
         playerTexture = new Texture("player.png");
         weapon = new Weapon(this);
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
+        
+        
+		// Testing the inventory system.
+        
+		inventory = new Inventory();
+		inventory.printInventory();
+		inventory.addItem(Item.HealingPotion, 5);
+		inventory.printInventory();
+
+        // Initialize health and xp
         health = 100;
         expLevel = 1;
         expValue = 0;
@@ -64,6 +90,9 @@ public class Player extends Actor {
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             position.x += speed * deltaTime;
         }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
+            inventory.useConsumable(Item.HealingPotion);
+        }
 
         weapon.update(deltaTime);
 
@@ -84,6 +113,9 @@ public class Player extends Actor {
         weapon.dispose();
         playerTexture.dispose();
     }
+
+
+
     public int getHealth() {
         return health;
     }
@@ -96,4 +128,5 @@ public class Player extends Actor {
     public void setExpValue(int expValue) {
         this.expValue = expValue;
     }
+
 }

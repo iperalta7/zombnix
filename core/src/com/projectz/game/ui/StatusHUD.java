@@ -58,4 +58,5 @@ public class StatusHUD {
     public Player getPlayer() {
         return player;
     }
+
 }
