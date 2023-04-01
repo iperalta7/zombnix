@@ -1,40 +1,53 @@
 package com.projectz.game.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
-import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.projectz.game.Map.GameScreen;
 import com.projectz.game.ProjectZ;
 import com.projectz.game.inventory.*;
-import com.projectz.game.ProjectZ;
-import com.projectz.game.items.Item;
 
 public class InventoryScreen extends ScreenAdapter {
     private Stage inventoryStage;
     Inventory inventory;
+    GameScreen gameScreen;
     ItemSlot itemSlot;
     ItemStack stack;
     DragAndDrop dnd;
 
+    //Window Elements
+    private Window.WindowStyle inventoryStyle;
+    private Window window;
+    private Window.WindowStyle cellStyle;
+    private Window cellWindow;
+    private Window.WindowStyle hotBarStyle;
+    private Window hotBarWindow;
+    private Window weaponWindow;
 
     //UI elements
-    private Image inventoryBackground;
-    private Image cellImage;
-    private Array<Image> cellArray;
-    private Label inventoryLabel;
-    private TextButton closeInventory;
+    private Array<Window> cellArray;
+    private Array<Window> hotBarArray;
+    private ImageButton.ImageButtonStyle buttonStyle;
+    private TextureRegion closeInventory;
+    private ImageButton closeInventoryButton;
     private Image itemPNG;
     private Array<ItemSlot> inventorySlots;
 
-    //UI Measurements
+    //GUI Measurements
     int screenHeight = Gdx.graphics.getHeight() / 2;
     int screenWidth = Gdx.graphics.getWidth() / 2;
     private final int CELL_LENGTH = 50;
@@ -47,58 +60,87 @@ public class InventoryScreen extends ScreenAdapter {
         this.game = game;
         this.inventory = inventory;
         inventoryStage = new Stage(new ScreenViewport());
+        dnd = new DragAndDrop();
+        Gdx.input.setInputProcessor(inventoryStage);
+
+        initInventory();
+        addCells();
+        cellTargets();
 
         //Load each itemSlot into the inventorySlot Array
         inventorySlots = new Array<>();
         for(int i = 0; i < inventory.getInventorySize(); i++) {
             inventorySlots.add(inventory.getInventory(i));
         }
+
+        loadInventory();
     }
 
+    //Renders the inventory background and close button to the window
     public void initInventory() {
-        inventoryBackground = new Image(new Texture("inventory.png"));
-        inventoryBackground.setPosition(Gdx.graphics.getWidth() / 2 - inventoryBackground.getWidth() /2, Gdx.graphics.getHeight() / 2 - inventoryBackground.getHeight() / 2);
-        inventoryBackground.toBack();
-        inventoryStage.addActor(inventoryBackground);
+        //Close Inventory Button
+        closeInventory = new TextureRegion(new Texture(Gdx.files.internal("exitInventory.png")));
+        buttonStyle = new ImageButton.ImageButtonStyle();
+        buttonStyle.imageUp = new TextureRegionDrawable(closeInventory);
+        closeInventoryButton = new ImageButton(buttonStyle);
+        closeInventoryButton.setPosition(0,0);
+        inventoryStage.addActor(closeInventoryButton);
 
-       //closeInventory = new TextButton("Close", new TextButton.TextButtonStyle();
+        //Inventory Window
+        inventoryStyle = new Window.WindowStyle(new BitmapFont(), Color.BLACK, new TextureRegionDrawable(new Texture("inventory.png")));
+        window = new Window("",inventoryStyle);
+        window.setVisible(true);
+        window.setSize(250,430);
+        window.setMovable(true);
+        window.setPosition(screenWidth - window.getWidth() / 2, screenHeight - window.getHeight() / 2);
+        inventoryStage.addActor(window);
     }
 
+    //Physically renders each empty cell which represents the item slot
     public void addCells() {
         cellArray = new Array<>();
-        float inventoryWidth = inventoryBackground.getWidth() / 2;
-        float inventoryHeight = inventoryBackground.getHeight() / 2;
+        hotBarArray = new Array<>();
+        float inventoryWidth = window.getWidth() / 2;
+        float inventoryHeight = window.getHeight() / 2;
         final int SPACING = 10;
         int cell_row = 0;
         int cell_col = 0;
-        int slotIndex = 0;
+        int wepaonSlot = 0;
 
         for(int i = 0; i < COL_LENGTH; i++) {
             for(int j = 0; j < ROW_LENGTH; j++) {
                 //Create new cell
-                cellImage = new Image(new Texture("cell.png"));
+                cellStyle = new Window.WindowStyle(new BitmapFont(), Color.BLACK, new TextureRegionDrawable(new Texture("cell.png")));
+                cellWindow = new Window("",cellStyle);
+                cellWindow.setVisible(true);
+                cellWindow.setMovable(true);
+                cellWindow.setSize(CELL_LENGTH, CELL_LENGTH);
+
+                hotBarStyle = new Window.WindowStyle(new BitmapFont(), Color.BLACK, new TextureRegionDrawable(new Texture("hotbarcell.png")));
+                if(wepaonSlot == 0 | wepaonSlot == 1) {
+                    hotBarStyle = new Window.WindowStyle(new BitmapFont(), Color.BLACK, new TextureRegionDrawable(new Texture("primAndSec.png")));
+                    wepaonSlot++;
+                }
+                //Creates cell within hot bar
+                hotBarWindow = new Window("",hotBarStyle);
+                hotBarWindow.setVisible(true);
+                hotBarWindow.setMovable(true);
+                hotBarWindow.setSize(CELL_LENGTH, CELL_LENGTH);
 
                 //Set the position of every cell
-                cellImage.setPosition(screenWidth - inventoryWidth + SPACING + cell_row,
-                        screenHeight - inventoryHeight + (inventoryBackground.getHeight() - CELL_LENGTH - SPACING - cell_col));
-                //Add cell to array
-                cellArray.add(cellImage);
+                cellWindow.setPosition(screenWidth - (inventoryWidth - 30) + SPACING + cell_row,
+                        screenHeight - (inventoryHeight + 15) + (window.getHeight() - CELL_LENGTH - SPACING - cell_col));
+
+                hotBarWindow.setPosition(screenWidth - (inventoryWidth - 30) + SPACING + cell_row,
+                        screenHeight / 2 - (inventoryHeight + 75) + (window.getHeight() - CELL_LENGTH - SPACING - cell_col));
 
                 //Add cell to the stage
-                inventoryStage.addActor(cellImage);
+                inventoryStage.addActor(cellWindow);
+                inventoryStage.addActor(hotBarWindow);
 
-                dnd.addTarget(new DragAndDrop.Target(cellImage){
-                    @Override
-                    public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                        return true;
-                    }
-
-                    @Override
-                    public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-                        //Place payload into the given cell
-                        payload.getDragActor().setPosition(cellImage.getImageX(), cellImage.getY());
-                    }
-                });
+                //Add cells to corresponding array
+                cellArray.add(cellWindow);
+                hotBarArray.add(hotBarWindow);
 
                 //Adds spacing between cells
                 cell_row += CELL_LENGTH + SPACING;
@@ -109,26 +151,24 @@ public class InventoryScreen extends ScreenAdapter {
         }
     }
 
-
+    //Render the items from the inventory into correct cell
     public void loadInventory() {
         int i = 0;
         for(final ItemSlot slot : inventorySlots) {
             if(!slot.isEmpty()) {
+                //Add item to each cell
                 itemPNG = new Image(new Texture(slot.getPngName()));
+                cellArray.get(i).add(itemPNG);
+                itemPNG.setUserObject(cellArray.get(i));
 
-                itemPNG.setPosition(cellArray.get(i).getX(), cellArray.get(i).getY());
-
-                inventoryStage.addActor(itemPNG);
-
-                itemPNG.toFront();
-
+                //Allows cells to have movable items
                 dnd.addSource(new DragAndDrop.Source(itemPNG) {
                     @Override
                     public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
                         DragAndDrop.Payload payload = new DragAndDrop.Payload();
-                        payload.setDragActor(itemPNG);
-                        payload.getDragActor().toFront();
-                        payload.setObject(slot);
+                        payload.setDragActor(getActor());
+                        inventoryStage.addActor(getActor());
+                        dnd.setDragActorPosition(getActor().getWidth() / 2, -getActor().getHeight() / 2);
                         return payload;
                     }
 
@@ -136,7 +176,7 @@ public class InventoryScreen extends ScreenAdapter {
                     public void dragStop(InputEvent event, float x, float y, int pointer, DragAndDrop.Payload payload, DragAndDrop.Target target) {
                         if(target == null) {
                             //Return the item to its orginal position in the array
-                            
+                            ((Window)itemPNG.getUserObject()).add(itemPNG);
                         }
                     }
                 });
@@ -145,24 +185,54 @@ public class InventoryScreen extends ScreenAdapter {
         }
     }
 
-    public void updateInventory() {
-        //TODO when items are moved in UI, chage where the item is in array
+    //Makes the cells within hot bar and storage cells available areas to drag to
+    public void cellTargets() {
+        for(int i = 0; i < inventory.getInventorySize(); i++) {
+            dnd.addTarget(new DragAndDrop.Target(cellArray.get(i)) {
+                @Override
+                public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float v, float v1, int i) {
+                    return true;
+                }
+
+                @Override
+                public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float v, float v1, int i) {
+                    cellArray.get(i).add((Image) payload.getDragActor());
+                    payload.getDragActor().setUserObject(cellArray.get(i));
+                }
+            });
+
+            dnd.addTarget(new DragAndDrop.Target(hotBarArray.get(i)) {
+                @Override
+                public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float v, float v1, int i) {
+                    return true;
+                }
+
+                @Override
+                public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float v, float v1, int i) {
+                    hotBarArray.get(i).add((Image) payload.getDragActor());
+                    payload.getDragActor().setUserObject(hotBarArray.get(i));
+                }
+            });
+
+        }
     }
 
     @Override
     public void render (float delta) {
         inventoryStage.getViewport().update(800, 600, true);
-        Gdx.input.setInputProcessor(inventoryStage);
-        dnd = new DragAndDrop();
         Gdx.gl.glClearColor(0, 0, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        initInventory();
-        addCells();
-        loadInventory();
-
         inventoryStage.act();
         inventoryStage.draw();
+
+        closeInventoryButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //Change to game screen
+                game.setScreen(new GameScreen(game));
+            }
+        });
     }
 
     @Override
@@ -177,6 +247,14 @@ public class InventoryScreen extends ScreenAdapter {
     @Override
     public void dispose () {
         inventoryStage.dispose();
+    }
+
+    public void updateInventory(int index) {
+
+    }
+
+    public void updateHotBar(int index) {
+
     }
 }
 

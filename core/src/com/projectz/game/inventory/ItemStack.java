@@ -4,6 +4,7 @@ import com.projectz.game.items.Item;
 
 public class ItemStack {
 
+
     private int count = 0;
     private Item item;
 
@@ -20,18 +21,20 @@ public class ItemStack {
         return item;
     }
 
+
     public void add(int i){
         if(i <= 0) return;
         count += i;
     }
-
     public void reduce(int i){
         if(i <= 0) return;
         count -= i;
     }
+
 
     public boolean isFull(){
         return count == item.getMaxStackSize();
     }
 
 }
+
