@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.projectz.game.items.Item;
+import com.projectz.game.player.Player;
 
 
 public abstract class Enemy extends Actor {
@@ -19,27 +20,30 @@ public abstract class Enemy extends Actor {
     protected Vector2 position;
     protected float speed;
     protected boolean alive;
-    
-    public Enemy(Item[] dropItems, int health){
+    protected Player targetedPlayer;
+    protected float minDistToChase;
+
+
+
+    public Enemy(Item[] dropItems, int health, float speed, Player player, float initial_x, float initial_y){
         this.drops = dropItems;
         this.health = health;
-        this.position = new Vector2();
-        this.speed = 50f;
+        this.position = new Vector2(initial_x,initial_y);
+        this.speed = 20f;
         this.alive = true;
+        this.targetedPlayer = player;
     }
-
     public Vector2 getPosition(){
         return position;
     }
-
     public abstract void act(float deltaTime);
 
     public void draw(Batch batch, float parentAlpha) {
         // Draw the player sprite at the current position
         batch.draw(enemyTexture, position.x, position.y);
-        if(this.alive == false){
-            for(int i = 0 ; i < drops.length ; i++){
-                batch.draw(drops[i].getItemTexture(),position.x,position.y);
+        if(!this.alive){
+            for (Item drop : drops) {
+                batch.draw(drop.getItemTexture(), position.x, position.y);
             }
             this.dispose();
         }

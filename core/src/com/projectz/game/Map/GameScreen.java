@@ -61,7 +61,7 @@ public class GameScreen implements Screen{
         renderer = new OrthogonalTiledMapRenderer(map, 3f);
 
         player = new Player();
-        enemy = new EnemyBoss();
+        enemy = new EnemyBoss(player, 200, 200);
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
