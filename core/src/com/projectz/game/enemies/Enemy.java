@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.projectz.game.items.Item;
+import com.projectz.game.player.Bullet;
 import com.projectz.game.player.Player;
 
 
@@ -22,6 +23,8 @@ public abstract class Enemy extends Actor {
     protected boolean alive;
     protected Player targetedPlayer;
     protected float minDistToChase;
+    protected float attackDistance;
+    protected Bullet[] bullets;
 
 
 
@@ -32,6 +35,8 @@ public abstract class Enemy extends Actor {
         this.speed = 20f;
         this.alive = true;
         this.targetedPlayer = player;
+        bullets = null;
+        attackDistance = 5;
     }
     public Vector2 getPosition(){
         return position;
@@ -41,16 +46,21 @@ public abstract class Enemy extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         // Draw the player sprite at the current position
         batch.draw(enemyTexture, position.x, position.y);
-        if(!this.alive){
-            for (Item drop : drops) {
-                batch.draw(drop.getItemTexture(), position.x, position.y);
-            }
-            this.dispose();
-        }
+        itemDropAndDeadCheck(batch);
     }
 
     //used for memory management
     public void dispose() {
         enemyTexture.dispose();
+    }
+
+    private void itemDropAndDeadCheck(Batch batch){
+        if(!this.alive){
+            for (Item drop : drops) {
+                batch.draw(drop.getItemTexture(), position.x, position.y);
+                // Send message to player to know about dropped item
+            }
+            this.dispose();
+        }
     }
 }
