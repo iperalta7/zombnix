@@ -9,6 +9,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.projectz.game.player.Player;
+import com.projectz.game.enemies.EnemyGeneric;
 
 public class GameScreen implements Screen{
     private TiledMap map;
@@ -16,6 +17,8 @@ public class GameScreen implements Screen{
     private OrthographicCamera camera; 
 
     Player player;
+
+    EnemyGeneric enemy; 
 
     Stage stage;
  
@@ -55,16 +58,18 @@ public class GameScreen implements Screen{
 
         // TmxMapLoader loader = new TmxMapLoader();
         // map = loader.load("maps/basic_map.tmx");
-        map = new TmxMapLoader().load("maps/basic_map.tmx");
+        map = new TmxMapLoader().load("maps/zombie_map.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 3f);
 
         player = new Player();
+        enemy = new EnemyGeneric(null, 100, player); 
 
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
 
         stage = new Stage();
         stage.addActor(player);
+        stage.addActor(enemy);
     }   
 
 

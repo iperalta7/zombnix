@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.projectz.game.items.Item;
+import com.projectz.game.player.*;
 
 
 public abstract class Enemy extends Actor {
@@ -19,7 +20,7 @@ public abstract class Enemy extends Actor {
     protected Vector2 position;
     protected float speed;
     
-    public Enemy(Item[] dropItems, int health){
+    public Enemy(Item[] dropItems, int health, Player player){
         this.drops = dropItems;
         this.health = health;
         this.position = new Vector2();
