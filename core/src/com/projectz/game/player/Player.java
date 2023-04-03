@@ -52,7 +52,6 @@ public class Player extends Actor {
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
         
-        
 		// Testing the inventory system.
         
 		inventory = new Inventory();
@@ -101,9 +100,16 @@ public class Player extends Actor {
     //draw method for player
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        // Draw the player sprite at the current position
-        batch.draw(playerTexture, position.x, position.y);
+        // Calculate the new width and height of the texture based on the viewport size
+        float factor = 1.8F;
+        float scale = camera.viewportWidth / w * factor ; // w is the original window width
+        float width = playerTexture.getWidth() * scale;
+        float height = playerTexture.getHeight() * scale;
 
+
+        // Draw the player sprite at the current position
+// Draw the player sprite at the current position with the new width and height
+        batch.draw(playerTexture, position.x, position.y, width, height);
         // Draw the bullets
         weapon.draw(batch, parentAlpha);
     }
