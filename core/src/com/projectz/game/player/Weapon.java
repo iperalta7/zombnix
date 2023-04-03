@@ -66,6 +66,9 @@ public class Weapon{
         bullets.add(bullet);
     }
 
+    public int getNumBullets() {
+        return bullets.size();
+    }
     public void dispose() {
         for (Bullet bullet : bullets) {
             bullet.dispose();

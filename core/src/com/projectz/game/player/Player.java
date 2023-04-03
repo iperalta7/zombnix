@@ -56,9 +56,9 @@ public class Player extends Actor {
 		// Testing the inventory system.
         
 		inventory = new Inventory();
-		inventory.printInventory();
+		//inventory.printInventory();
 		inventory.addItem(Item.HealingPotion, 5);
-		inventory.printInventory();
+		//inventory.printInventory();
 
         // Initialize health and xp
         health = 100;
@@ -108,6 +108,9 @@ public class Player extends Actor {
         weapon.draw(batch, parentAlpha);
     }
 
+    public Weapon getWeapon() {
+        return weapon;
+    }
     //used for memory management
     public void dispose() {
         weapon.dispose();

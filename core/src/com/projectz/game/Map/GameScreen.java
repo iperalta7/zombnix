@@ -92,10 +92,10 @@ public class GameScreen implements Screen{
         statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
         stage = new Stage();
         inventory = new Inventory();
-        inventory.printInventory();
+        //inventory.printInventory();
         inventory.addItem(Item.HealingPotion, 5);
         //inventory.addItem(Item.SpeedPotion, 5);
-        inventory.printInventory();
+        //inventory.printInventory();
         stage.addActor(player);
         stage.addActor(statusHUDRenderer);
     }   

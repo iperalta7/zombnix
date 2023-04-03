@@ -27,5 +27,5 @@ public class StatusHUDSprites {
     static final Sprite EXP_SPRITE_8 = new Sprite(new Texture("StatusHUDImages/exptexture8.png"));
     static final Sprite EXP_SPRITE_9 = new Sprite(new Texture("StatusHUDImages/exptexture9.png"));
     static final Sprite EXP_SPRITE_10 = new Sprite(new Texture("StatusHUDImages/exptexture10.png"));
-
+    static final Sprite PISTOL_SPRITE = new Sprite(new Texture("Weapons/pistol.png"));
 }
