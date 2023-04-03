@@ -1,6 +1,8 @@
 package com.projectz.game.waveGen;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.ArrayList;
@@ -63,13 +65,21 @@ public class waveGenerator extends ApplicationAdapter {
         // Code to spawn a zombie goes here
     }
 
-    public void render(){
+    public void render(OrthographicCamera camera) {
+
+        // Begin the SpriteBatch and set the projection matrix
         batch.begin();
-        font.draw(batch,"Round " + curr_roundNum, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        batch.setProjectionMatrix(batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        // Draw the round number on the screen
+// Draw the round number at the top center of the screen
+        // Draw the round number at the top center of the screen
+        String roundText = "Round " + curr_roundNum;
+        font.draw(batch, roundText, (Gdx.graphics.getWidth()) / 2, Gdx.graphics.getHeight() - font.getLineHeight());
+
+
+        // End the SpriteBatch
         batch.end();
     }
-
-
 
 
 

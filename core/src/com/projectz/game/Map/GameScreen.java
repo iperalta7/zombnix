@@ -17,6 +17,7 @@ import com.projectz.game.player.Player;
 import com.projectz.game.screens.InventoryScreen;
 import com.projectz.game.ui.StatusHUD;
 import com.projectz.game.ui.StatusHUDRenderer;
+import com.projectz.game.waveGen.waveGenerator;
 
 public class GameScreen implements Screen{
     private TiledMap map;
@@ -26,6 +27,8 @@ public class GameScreen implements Screen{
     Player player;
     Game game;
     Stage stage;
+
+    waveGenerator wave;
     Inventory inventory;
     Batch batch;
     StatusHUDRenderer statusHUDRenderer;
@@ -46,6 +49,7 @@ public class GameScreen implements Screen{
 
         renderer.setView(camera);
         renderer.render();
+        wave.update();
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
@@ -56,11 +60,10 @@ public class GameScreen implements Screen{
                 return true;
             }
         });
-
+        wave.render(camera);
         //default call to create stage (from documentation page)
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-
 
 
     }
@@ -85,12 +88,11 @@ public class GameScreen implements Screen{
 
         player = new Player();
         player.setPlayerPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-
-
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
         statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
         stage = new Stage();
+        wave = new waveGenerator();
         inventory = new Inventory();
         inventory.printInventory();
         inventory.addItem(Item.HealingPotion, 5);
