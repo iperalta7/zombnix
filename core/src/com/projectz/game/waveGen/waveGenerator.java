@@ -1,4 +1,5 @@
 package com.projectz.game.waveGen;
+import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -7,7 +8,7 @@ import java.util.Random;
 
 //import java.util.TimerTask;
 
-public class waveGenerator{
+public class waveGenerator extends ApplicationAdapter {
     private int curr_roundNum;
     private int numZombie_PerRound;
     private int numZombie_remaining;
