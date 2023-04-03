@@ -12,7 +12,7 @@ import com.projectz.game.player.Player;
 import java.util.ArrayList;
 
 //Weapon.java
-public class WeaponGun{
+public class WeaponGun extends Weapon{
 
     private Player player;
     private ArrayList<Bullet> bullets;
@@ -21,6 +21,7 @@ public class WeaponGun{
     private float timeSinceLastShot;
 
     public WeaponGun(Player player) {
+        super("Gun", "Weapons/pistol.png");
         this.player = player;
         bullets = new ArrayList<Bullet>();
         bulletSpeed = 500f;
@@ -75,5 +76,10 @@ public class WeaponGun{
         for (Bullet bullet : bullets) {
             bullet.dispose();
         }
+    }
+
+    @Override
+    public void onActivate() {
+
     }
 }
