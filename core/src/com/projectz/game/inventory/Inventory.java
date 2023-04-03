@@ -10,6 +10,7 @@ public class Inventory{
     private ItemSlot primary;
     private ItemSlot secondary;
     private ArrayList<ItemSlot> slots;
+    private ArrayList<ItemSlot> hotBarSlots;
 
     private int slotCount = 9;
 
@@ -18,8 +19,10 @@ public class Inventory{
         secondary = new ItemSlot(ItemType.Weapon);
 
         slots = new ArrayList<ItemSlot>();
+        hotBarSlots = new ArrayList<ItemSlot>();
         for(int i = 0; i < slotCount; i++){
             slots.add(new ItemSlot(ItemType.Consumable));
+            hotBarSlots.add(new ItemSlot(ItemType.Consumable));
         }
     }
     
@@ -111,4 +114,6 @@ public class Inventory{
     public ItemSlot getInventory(int index) {
         return slots.get(index);
     }
+
+    public ArrayList<ItemSlot> getAllInventory() { return slots; }
 }

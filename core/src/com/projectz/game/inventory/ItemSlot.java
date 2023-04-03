@@ -9,8 +9,6 @@ public class ItemSlot{
     public Actor actor;
     private ItemStack stack;
     private ItemType slotType; 
-    private ItemStack stack;
-    private ItemType slotType;
 
     public ItemSlot(ItemType type){
         stack = null;

@@ -20,6 +20,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.projectz.game.Map.GameScreen;
 import com.projectz.game.ProjectZ;
 import com.projectz.game.inventory.*;
+import com.projectz.game.items.Item;
+
+import java.util.ArrayList;
 
 public class InventoryScreen extends ScreenAdapter {
     private Stage inventoryStage;
@@ -45,7 +48,7 @@ public class InventoryScreen extends ScreenAdapter {
     private TextureRegion closeInventory;
     private ImageButton closeInventoryButton;
     private Image itemPNG;
-    private Array<ItemSlot> inventorySlots;
+    private ArrayList<ItemSlot> allItems;
 
     //GUI Measurements
     int screenHeight = Gdx.graphics.getHeight() / 2;
@@ -62,16 +65,11 @@ public class InventoryScreen extends ScreenAdapter {
         inventoryStage = new Stage(new ScreenViewport());
         dnd = new DragAndDrop();
         Gdx.input.setInputProcessor(inventoryStage);
+         allItems = inventory.getAllInventory();
 
         initInventory();
         addCells();
         cellTargets();
-
-        //Load each itemSlot into the inventorySlot Array
-        inventorySlots = new Array<>();
-        for(int i = 0; i < inventory.getInventorySize(); i++) {
-            inventorySlots.add(inventory.getInventory(i));
-        }
 
         loadInventory();
     }
@@ -85,6 +83,14 @@ public class InventoryScreen extends ScreenAdapter {
         closeInventoryButton = new ImageButton(buttonStyle);
         closeInventoryButton.setPosition(0,0);
         inventoryStage.addActor(closeInventoryButton);
+
+        closeInventoryButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                //Change to game screen
+                game.setScreen(new GameScreen(game));
+            }
+        });
 
         //Inventory Window
         inventoryStyle = new Window.WindowStyle(new BitmapFont(), Color.BLACK, new TextureRegionDrawable(new Texture("inventory.png")));
@@ -154,7 +160,7 @@ public class InventoryScreen extends ScreenAdapter {
     //Render the items from the inventory into correct cell
     public void loadInventory() {
         int i = 0;
-        for(final ItemSlot slot : inventorySlots) {
+        for(final ItemSlot slot : allItems) {
             if(!slot.isEmpty()) {
                 //Add item to each cell
                 itemPNG = new Image(new Texture(slot.getPngName()));
@@ -187,8 +193,9 @@ public class InventoryScreen extends ScreenAdapter {
 
     //Makes the cells within hot bar and storage cells available areas to drag to
     public void cellTargets() {
-        for(int i = 0; i < inventory.getInventorySize(); i++) {
-            dnd.addTarget(new DragAndDrop.Target(cellArray.get(i)) {
+        for(int z = 0; z < inventory.getInventorySize(); z++) {
+            final int finalZ = z;
+            dnd.addTarget(new DragAndDrop.Target(cellArray.get(finalZ)) {
                 @Override
                 public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float v, float v1, int i) {
                     return true;
@@ -196,12 +203,12 @@ public class InventoryScreen extends ScreenAdapter {
 
                 @Override
                 public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float v, float v1, int i) {
-                    cellArray.get(i).add((Image) payload.getDragActor());
+                    cellArray.get(finalZ).add((Image) payload.getDragActor());
                     payload.getDragActor().setUserObject(cellArray.get(i));
                 }
             });
 
-            dnd.addTarget(new DragAndDrop.Target(hotBarArray.get(i)) {
+            dnd.addTarget(new DragAndDrop.Target(hotBarArray.get(finalZ)) {
                 @Override
                 public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float v, float v1, int i) {
                     return true;
@@ -209,8 +216,8 @@ public class InventoryScreen extends ScreenAdapter {
 
                 @Override
                 public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float v, float v1, int i) {
-                    hotBarArray.get(i).add((Image) payload.getDragActor());
-                    payload.getDragActor().setUserObject(hotBarArray.get(i));
+                    hotBarArray.get(finalZ).add((Image) payload.getDragActor());
+                    payload.getDragActor().setUserObject(hotBarArray.get(finalZ));
                 }
             });
 
@@ -225,14 +232,6 @@ public class InventoryScreen extends ScreenAdapter {
 
         inventoryStage.act();
         inventoryStage.draw();
-
-        closeInventoryButton.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                //Change to game screen
-                game.setScreen(new GameScreen(game));
-            }
-        });
     }
 
     @Override
@@ -249,8 +248,11 @@ public class InventoryScreen extends ScreenAdapter {
         inventoryStage.dispose();
     }
 
-    public void updateInventory(int index) {
-
+    public void updateInventory(ItemSlot item, int index) {
+        if(allItems.get(index).isEmpty()) {
+            inventory.replaceItemSLot(item, index);
+        }
+        inventory.getAllInventory().get(index).drop();
     }
 
     public void updateHotBar(int index) {
