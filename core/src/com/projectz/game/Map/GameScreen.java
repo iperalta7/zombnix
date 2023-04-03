@@ -69,9 +69,8 @@ public class GameScreen implements Screen{
     public void resize(int width, int height){
         camera.viewportWidth = width; 
         camera.viewportHeight = height;
-        camera.position.set(camera.viewportWidth / 3f, camera.viewportHeight / 3f, 0);
-        camera.update(); 
-        
+        camera.update();
+
     }
 
 
