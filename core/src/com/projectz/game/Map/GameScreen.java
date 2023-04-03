@@ -15,18 +15,16 @@ import com.projectz.game.inventory.Inventory;
 import com.projectz.game.items.Item;
 import com.projectz.game.player.Player;
 import com.projectz.game.screens.InventoryScreen;
+import com.projectz.game.ui.HotBar;
+import com.projectz.game.ui.HotBarRenderer;
 import com.projectz.game.ui.StatusHUD;
 import com.projectz.game.ui.StatusHUDRenderer;
 
 public class GameScreen implements Screen{
     private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer; 
-<<<<<<< HEAD
-    private OrthographicCamera camera; 
-=======
+    private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
     private boolean isPaused = false;
->>>>>>> 08ceab5ae2d6060d14d1f80283ca29b535f5f970
 
     Player player;
     Game game;
@@ -34,10 +32,9 @@ public class GameScreen implements Screen{
     Inventory inventory;
     Batch batch;
     StatusHUDRenderer statusHUDRenderer;
-<<<<<<< HEAD
-=======
+    HotBar hotBar;
+    HotBarRenderer hotBarRenderer;
     InventoryScreen inventoryScreen;
->>>>>>> 08ceab5ae2d6060d14d1f80283ca29b535f5f970
 
     public GameScreen(ProjectZ game) {
         this.game = game;
@@ -55,12 +52,6 @@ public class GameScreen implements Screen{
 
         renderer.setView(camera);
         renderer.render();
-
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 08ceab5ae2d6060d14d1f80283ca29b535f5f970
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyDown (int keyCode) {
@@ -106,17 +97,13 @@ public class GameScreen implements Screen{
         statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
         stage = new Stage();
         inventory = new Inventory();
-<<<<<<< HEAD
-        //inventory.printInventory();
         inventory.addItem(Item.HealingPotion, 5);
+        hotBar = new HotBar(inventory);
+        hotBarRenderer = new HotBarRenderer(hotBar);
         //inventory.addItem(Item.SpeedPotion, 5);
-        //inventory.printInventory();
-=======
-        inventory.addItem(Item.HealingPotion, 5);
-        //inventory.addItem(Item.SpeedPotion, 5);
->>>>>>> 08ceab5ae2d6060d14d1f80283ca29b535f5f970
         stage.addActor(player);
         stage.addActor(statusHUDRenderer);
+        //stage.addActor(hotBarRenderer);
     }   
 
 

@@ -112,5 +112,8 @@ public class Inventory{
     public ItemSlot getInventory(int index) {
         return slots.get(index);
     }
+    public ArrayList<ItemSlot> getHotBarSlots() {
+        return hotBarSlots;
+    }
     public ArrayList<ItemSlot> getAllInventory() { return slots; }
 }
