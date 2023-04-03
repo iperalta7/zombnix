@@ -1,4 +1,4 @@
-package com.projectz.game.player;
+package com.projectz.game.weapons;
 
 // Weapon.java
 
@@ -6,11 +6,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.projectz.game.player.Bullet;
+import com.projectz.game.player.Player;
 
 import java.util.ArrayList;
 
 //Weapon.java
-public class Weapon{
+public class WeaponGun{
 
     private Player player;
     private ArrayList<Bullet> bullets;
@@ -18,7 +20,7 @@ public class Weapon{
     private float fireRate;
     private float timeSinceLastShot;
 
-    public Weapon(Player player) {
+    public WeaponGun(Player player) {
         this.player = player;
         bullets = new ArrayList<Bullet>();
         bulletSpeed = 500f;

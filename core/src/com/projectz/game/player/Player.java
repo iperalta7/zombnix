@@ -13,10 +13,7 @@ import com.projectz.game.items.Item;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-
-
-import com.projectz.game.player.Weapon;
-import com.projectz.game.player.Bullet;
+import com.projectz.game.weapons.WeaponGun;
 
 //Player.java
 public class Player extends Actor {
@@ -24,7 +21,7 @@ public class Player extends Actor {
     private Vector2 position;
     public final float speed;
     private Texture playerTexture;
-    private Weapon weapon;
+    private WeaponGun weapon;
     float w = Gdx.graphics.getWidth();
     float h = Gdx.graphics.getHeight();
     private OrthographicCamera camera;
@@ -48,7 +45,7 @@ public class Player extends Actor {
         position = new Vector2();
         speed = 25f;
         playerTexture = new Texture("player.png");
-        weapon = new Weapon(this);
+        weapon = new WeaponGun(this);
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
         
@@ -108,7 +105,7 @@ public class Player extends Actor {
         weapon.draw(batch, parentAlpha);
     }
 
-    public Weapon getWeapon() {
+    public WeaponGun getWeapon() {
         return weapon;
     }
     //used for memory management
