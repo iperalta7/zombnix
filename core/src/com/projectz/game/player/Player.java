@@ -13,8 +13,6 @@ import com.projectz.game.items.Item;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-
-
 import com.projectz.game.player.Weapon;
 import com.projectz.game.player.Bullet;
 
@@ -39,11 +37,7 @@ public class Player extends Actor {
     //default constructor
     //this is where we give the player a texture/skin
     // speed is defaulted ( smaller equals slower...vice versa)
-
-
     // Health and XP values are initialized
-
-
     public Player () {
         position = new Vector2();
         speed = 25f;
@@ -54,7 +48,6 @@ public class Player extends Actor {
         
         
 		// Testing the inventory system.
-        
 		inventory = new Inventory();
 		//inventory.printInventory();
 		inventory.addItem(Item.HealingPotion, 5);
@@ -93,9 +86,7 @@ public class Player extends Actor {
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
             inventory.useConsumable(Item.HealingPotion);
         }
-
         weapon.update(deltaTime);
-
     }
 
     //draw method for player
@@ -113,9 +104,6 @@ public class Player extends Actor {
         weapon.dispose();
         playerTexture.dispose();
     }
-
-
-
     public int getHealth() {
         return health;
     }
@@ -128,5 +116,5 @@ public class Player extends Actor {
     public void setExpValue(int expValue) {
         this.expValue = expValue;
     }
-
 }
+

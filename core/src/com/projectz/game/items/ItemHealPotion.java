@@ -11,5 +11,5 @@ public class ItemHealPotion extends Item{
         //TODO: Get the player and add some amount of health to the player.
         System.out.println("Healed the player!");
     }
-
 }
+

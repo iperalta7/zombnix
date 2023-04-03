@@ -6,11 +6,11 @@ import com.projectz.game.items.Item;
 import com.projectz.game.items.Item.ItemType;
 
 public class Inventory{
-
     private int currentSlot = 0;
     private ItemSlot primary;
     private ItemSlot secondary;
     private ArrayList<ItemSlot> slots;
+
     private int slotCount = 9;
 
     public Inventory(){
@@ -22,13 +22,12 @@ public class Inventory{
             slots.add(new ItemSlot(ItemType.Consumable));
         }
     }
-
+    
     /** Returns true if the item was added to the inventory successfully, false if not. */
     public boolean addItem(Item item, int count){
         if(item == null) return false;
-
+        
         if(item.getType() == ItemType.Weapon){
-
             if(primary.isEmpty()){
                 primary.setStack(new ItemStack(item, 1));
                 return true;
@@ -52,7 +51,6 @@ public class Inventory{
 
             return false;
         }
-
 
         // check for existing itemstack in slots
         for(int i = 0; i < slots.size(); i++){
@@ -93,7 +91,7 @@ public class Inventory{
             System.out.println("Slot " + i + ": " + slots.get(i).getItemName());
         }
     }
-
+    
     public void useConsumable(Item item){
         for(int i = 0; i < slotCount; i++){
             if(slots.get(i).getItemName() == item.getName()){
