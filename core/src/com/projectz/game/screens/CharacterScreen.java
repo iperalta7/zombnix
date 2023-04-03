@@ -49,6 +49,11 @@ public class CharacterScreen extends ScreenAdapter {
         buttons[0] = new ImageButton((char1_button));
         buttons[1] = new ImageButton((char2_button));
         Gdx.input.setInputProcessor(stage);
+<<<<<<< HEAD
+=======
+
+        //If character is selected, load game screen
+>>>>>>> 08ceab5ae2d6060d14d1f80283ca29b535f5f970
         char_select_listener();
     }
 
@@ -76,7 +81,10 @@ public class CharacterScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(0, 0, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+<<<<<<< HEAD
         //If character is selected, load game screen
+=======
+>>>>>>> 08ceab5ae2d6060d14d1f80283ca29b535f5f970
 
         stage.act(delta);
         stage.draw();

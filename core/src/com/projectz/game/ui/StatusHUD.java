@@ -6,6 +6,7 @@ import com.projectz.game.player.Player;
 
 public class StatusHUD {
     private Player player;
+
     protected Sprite healthSprite;
     protected Sprite expSprite;
     protected Sprite pistolSprite;

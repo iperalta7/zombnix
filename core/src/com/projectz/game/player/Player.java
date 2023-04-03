@@ -40,7 +40,6 @@ public class Player extends Actor {
 
     // Health and XP values are initialized
 
-
     public Player () {
         position = new Vector2();
         speed = 25f;
@@ -51,7 +50,6 @@ public class Player extends Actor {
         
         
 		// Testing the inventory system.
-        
 		inventory = new Inventory();
 		//inventory.printInventory();
 		inventory.addItem(Item.HealingPotion, 5);
@@ -90,9 +88,7 @@ public class Player extends Actor {
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
             inventory.useConsumable(Item.HealingPotion);
         }
-
         weapon.update(deltaTime);
-
     }
 
     //draw method for player
@@ -114,8 +110,6 @@ public class Player extends Actor {
         playerTexture.dispose();
     }
 
-
-
     public int getHealth() {
         return health;
     }
@@ -128,5 +122,5 @@ public class Player extends Actor {
     public void setExpValue(int expValue) {
         this.expValue = expValue;
     }
-
 }
+

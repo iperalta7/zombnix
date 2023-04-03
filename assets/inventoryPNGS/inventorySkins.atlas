@@ -1,0 +1,20 @@
+
+inventorySkins.png
+size: 256, 512
+format: RGBA8888
+filter: Nearest, Nearest
+repeat: none
+cell
+  rotate: false
+  xy: 0, 0
+  size: 50, 50
+  orig: 50, 50
+  offset: 0, 0
+  index: -1
+inventory
+  rotate: false
+  xy: 0, 50
+  size: 250, 430
+  orig: 250, 430
+  offset: 0, 0
+  index: -1
