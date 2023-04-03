@@ -1,19 +1,60 @@
 package com.projectz.game.waveGen;
-import java.util.Timer;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import java.util.ArrayList;
+import java.util.Random;
 
 //import java.util.TimerTask;
 
 public class waveGenerator{
-    private int roundNum;
-    private int numZombie;
+    private int curr_roundNum;
+    private int numZombie_PerRound;
+    private int numZombie_remaining;
+    //private ArrayList<Zombie> zombies;
     private boolean waveInProgress;
-    private Timer roundTimer;
+    private long round_EndTime;
+    private long break_EndTime;
 
+    private BitmapFont font;
+    private SpriteBatch batch;
+
+    //constructor
     public waveGenerator(){
-        roundNum = 1;
-        numZombie = 5;
+        curr_roundNum = 1;
+        numZombie_PerRound = 5;
+        //zombies = new ArrayList<>();
         waveInProgress = false;
-        roundTimer = new Timer();
+        round_EndTime = 0;
+        break_EndTime = 0;
+        //roundTimer = new Timer();
+
+        font = new BitmapFont();
+        batch = new SpriteBatch();
+    }
+
+    public void update(){
+        if(waveInProgress){
+            if(numZombie_remaining == 0){
+                //end round and begin 20 sec
+                waveInProgress = false;
+                round_EndTime = 0;
+                break_EndTime = System.currentTimeMillis() + 20000;
+                Gdx.app.log("ZombieWaveGeneratorTest","Round " + curr_roundNum + " over. Round " + (curr_roundNum + 1) + " beginning soon...");
+            }
+        }
+        else{
+            //conditional to see if 20 second break has ended
+            if(System.currentTimeMillis() >= break_EndTime){
+                //begin the next round
+                curr_roundNum++;
+                numZombie_PerRound += 3; //increases zombie count by 3
+                numZombie_remaining = numZombie_PerRound;
+                waveInProgress = true;
+                round_EndTime = System.currentTimeMillis() + (numZombie_PerRound * 1000); //to ensure the round is timeless
+                Gdx.app.log("ZombieWaveGeneratorTest", "Round " + curr_roundNum);
+            }
+        }
     }
 
     //private method to spawn zombie
@@ -21,18 +62,14 @@ public class waveGenerator{
         // Code to spawn a zombie goes here
     }
 
-    //method that begins wave
-    public void startWave(){
-        if (!waveInProgress) {
-            waveInProgress = true;
-            roundNum++;
-            System.out.println("Starting round " + roundNum);
-            for (int i = 0; i < numZombie; i++) {
-                spawnZombie();
-            }
-            numZombie += 3; // Increase number of zombies for next round
-        }
+    public void render(){
+        batch.begin();
+        font.draw(batch,"Round " + curr_roundNum, Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        batch.end();
     }
+
+
+
 
 
 }
