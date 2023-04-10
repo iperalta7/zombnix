@@ -103,7 +103,7 @@ public class GameScreen implements Screen{
         //inventory.addItem(Item.SpeedPotion, 5);
         stage.addActor(player);
         stage.addActor(statusHUDRenderer);
-        //stage.addActor(hotBarRenderer);
+        stage.addActor(hotBarRenderer);
     }   
 
 

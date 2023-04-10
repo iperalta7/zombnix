@@ -15,7 +15,6 @@ public class StatusHUDRenderer extends Actor {
     private StatusHUD statusHUD;
     private Player player;
     private OrthographicCamera camera;
-    //private Vector2 position;
     private BitmapFont fontDrawer;
     private final float SCALE_FACTOR = 1f;
     private final float GUN_SCALE_FACTOR = 0.25f;
@@ -46,12 +45,12 @@ public class StatusHUDRenderer extends Actor {
         Sprite pistolSprite = statusHUD.pistolSprite;
         batch.draw(healthSprite, 0, 0, healthSprite.getWidth()*SCALE_FACTOR, healthSprite.getHeight()*SCALE_FACTOR);
         batch.draw(expSprite, 0, 40, expSprite.getWidth()*SCALE_FACTOR, expSprite.getHeight()*SCALE_FACTOR);
-        batch.draw(pistolSprite, 770, 10, pistolSprite.getWidth()*GUN_SCALE_FACTOR, pistolSprite.getHeight()*GUN_SCALE_FACTOR);
+        batch.draw(pistolSprite, 420, 10, pistolSprite.getWidth()*GUN_SCALE_FACTOR, pistolSprite.getHeight()*GUN_SCALE_FACTOR);
         //Draw Health and Level values
         fontDrawer.setColor(0f, 0f, 0f, 1.0f);
         fontDrawer.draw(batch, Integer.toString(statusHUD.getPlayer().getHealth()), 330, 25);
         fontDrawer.draw(batch, Integer.toString(statusHUD.getPlayer().getExpLevel()), 330, 65);
-        fontDrawer.draw(batch, Integer.toString(statusHUD.numBullets), 750, 25);
+        fontDrawer.draw(batch, Integer.toString(statusHUD.numBullets), 450, 25);
         //Draw "+x" exp when new exp is collected
         if (timeCount < 1) {
             fontDrawer.setColor(1.0f, 1.0f, 1.0f, 1-timeCount);
