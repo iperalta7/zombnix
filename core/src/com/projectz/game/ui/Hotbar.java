@@ -10,8 +10,10 @@ import java.util.ArrayList;
 public class HotBar {
     protected ArrayList<ItemSlot> hotBarSlots;
     protected int activeSlotNumber;
+    protected Inventory inventory;
 
     public HotBar(Inventory inventory) {
+        this.inventory = inventory;
         hotBarSlots = inventory.getHotBarSlots();
         activeSlotNumber = 1;
     }
