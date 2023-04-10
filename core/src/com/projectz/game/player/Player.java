@@ -2,8 +2,11 @@ package com.projectz.game.player;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Array;
 import com.projectz.game.inventory.Inventory;
 import com.projectz.game.items.Item;
 import com.projectz.game.items.ItemHealPotion;
@@ -21,7 +24,12 @@ public class Player extends Actor {
     private Vector2 position;
     private float speed;
     private Texture playerTexture;
+    public enum State {RUNNING, STANDING, SHOOTING};
+    public State currentState;
+    private Animation playerRun;
 
+    private boolean facingRight;
+    private float stateTimer;
 	Inventory inventory;
     
     //default constructor
@@ -34,8 +42,16 @@ public class Player extends Actor {
         playerTexture = new Texture("player.png");
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
-        
-        
+
+        // Set up animations
+        currentState = State.STANDING;
+        stateTimer = 0;
+        Array<TextureRegion> frames = new Array<TextureRegion>();
+        for (int i = 0; i < 7; i++){
+            frames.add(new TextureRegion(getTexture(),i*20,0,20,20));
+        }
+
+
 		// Testing the inventory system.
         
 		inventory = new Inventory();
