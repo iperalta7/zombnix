@@ -95,7 +95,7 @@ public class GameScreen implements Screen{
 
     @Override
     public void show(){
-        map = new TmxMapLoader().load("maps/basic_map.tmx");
+        map = new TmxMapLoader().load("maps/zombie_map.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 3f);
         player = new Player();
         player.setPlayerPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
