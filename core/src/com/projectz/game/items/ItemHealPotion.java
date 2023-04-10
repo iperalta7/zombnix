@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class ItemHealPotion extends Item{
 
     public ItemHealPotion() {
-        super("Healing Potion", ItemType.Consumable, 5, new Pixmap(Gdx.files.internal("potion.png")));
+        super("Healing Potion", ItemType.Consumable, 5, "healPotion.png");
     }
 
     @Override
@@ -15,4 +15,5 @@ public class ItemHealPotion extends Item{
         //TODO: Get the player and add some amount of health to the player.
         System.out.println("Healed the player!");
     }
+
 }

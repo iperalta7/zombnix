@@ -9,8 +9,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.projectz.game.items.Item;
-import com.projectz.game.player.Bullet;
-import com.projectz.game.player.Player;
+import com.projectz.game.player.*;
 
 
 public abstract class Enemy extends Actor {
@@ -38,9 +37,11 @@ public abstract class Enemy extends Actor {
         bullets = null;
         attackDistance = 5;
     }
+
     public Vector2 getPosition(){
         return position;
     }
+
     public abstract void act(float deltaTime);
 
     public void draw(Batch batch, float parentAlpha) {
