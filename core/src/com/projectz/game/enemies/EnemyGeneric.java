@@ -38,7 +38,6 @@ public class EnemyGeneric extends Enemy {
         // position.set(10, 10); 
         direction.x = (playerPos.x + 40) - (position.x + 40);
         direction.y = (playerPos.y + 40) - (position.y + 40);
-        System.out.print("The player position is: " + playerPos.x + playerPos.y);
         direction.nor();
         position.x += direction.x * 5;
         position.y += direction.y * 5;
