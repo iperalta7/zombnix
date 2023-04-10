@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
 
+import com.projectz.game.inventory.Inventory;
+import com.projectz.game.items.Item;
 import com.projectz.game.player.Weapon;
 import com.projectz.game.player.Bullet;
 
@@ -45,9 +47,6 @@ public class Player extends Actor {
         position = new Vector2();
         speed = 50f;
         playerTexture = new Texture("player.png");
-
-        speed = 25f;
-        playerTexture = new Texture("player.png");
         weapon = new Weapon(this);
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
@@ -66,9 +65,7 @@ public class Player extends Actor {
         expValue = 0;
     }
 
-    public Vector2 getPosition(){
-        return position;
-    }
+
 
     public Vector2 getPosition(){
         return position;

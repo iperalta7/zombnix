@@ -6,10 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
 import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
@@ -17,33 +14,22 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import com.projectz.game.player.Player;
-import com.projectz.game.enemies.EnemyGeneric;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.projectz.game.ProjectZ;
 import com.projectz.game.inventory.Inventory;
 import com.projectz.game.items.Item;
-import com.projectz.game.player.Player;
 import com.projectz.game.screens.InventoryScreen;
 import com.projectz.game.ui.StatusHUD;
 import com.projectz.game.ui.StatusHUDRenderer;
 
-import com.projectz.game.enemies.EnemyBoss;
+import com.projectz.game.enemies.Enemy;
 
 public class GameScreen implements Screen{
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer; 
-    private OrthographicCamera camera; 
-
+    private OrthographicCamera camera;
     Player player;
-
-    EnemyBoss enemy;
-
     Stage stage;
-
-
-
     Game game;
-    Stage stage;
     Inventory inventory;
     Batch batch;
     StatusHUDRenderer statusHUDRenderer;
@@ -101,43 +87,21 @@ public class GameScreen implements Screen{
 
     @Override
     public void show(){
-
-        // TmxMapLoader loader = new TmxMapLoader();
-        // map = loader.load("maps/basic_map.tmx");
-
-        map = new TmxMapLoader().load("maps/zombie_map.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 3f);
-
-        player = new Player();
-        enemy = new EnemyGeneric(null, 100, player);
-
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
-
-        stage = new Stage();
-        stage.addActor(player);
-        stage.addActor(enemy);
         map = new TmxMapLoader().load("maps/basic_map.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 3f);
-
         player = new Player();
         player.setPlayerPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        enemy = new EnemyBoss(player, 200, 200);
-
-
+        Enemy enemy = new Enemy(100, 50f, player, 100, 100);
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
         statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
         stage = new Stage();
         inventory = new Inventory();
-        inventory.printInventory();
         inventory.addItem(Item.HealingPotion, 5);
-        //inventory.addItem(Item.SpeedPotion, 5);
         inventory.printInventory();
         stage.addActor(player);
         stage.addActor(enemy);
         stage.addActor(statusHUDRenderer);
-
     }
 
 

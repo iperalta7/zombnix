@@ -8,7 +8,7 @@ import com.projectz.game.items.Item;
 public abstract class Weapon extends Item{
 
     public Weapon(String name) {
-        super(name, ItemType.Weapon, 1, new Pixmap(Gdx.files.internal("potion.png")));
+        super(name, ItemType.Weapon, 1,"sword.png");
     }
     
 }

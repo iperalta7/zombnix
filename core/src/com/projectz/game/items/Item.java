@@ -19,13 +19,13 @@ public abstract class Item {
 
     private Texture ItemTexture;
 
-    public Item(String name, ItemType t, int maxStackSize, Pixmap texture){
+    public Item(String name, ItemType t, int maxStackSize, String texture){
         this.name = name;
         this.type = t;
         this.maxStackSize = maxStackSize;
-        this.itemPNG = itemPNG;
+        this.itemPNG = texture;
 
-        Pixmap pixmap200 = new Pixmap(Gdx.files.internal("potion.png"));
+        Pixmap pixmap200 = new Pixmap(Gdx.files.internal(this.itemPNG));
 
         Pixmap pixmap100 = new Pixmap(50, 50, pixmap200.getFormat());
         pixmap100.drawPixmap(pixmap200,
