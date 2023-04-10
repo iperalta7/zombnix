@@ -85,8 +85,6 @@ public class Player extends Actor {
             position.x += speed * deltaTime;
         }
 
-
-
         weapon.update(deltaTime);
 
 
@@ -102,7 +100,7 @@ public class Player extends Actor {
     public void draw(Batch batch, float parentAlpha) {
 
         // Calculate the new width and height of the texture based on the viewport size
-        float factor = 1.8F;
+        float factor = 2.4F;
         float scale = camera.viewportWidth / w * factor ; // w is the original window width
         float width = playerTexture.getWidth() * scale;
         float height = playerTexture.getHeight() * scale;
@@ -110,7 +108,7 @@ public class Player extends Actor {
 
         // Draw the player sprite at the current position
 // Draw the player sprite at the current position with the new width and height
-        batch.draw(playerTexture, position.x, position.y, width, height);
+        batch.draw(playerTexture, (getStage().getWidth() - playerTexture.getWidth() * 2) / 2, (getStage().getHeight() - playerTexture.getHeight() * 2) / 2, width, height);
         // Draw the bullets
         weapon.draw(batch, parentAlpha);
     }

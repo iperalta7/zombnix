@@ -59,8 +59,8 @@ public class GameScreen implements Screen{
 
 
         // update the camera position to follow the player
-        camera.position.x = player.getPosition().x + player.getWidth()/2;
-        camera.position.y = player.getPosition().y + player.getHeight()/2;
+        camera.position.x = player.getPosition().x;
+        camera.position.y = player.getPosition().y;
         camera.update();
 
         renderer.setView(camera);
