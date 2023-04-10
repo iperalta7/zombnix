@@ -25,14 +25,17 @@ import com.projectz.game.inventory.Inventory;
 import com.projectz.game.items.Item;
 import com.projectz.game.player.Player;
 import com.projectz.game.screens.InventoryScreen;
+import com.projectz.game.ui.HotBar;
+import com.projectz.game.ui.HotBarRenderer;
 import com.projectz.game.ui.StatusHUD;
 import com.projectz.game.ui.StatusHUDRenderer;
 
 
 public class GameScreen implements Screen{
     private TiledMap map;
-    private OrthogonalTiledMapRenderer renderer; 
-    private OrthographicCamera camera; 
+    private OrthogonalTiledMapRenderer renderer;
+    private OrthographicCamera camera;
+    private boolean isPaused = false;
 
     Player player;
 
@@ -48,6 +51,9 @@ public class GameScreen implements Screen{
     Inventory inventory;
     Batch batch;
     StatusHUDRenderer statusHUDRenderer;
+    HotBar hotBar;
+    HotBarRenderer hotBarRenderer;
+    InventoryScreen inventoryScreen;
 
     public GameScreen(ProjectZ game) {
         this.game = game;
@@ -69,7 +75,6 @@ public class GameScreen implements Screen{
 
         renderer.setView(camera);
         renderer.render();
-
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
@@ -132,12 +137,13 @@ public class GameScreen implements Screen{
         statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
         stage = new Stage();
         inventory = new Inventory();
-        inventory.printInventory();
         inventory.addItem(Item.HealingPotion, 5);
+        hotBar = new HotBar(inventory);
+        hotBarRenderer = new HotBarRenderer(hotBar);
         //inventory.addItem(Item.SpeedPotion, 5);
-        inventory.printInventory();
         stage.addActor(player);
         stage.addActor(statusHUDRenderer);
+        stage.addActor(hotBarRenderer);
 
     }   
 

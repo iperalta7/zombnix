@@ -1,5 +1,4 @@
 package com.projectz.game;
-
 import com.badlogic.gdx.Game;
 
 import com.projectz.game.Map.GameScreen;
