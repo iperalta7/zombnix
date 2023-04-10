@@ -1,14 +1,24 @@
 package com.projectz.game.Map;
 
+
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.Gdx; 
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+
+import com.projectz.game.player.Player;
+import com.projectz.game.enemies.EnemyGeneric;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.projectz.game.ProjectZ;
 import com.projectz.game.inventory.Inventory;
@@ -20,6 +30,7 @@ import com.projectz.game.ui.HotBarRenderer;
 import com.projectz.game.ui.StatusHUD;
 import com.projectz.game.ui.StatusHUDRenderer;
 
+
 public class GameScreen implements Screen{
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
@@ -27,6 +38,14 @@ public class GameScreen implements Screen{
     private boolean isPaused = false;
 
     Player player;
+
+
+    EnemyGeneric enemy; 
+
+    Stage stage;
+ 
+
+
     Game game;
     Stage stage;
     Inventory inventory;
@@ -39,6 +58,7 @@ public class GameScreen implements Screen{
     public GameScreen(ProjectZ game) {
         this.game = game;
     }
+
     @Override
     public void render(float delta){
         Gdx.gl.glClearColor(0,0,0,1);
@@ -46,12 +66,16 @@ public class GameScreen implements Screen{
 
 
         // update the camera position to follow the player
+
+        camera.position.x = player.getPosition().x;
+        camera.position.y = player.getPosition().y;
         camera.position.x = player.getPosition().x + player.getWidth()/2;
         camera.position.y = player.getPosition().y + player.getHeight()/2;
         camera.update();
 
         renderer.setView(camera);
         renderer.render();
+
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyDown (int keyCode) {
@@ -67,16 +91,19 @@ public class GameScreen implements Screen{
         stage.draw();
 
 
-
     }
 
     @Override
     public void resize(int width, int height){
         camera.viewportWidth = width; 
         camera.viewportHeight = height;
+
         camera.position.set(camera.viewportWidth / 3f, camera.viewportHeight / 3f, 0);
         camera.update(); 
         
+
+        camera.update();
+
     }
 
 
@@ -85,6 +112,19 @@ public class GameScreen implements Screen{
 
         // TmxMapLoader loader = new TmxMapLoader();
         // map = loader.load("maps/basic_map.tmx");
+
+        map = new TmxMapLoader().load("maps/zombie_map.tmx");
+        renderer = new OrthogonalTiledMapRenderer(map, 3f);
+
+        player = new Player();
+        enemy = new EnemyGeneric(null, 100, player); 
+
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
+
+        stage = new Stage();
+        stage.addActor(player);
+        stage.addActor(enemy);
         map = new TmxMapLoader().load("maps/basic_map.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 3f);
 
@@ -104,6 +144,7 @@ public class GameScreen implements Screen{
         stage.addActor(player);
         stage.addActor(statusHUDRenderer);
         stage.addActor(hotBarRenderer);
+
     }   
 
 
