@@ -64,8 +64,8 @@ public class WeaponGun extends Weapon{
                 .sub(player.getPosition().x + player.getWidth() / 2, player.getPosition().y + player.getHeight() / 2)
                 .nor();
 
-        float x = player.getPosition().x + player.getWidth() / 2;
-        float y = player.getPosition().y + player.getHeight() / 2;
+        float x = player.getStage().getWidth() / 2;
+        float y = player.getStage().getHeight() / 2;
 
         Bullet bullet = new Bullet(x, y, bulletDirection, bulletSpeed);
         bullets.add(bullet);
