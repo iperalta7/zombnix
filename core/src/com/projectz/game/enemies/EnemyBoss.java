@@ -7,12 +7,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.projectz.game.items.Item;
 import com.badlogic.gdx.math.Vector2;
-
-
+import com.projectz.game.player.Player;
 
 public class EnemyBoss extends Enemy{
-    public EnemyBoss(){
-        super(new Item[] {Item.HealingPotion}, 100);
+
+    public EnemyBoss(Item[] HealingPotion, int health, Player player){
+        super(new Item[] {Item.HealingPotion}, 100, player);
 
         Pixmap pixmap200 = new Pixmap(Gdx.files.internal("C:/Users/demet/Documents/URI_Folders/CSC305/s23g/assets/Zombie/zombie_man.png"));
 

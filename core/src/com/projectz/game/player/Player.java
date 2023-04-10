@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.projectz.game.inventory.Inventory;
+import com.projectz.game.items.Item;
 import com.projectz.game.weapons.WeaponGun;
 
 //Player.java
@@ -16,7 +18,6 @@ public class Player extends Actor {
     private Vector2 position;
     public final float speed;
     private Texture playerTexture;
-    private Weapon weapon;
     private WeaponGun weapon;
     float w = Gdx.graphics.getWidth();
     float h = Gdx.graphics.getHeight();
@@ -39,19 +40,15 @@ public class Player extends Actor {
 
     public Player () {
         position = new Vector2();
-        speed = 50f;
-        playerTexture = new Texture("player.png");
-
         speed = 25f;
         playerTexture = new Texture("player.png");
         weapon = new WeaponGun(this);
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
-        
 		// Testing the inventory system.
 		inventory = new Inventory();
 		//inventory.printInventory();
-		inventory.addItem(Item.HealingPotion, 5);
+        inventory.addItem(Item.HealingPotion, 5);
 		//inventory.printInventory();
 
 
@@ -59,10 +56,6 @@ public class Player extends Actor {
         health = 100;
         expLevel = 1;
         expValue = 0;
-    }
-
-    public Vector2 getPosition(){
-        return position;
     }
 
     public Vector2 getPosition(){

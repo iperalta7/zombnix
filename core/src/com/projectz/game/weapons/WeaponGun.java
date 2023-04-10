@@ -20,6 +20,8 @@ public class WeaponGun extends Weapon{
     private float fireRate;
     private float timeSinceLastShot;
 
+
+
     public WeaponGun(Player player) {
         super("Gun", "Weapons/pistol.png");
         this.player = player;
