@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class WeaponGun extends Weapon{
 
     private Player player;
-    private ArrayList<Bullet> bullets;
+    public ArrayList<Bullet> bullets;
     private float bulletSpeed;
     private float fireRate;
     private float timeSinceLastShot;

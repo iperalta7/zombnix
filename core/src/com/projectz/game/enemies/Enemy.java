@@ -30,6 +30,8 @@ public class Enemy extends Actor {
     protected float attackDistance;
     protected Bullet[] bullets;
     int attackCount;
+    Vector2 oldTargetPosition;
+    int drawCounter;
 
 
 
@@ -51,6 +53,7 @@ public class Enemy extends Actor {
         this.enemyTexture = new Texture(createEnemyBossPixmap());
         this.minDistToChase = 100;
         this.attackCount = 0;
+        this.oldTargetPosition = this.targetedPlayer.getPosition();
     }
 
 
@@ -72,8 +75,10 @@ public class Enemy extends Actor {
 
     public void draw(Batch batch, float parentAlpha) {
         // Draw the player sprite at the current position
-        batch.draw(enemyTexture, position.x, position.y);
+        batch.draw(enemyTexture, position.x - (this.targetedPlayer.getPosition().x - this.oldTargetPosition.x), position.y );
+        System.out.println("Enemy: " + this.targetedPlayer.getPosition().x);
         itemDropAndDeadCheck(batch);
+        this.oldTargetPosition = this.targetedPlayer.getPosition();
     }
 
 

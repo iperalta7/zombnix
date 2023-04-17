@@ -47,4 +47,8 @@ public class Bullet extends Actor {
     public void dispose() {
         bulletTexture.dispose();
     }
+
+    public Vector2 getPosition(){
+        return this.position;
+    }
 }
