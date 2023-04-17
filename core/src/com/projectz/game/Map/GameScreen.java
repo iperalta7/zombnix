@@ -17,9 +17,6 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import com.projectz.game.player.Player;
-import com.projectz.game.enemies.EnemyGeneric;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.projectz.game.ProjectZ;
 import com.projectz.game.inventory.Inventory;
 import com.projectz.game.items.Item;
@@ -30,15 +27,14 @@ import com.projectz.game.ui.HotBarRenderer;
 import com.projectz.game.ui.StatusHUD;
 import com.projectz.game.ui.StatusHUDRenderer;
 
+import com.projectz.game.enemies.Enemy;
 
 public class GameScreen implements Screen{
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
     private boolean isPaused = false;
-
     Player player;
-    EnemyGeneric enemy;
     Stage stage;
     Game game;
     Inventory inventory;
@@ -66,6 +62,7 @@ public class GameScreen implements Screen{
         renderer.setView(camera);
         renderer.render();
 
+
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
             public boolean keyDown (int keyCode) {
@@ -79,17 +76,14 @@ public class GameScreen implements Screen{
         //default call to create stage (from documentation page)
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-
     }
 
     @Override
     public void resize(int width, int height){
         camera.viewportWidth = width; 
         camera.viewportHeight = height;
-
         camera.position.set(camera.viewportWidth / 3f, camera.viewportHeight / 3f, 0);
-        camera.update(); 
-
+        camera.update();
     }
 
 
@@ -99,7 +93,7 @@ public class GameScreen implements Screen{
         renderer = new OrthogonalTiledMapRenderer(map, 3f);
         player = new Player();
         player.setPlayerPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        enemy = new EnemyGeneric(null, 100, player);
+        Enemy enemy = new Enemy(100, 50f, player, 100, 100);
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
         statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
@@ -113,7 +107,6 @@ public class GameScreen implements Screen{
         stage.addActor(statusHUDRenderer);
         stage.addActor(hotBarRenderer);
         stage.addActor(enemy);
-
     }   
 
 

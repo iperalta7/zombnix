@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.projectz.game.inventory.Inventory;
 import com.projectz.game.items.Item;
 import com.projectz.game.weapons.WeaponGun;
+import com.projectz.game.player.Bullet;
 
 //Player.java
 public class Player extends Actor {
