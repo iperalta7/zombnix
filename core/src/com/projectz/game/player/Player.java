@@ -19,7 +19,7 @@ import com.projectz.game.weapons.WeaponGun;
  */
 public class Player extends Actor {
     private Vector2 position;
-    public static final float PLAYER_SPEED = 25;
+    public static final float PLAYER_SPEED = 50f;
     private Texture playerTexture;
     private WeaponGun weapon;
     static float SCREEN_WIDTH = Gdx.graphics.getWidth();
@@ -109,16 +109,16 @@ public class Player extends Actor {
      */
     private void handleInput(float deltaTime) {
         if (Gdx.input.isKeyPressed(Input.Keys.W)) { //move up
-            position.y += speed * deltaTime;
+            position.y += PLAYER_SPEED * deltaTime;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) { //move left
-            position.x -= speed * deltaTime;
+            position.x -= PLAYER_SPEED * deltaTime;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) { //move down
-            position.y -= speed * deltaTime;
+            position.y -= PLAYER_SPEED * deltaTime;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) { //move right
-            position.x += speed * deltaTime;
+            position.x += PLAYER_SPEED * deltaTime;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)) {
             inventory.useConsumable(Item.HealingPotion);
