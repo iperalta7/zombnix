@@ -12,6 +12,7 @@ import com.projectz.game.items.Item;
 import com.projectz.game.items.ItemHealPotion;
 import com.projectz.game.inventory.Inventory;
 import com.projectz.game.items.Item;
+import com.projectz.game.player.Animator;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -23,17 +24,9 @@ public class Player extends Actor {
     private OrthographicCamera camera;
     private Vector2 position;
     private float speed;
-    private Texture playerTexture;
-    private TextureRegion playerTextureRegion;
-    private TextureRegion playerStand;
-    //private TextureRegion playerRun;
-    public enum State {RUNNING, STANDING, SHOOTING};
-    public State currentState;
-    public State previousState;
-    private Animation<TextureRegion> playerRun;
+    private TextureRegion playerSprite;
 
-    private boolean facingRight;
-    private float stateTimer;
+    private Animator playerAnimator;
 	Inventory inventory;
     
     //default constructor
@@ -41,22 +34,15 @@ public class Player extends Actor {
     // speed is defaulted ( smaller equals slower...vice versa)
 
     public Player () {
+        playerAnimator = new Animator();
+        playerAnimator.setState("RUNNING");
         position = new Vector2();
         speed = 30f;
-        playerTexture = new Texture("PlayerWalk/player_sheet.png");
+
+        playerSprite = playerAnimator.getFrame(0.0f);
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
-
-        // Set up animations
-        currentState = State.RUNNING;
-        previousState = State.RUNNING;
-        stateTimer = 0;
-        Array<TextureRegion> frames = new Array<TextureRegion>();
-        for (int i = 0; i < 7; i++){
-            frames.add(new TextureRegion(getTexture(),i*20,0,20,20));
-        }
-        playerRun = new Animation(0.1f,frames);
-        frames.clear();
 		// Testing the inventory system.
         
 		inventory = new Inventory();
@@ -66,51 +52,42 @@ public class Player extends Actor {
 
     }
 
-    private Texture getTexture() {
-        return this.playerTexture;
-    }
-
     //changes the position of player object based on input
     @Override
     public void act(float deltaTime) {
         super.act(deltaTime);
+        Vector2 prevPos = new Vector2();
+        prevPos.x = position.x;
+        prevPos.y = position.y;
+
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             position.y += speed * deltaTime;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             position.x -= speed * deltaTime;
+            playerAnimator.setFacingRight(false);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             position.y -= speed * deltaTime;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             position.x += speed * deltaTime;
+            playerAnimator.setFacingRight(true);
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
             inventory.useConsumable(Item.HealingPotion);
         }
-        playerTextureRegion = getFrame(deltaTime);
+        //Gets the current frame of our Animation
+        if(prevPos.x == position.x && prevPos.y == position.y)
+            playerAnimator.setState("STANDING");
+        else
+            playerAnimator.setState("RUNNING");
+        playerSprite = playerAnimator.getFrame(deltaTime);
+
         // update the camera position to follow the player
-        camera.position.x = position.x;
-        camera.position.y = position.y;
+        camera.position.x = 0;//position.x;
+        camera.position.y = 0;//position.y;
         camera.update();
-    }
-    public TextureRegion getFrame(float dt){
-        currentState = getState();
-        TextureRegion region;
-        switch(currentState){
-            case RUNNING:
-                region = playerRun.getKeyFrame(stateTimer);
-                break;
-            default: region = playerRun.getKeyFrame(stateTimer);
-                break;
-        }
-        stateTimer = currentState == previousState ? (stateTimer + dt) : 0;
-        previousState = currentState;
-        return region;
-    }
-    public State getState(){
-        return State.RUNNING;
     }
     //draw method for player
     @Override
@@ -122,13 +99,11 @@ public class Player extends Actor {
 
 
         // Draw the player sprite at the current position
-        batch.draw(playerTextureRegion, position.x, position.y);
+        batch.draw(playerSprite, position.x, position.y);
 
     }
-
-    //used for memory management
     public void dispose() {
-        playerTexture.dispose();
+        //playerSprite.dispose();
     }
 }
 
