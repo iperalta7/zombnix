@@ -1,18 +1,26 @@
 package com.projectz.game.enemies;
 
+import java.lang.reflect.Array;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.Random;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.projectz.game.inventory.Inventory;
 import com.projectz.game.items.Item;
 import com.projectz.game.items.ItemHealPotion;
 import com.projectz.game.player.Bullet;
 import com.projectz.game.player.Player;
+import com.projectz.game.weapons.WeaponGun;
+
+import static java.lang.Math.abs;
 
 /**
  * Concrete class of type Enemy for a more specific EnemyBoss.
@@ -23,16 +31,17 @@ public class Enemy extends Actor {
     int health;
     protected Texture enemyTexture;
     protected Vector2 position;
+    protected Vector2 relativeOrigin;
     protected float speed;
     protected boolean alive;
     protected Player targetedPlayer;
     protected float minDistToChase;
     protected float attackDistance;
     protected Bullet[] bullets;
-    int attackCount;
-    Vector2 oldTargetPosition;
-    int drawCounter;
-
+    protected int attackCount;
+    protected Vector2 direction;
+    private int attackDamage;
+    private long lastAttackTime;
 
 
     /**
@@ -41,10 +50,11 @@ public class Enemy extends Actor {
      * @param initial_x An integer specifying initial x-position
      * @param initial_y An integer specifying initial y-position
      */
-    public Enemy(int health, float speed, Player player, float initial_x, float initial_y){
+    public Enemy(int health, Player player, float initial_x, float initial_y, int attackDamage){
         this.item_dropped = new ItemHealPotion();
         this.health = health;
         this.position = new Vector2(initial_x,initial_y);
+        this.relativeOrigin = new Vector2(player.getPosition().x, player.getPosition().y);
         this.speed = speed;
         this.alive = true;
         this.targetedPlayer = player;
@@ -53,7 +63,10 @@ public class Enemy extends Actor {
         this.enemyTexture = new Texture(createEnemyBossPixmap());
         this.minDistToChase = 100;
         this.attackCount = 0;
-        this.oldTargetPosition = this.targetedPlayer.getPosition();
+        this.speed = 0.2f;
+        this.direction = new Vector2();
+        this.attackDamage = attackDamage;
+        this.lastAttackTime = System.currentTimeMillis();
     }
 
 
@@ -65,7 +78,7 @@ public class Enemy extends Actor {
      */
     public void act(float deltaTime){
         move(deltaTime);
-        damageHealthUpdate();
+        bulletHitAndHealthCheck();
         attackUpdate();
     }
 
@@ -74,11 +87,10 @@ public class Enemy extends Actor {
 
 
     public void draw(Batch batch, float parentAlpha) {
-        // Draw the player sprite at the current position
-        batch.draw(enemyTexture, position.x - (this.targetedPlayer.getPosition().x - this.oldTargetPosition.x), position.y );
-        System.out.println("Enemy: " + this.targetedPlayer.getPosition().x);
+        if(this.alive) {
+            batch.draw(enemyTexture, position.x - (targetedPlayer.getPosition().x - relativeOrigin.x), position.y - (targetedPlayer.getPosition().y - relativeOrigin.y));
+        }
         itemDropAndDeadCheck(batch);
-        this.oldTargetPosition = this.targetedPlayer.getPosition();
     }
 
 
@@ -95,7 +107,6 @@ public class Enemy extends Actor {
 
 
 
-
     /**
      * Determines how to move the enemy on the map
      * @param deltaTime Time in seconds since the last frame.
@@ -105,13 +116,79 @@ public class Enemy extends Actor {
         if(enemyPlayerDisplacement <= minDistToChase){
             targetedMove(deltaTime);
         }
-        else{
-            randomMove(deltaTime);
-        }
         if(enemyPlayerDisplacement >= attackDistance){
             attackCount = 0;
         }
     }
+
+
+
+
+    /**
+     * Determines if one of the on-screen bullets being tracked has hit the EnemyBoss
+     * @return true if so
+     */
+    private boolean bulletHitAndHealthCheck(){
+
+        if(this.health <= 0){
+            this.alive = false;
+            this.dispose();
+            return false;
+        }
+
+        WeaponGun playerGun = this.targetedPlayer.getWeapon();
+        ArrayList<Bullet> playerGunBullets = playerGun.getBullets();
+        for(Bullet bullet : playerGunBullets){
+            if(abs(bullet.getPosition().x - this.position.x- (targetedPlayer.getPosition().x - relativeOrigin.x)) < 10 && abs(bullet.getPosition().y - this.position.y- (targetedPlayer.getPosition().y - relativeOrigin.y)) < 10){
+                this.health -= bullet.getDamage();
+                System.out.println(this.health);
+                bullet.dispose();
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+
+
+
+    /**
+     * EnemyBoss attacks the player if within range
+     */
+    private void attackUpdate(){
+
+        if(System.currentTimeMillis() - this.lastAttackTime >= 3000) {
+            if (distanceToPlayer() <= attackDistance) {
+                attackCount++;
+                if (attackCount == 3) {
+                    targetedPlayer.takeDamage(this.attackDamage * 3);
+                    attackCount = 0;
+                } else {
+                    targetedPlayer.takeDamage(this.attackDamage);
+                }
+            }
+            this.lastAttackTime = System.currentTimeMillis();
+        }
+    }
+
+
+
+
+
+
+
+    private void itemDropAndDeadCheck(Batch batch){
+        if(!this.alive){
+            // generateRandomItem();
+            // batch.draw(item_dropped.getItemTexture(), position.x - (targetedPlayer.getPosition().x - relativeOrigin.x), position.y- (targetedPlayer.getPosition().y - relativeOrigin.y));
+        }
+    }
+
+
+
+
 
 
 
@@ -133,136 +210,33 @@ public class Enemy extends Actor {
 
 
 
+    /**
+     * Moves the enemy while targeting the player
+     * @param deltaTime Time in seconds since the last frame.
+     */
+    private void targetedMove(float deltaTime){
+        this.direction.x = (targetedPlayer.getPosition().x + this.speed) - (position.x + this.speed);
+        this.direction.y = (targetedPlayer.getPosition().y + this.speed) - (position.y + this.speed);
+        this.direction.nor();
+        position.x += direction.x * this.speed;
+        position.y += direction.y * this.speed;
+    }
+
+
+
+
+
+
+
+
+
+
 
 
     public Vector2 getPosition(){
         return position;
     }
 
-
-
-
-
-
-
-
-    private void itemDropAndDeadCheck(Batch batch){
-        if(!this.alive){
-            batch.draw(item_dropped.getItemTexture(), position.x, position.y);
-            // Send message to player to know about dropped item
-            this.dispose();
-        }
-    }
-
-
-
-
-
-    /**
-     * Deals damage to the player if the EnemyBoss can attack
-     */
-    private void dealDamageToPlayer(){
-        // Deal damage and more if a combo attack (more than one attack in a row)
-        attackCount++;
-    }
-
-
-
-
-
-    /**
-     * EnemyBoss attacks the player if within range
-     */
-    private void attackUpdate(){
-        if(distanceToPlayer() <= attackDistance){
-            dealDamageToPlayer();
-        }
-    }
-
-
-
-
-
-    /**
-     * Determines which bullet has hit the EnemyBoss
-     * @return a Bullet object
-     */
-    private Bullet findHitBullet(){
-        // Dispose of bullet
-        return new Bullet(0,0,new Vector2(0,0),50f);
-    }
-
-
-
-
-
-    /** Determines if the player has struck the EnemyBoss with a weapon
-     *
-     * @return true if so
-     */
-    private boolean isHitByWeapon(){
-        return true;
-    }
-
-
-
-
-
-    /**
-     * Determines if one of the on-screen bullets being tracked has hit the EnemyBoss
-     * @return true if so
-     */
-    private boolean isHitByBullet(){
-        return true;
-    }
-
-
-
-
-
-    /**
-     * Determines changes in health from received attacks
-     */
-    private void damageHealthUpdate(){
-        if(this.isHitByBullet()){
-            Bullet hitBullet = findHitBullet();
-            health -= 0; // health -= hitBullet.damage;
-        }
-
-        if(this.isHitByWeapon()){
-            health -= 0; // health -= player.weapon.damage;
-        }
-    }
-
-
-
-
-
-    /**
-     * Moves the enemy randomly without a target
-     * @param deltaTime Time in seconds since the last frame.
-     */
-    private void randomMove(float deltaTime){
-        // Randomly move within bounds
-    }
-
-
-
-
-
-    /**
-     * Moves the enemy while targeting the player
-     * @param deltaTime Time in seconds since the last frame.
-     */
-    private void targetedMove(float deltaTime){
-        Vector2 direction = new Vector2();
-        direction.x = (targetedPlayer.getPosition().x + 40) - (position.x + 40);
-        direction.y = (targetedPlayer.getPosition().y + 40) - (position.y + 40);
-        // System.out.print("The player position is: " + targetedPlayer.getPosition().x + targetedPlayer.getPosition().y);
-        direction.nor();
-        position.x += direction.x * 0.8;
-        position.y += direction.y * 0.8;
-    }
 
 
 
@@ -282,4 +256,9 @@ public class Enemy extends Actor {
         );
         return pixmap100;
     }
+
+    /** Determines if the player has struck the EnemyBoss with a weapon
+     *
+     * @return true if so
+     */
 }

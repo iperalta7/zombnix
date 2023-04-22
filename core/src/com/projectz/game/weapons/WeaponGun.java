@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class WeaponGun extends Weapon{
 
     private Player player;
-    public ArrayList<Bullet> bullets;
+    private ArrayList<Bullet> bullets;
     private float bulletSpeed;
     private float fireRate;
     private float timeSinceLastShot;
@@ -84,4 +84,6 @@ public class WeaponGun extends Weapon{
     public void onActivate() {
 
     }
+
+    public ArrayList<Bullet> getBullets(){return this.bullets;}
 }

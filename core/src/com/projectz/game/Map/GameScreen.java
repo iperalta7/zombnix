@@ -35,6 +35,7 @@ public class GameScreen implements Screen{
     private OrthographicCamera camera;
     private boolean isPaused = false;
     Player player;
+    Enemy enemy;
     Stage stage;
     Game game;
     Inventory inventory;
@@ -58,7 +59,7 @@ public class GameScreen implements Screen{
         camera.position.x = player.getPosition().x;
         camera.position.y = player.getPosition().y;
         camera.update();
-        System.out.println("Player: " + player.getPosition().x);
+
         renderer.setView(camera);
         renderer.render();
 
@@ -93,10 +94,10 @@ public class GameScreen implements Screen{
         renderer = new OrthogonalTiledMapRenderer(map, 3f);
         player = new Player();
         player.setPlayerPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        Enemy enemy = new Enemy(100, 50f, player, player.getPosition().x-100, player.getPosition().y-100);
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
         statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
+        Enemy enemy = new Enemy(100, player, player.getPosition().x-100, player.getPosition().y-100, 10);
         stage = new Stage();
         inventory = new Inventory();
         inventory.addItem(Item.HealingPotion, 5);

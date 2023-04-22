@@ -108,7 +108,7 @@ public class Player extends Actor {
 
 
         // Draw the player sprite at the current position
-// Draw the player sprite at the current position with the new width and height
+        // Draw the player sprite at the current position with the new width and height
         batch.draw(playerTexture, (getStage().getWidth() - playerTexture.getWidth() * 2) / 2, (getStage().getHeight() - playerTexture.getHeight() * 2) / 2, width, height);
         // Draw the bullets
         weapon.draw(batch, parentAlpha);
@@ -125,6 +125,14 @@ public class Player extends Actor {
 
     public int getHealth() {
         return health;
+    }
+    public void takeDamage(int damage){
+        if(this.health <= 0) {
+            this.health = 0;
+        }
+        else{
+            this.health -= damage;
+        }
     }
     public int getExpValue() {
         return expValue;
