@@ -49,9 +49,9 @@ public class Enemy extends Actor {
         this.targetedPlayer = player;
         this.attackDistance = 5;
         this.enemyTexture = new Texture(createEnemyPixmap());
-        this.minDistToChase = 100;
+        this.minDistToChase = 500;
         this.attackCount = 0;
-        this.speed = 0.2f;
+        this.speed = 1f;
         this.direction = new Vector2();
         this.attackDamage = attackDamage;
         this.lastAttackTime = System.currentTimeMillis();
