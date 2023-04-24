@@ -48,9 +48,9 @@ public class Player extends Actor {
         
         
 		// Testing the inventory system.
-		inventory = new Inventory();
+		//inventory = new Inventory();
 		//inventory.printInventory();
-		inventory.addItem(Item.HealingPotion, 5);
+		//inventory.addItem(Item.HealingPotion, 5);
 		//inventory.printInventory();
 
         // Initialize health and xp

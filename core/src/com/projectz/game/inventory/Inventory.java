@@ -12,7 +12,7 @@ public class Inventory{
     private ArrayList<ItemSlot> slots;
     private ArrayList<ItemSlot> hotBarSlots;
 
-    private int slotCount = 9;
+    private int slotCount = 18;
 
     public Inventory(){
         primary = new ItemSlot(ItemType.Weapon);
@@ -25,11 +25,11 @@ public class Inventory{
             hotBarSlots.add(new ItemSlot(ItemType.Consumable));
         }
     }
-    
+
     /** Returns true if the item was added to the inventory successfully, false if not. */
     public boolean addItem(Item item, int count){
         if(item == null) return false;
-        
+
         if(item.getType() == ItemType.Weapon){
             if(primary.isEmpty()){
                 primary.setStack(new ItemStack(item, 1));
@@ -94,7 +94,7 @@ public class Inventory{
             System.out.println("Slot " + i + ": " + slots.get(i).getItemName());
         }
     }
-    
+
     public void useConsumable(Item item){
         for(int i = 0; i < slotCount; i++){
             if(slots.get(i).getItemName() == item.getName()){
@@ -103,17 +103,28 @@ public class Inventory{
         }
     }
 
-    public void replaceItemSLot(ItemSlot itemSlot, int index) {
-        slots.get(index).setStack(itemSlot.getStack());
-    }
-
-    public int getInventorySize() {
-        return slotCount;
-    }
-
     public ItemSlot getInventory(int index) {
         return slots.get(index);
     }
 
+    public ItemSlot getHotBar(int index) { return hotBarSlots.get(index); }
+
     public ArrayList<ItemSlot> getAllInventory() { return slots; }
+
+    public ArrayList<ItemSlot> getAllHotBarSlots() { return hotBarSlots; }
+
+    public ItemSlot getPrimary() {
+        return primary;
+    }
+
+    public ItemSlot getSecondary() {
+        return secondary;
+    }
+
+    public void setPrimary(ItemSlot primary) {
+        this.primary = primary;
+    }
+    public void setSecondary(ItemSlot secondary) {
+        this.secondary = secondary;
+    }
 }
