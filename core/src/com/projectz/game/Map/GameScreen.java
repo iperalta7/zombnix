@@ -83,7 +83,7 @@ public class GameScreen implements Screen{
 
     @Override
     public void resize(int width, int height){
-        camera.viewportWidth = width; 
+        camera.viewportWidth = width;
         camera.viewportHeight = height;
         camera.position.set(camera.viewportWidth / 3f, camera.viewportHeight / 3f, 0);
         camera.update();
@@ -154,12 +154,12 @@ public class GameScreen implements Screen{
 
     @Override
     public void pause(){
-        
+
     }
 
     @Override
     public void resume(){
-        
+
     }
 
     @Override
