@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import com.projectz.game.items.Item;
 import com.projectz.game.items.Item.ItemType;
+import com.projectz.game.items.ItemHealPotion;
+import com.projectz.game.weapons.WeaponSword;
 
 public class Inventory{
     private int currentSlot = 0;
@@ -23,6 +25,8 @@ public class Inventory{
             slots.add(new ItemSlot(ItemType.Consumable));
             hotBarSlots.add(new ItemSlot(ItemType.Consumable));
         }
+
+        hotBarSlots.get(2).setStack(new ItemStack(new WeaponSword(), 1));
     }
     
     /** Returns true if the item was added to the inventory successfully, false if not. */

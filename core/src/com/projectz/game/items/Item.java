@@ -1,5 +1,7 @@
 package com.projectz.game.items;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.projectz.game.weapons.WeaponSword;
 
 public abstract class Item {
@@ -12,12 +14,14 @@ public abstract class Item {
     private ItemType type;
     private int maxStackSize = 64;
     private String itemPNG;
+    private Sprite itemSprite;
 
     public Item(String name, ItemType t, int maxStackSize, String itemPNG){
         this.name = name;
         this.type = t;
         this.maxStackSize = maxStackSize;
         this.itemPNG = itemPNG;
+        itemSprite = new Sprite(new Texture(itemPNG));
     }
 
     public String getName(){ return name; }
@@ -36,4 +40,7 @@ public abstract class Item {
 
     public abstract void onActivate();
 
+    public Sprite getItemSprite() {
+        return itemSprite;
+    }
 }
