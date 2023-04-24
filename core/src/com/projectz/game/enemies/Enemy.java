@@ -272,3 +272,4 @@ public class Enemy extends Actor {
         return pixmap100;
     }
 }
+
