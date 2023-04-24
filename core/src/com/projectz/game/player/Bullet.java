@@ -15,6 +15,8 @@ public class Bullet extends Actor {
     private float speed;
     private Texture bulletTexture;
     private boolean active;
+    private float bulletRange;
+
 
     public Bullet(float x, float y, Vector2 direction, float speed) {
         position = new Vector2(x, y);
@@ -24,6 +26,7 @@ public class Bullet extends Actor {
         active = true;
         setBounds(position.x, position.y, bulletTexture.getWidth(), bulletTexture.getHeight());
         this.damage = 20;
+        this.bulletRange = 10;
     }
 
     public boolean isActive() {
@@ -58,4 +61,9 @@ public class Bullet extends Actor {
     }
 
     public float getDamage(){return this.damage;}
+
+    public float getBulletRange(){
+        return this.bulletRange;
+    }
+
 }
