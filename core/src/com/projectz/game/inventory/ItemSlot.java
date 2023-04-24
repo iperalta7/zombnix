@@ -1,36 +1,37 @@
 package com.projectz.game.inventory;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.projectz.game.items.Item;
 import com.projectz.game.items.Item.ItemType;
 
 public class ItemSlot{
-    
+    public Actor actor;
     private ItemStack stack;
-    private ItemType slotType;
-    
+    private ItemType slotType; 
+
     public ItemSlot(ItemType type){
         stack = null;
         slotType = type;
     }
-    
+
     public ItemStack getStack(){
         return stack;
     }
-    
+
     public void setStack(ItemStack stack){
         this.stack = stack;
     }
-    
+
     public ItemStack drop(){
         ItemStack buffer = stack;
         stack = null;
         return buffer;
     }
-    
+
     public ItemType getSlotType(){
         return slotType;
     }
-    
+
     public String getItemName(){
         if(stack == null) {
             return "Empty";
@@ -39,11 +40,14 @@ public class ItemSlot{
             return stack.getItem().getName();
         }
     }
-    
+
+    public String getPngName() {
+        return stack.getItem().getItemPNG();
+    }
+
     public boolean isEmpty(){
         return stack == null;
     }
-    
     public boolean add(Item item, int count){
         if(stack == null){
             stack = new ItemStack(item, count);
@@ -53,13 +57,12 @@ public class ItemSlot{
             if (stack.getCount() + count > item.getMaxStackSize()){
                 return false;
             }
-            
             stack.add(count);
             return true;
         }
         return false;
     }
-    
+
     public void Use(){
         if(stack != null){
             stack.getItem().onActivate();
