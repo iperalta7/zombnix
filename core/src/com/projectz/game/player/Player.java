@@ -61,9 +61,9 @@ public class Player extends Actor {
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
 		// Testing the inventory system.
-		inventory = new Inventory();
+		//inventory = new Inventory();
 		//inventory.printInventory();
-        inventory.addItem(Item.HealingPotion, 5);
+		//inventory.addItem(Item.HealingPotion, 5);
 		//inventory.printInventory();
 
 

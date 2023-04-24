@@ -7,7 +7,7 @@ import com.projectz.game.items.Item.ItemType;
 public class ItemSlot{
     public Actor actor;
     private ItemStack stack;
-    private ItemType slotType; 
+    private ItemType slotType;
 
     public ItemSlot(ItemType type){
         stack = null;
@@ -48,6 +48,7 @@ public class ItemSlot{
     public boolean isEmpty(){
         return stack == null;
     }
+
     public boolean add(Item item, int count){
         if(stack == null){
             stack = new ItemStack(item, count);
@@ -57,6 +58,7 @@ public class ItemSlot{
             if (stack.getCount() + count > item.getMaxStackSize()){
                 return false;
             }
+
             stack.add(count);
             return true;
         }
@@ -69,5 +71,9 @@ public class ItemSlot{
             stack.reduce(1);
             if(stack.getCount() <= 0) stack = null;
         }
+    }
+
+    public void clearSlot() {
+        this.stack = null;
     }
 }

@@ -5,6 +5,7 @@ import com.projectz.game.weapons.WeaponSword;
 public abstract class Item {
 
     public static final ItemHealPotion HealingPotion = new ItemHealPotion();
+    public static final ItemSpeedPotion SpeedPotion = new ItemSpeedPotion();
     public static final WeaponSword sword = new WeaponSword();
 
     private String name;
