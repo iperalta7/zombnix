@@ -20,7 +20,7 @@ import com.projectz.game.weapons.WeaponGun;
  */
 public class Player extends Actor {
     private Vector2 position;
-    public static final float PLAYER_SPEED = 35f;
+    public static final float PLAYER_SPEED = 50f;
     private Texture playerTexture;
     private TextureRegion playerSprite;
     private Animator playerAnimator;
@@ -126,6 +126,7 @@ public class Player extends Actor {
         setUpAnimation(deltaTime);
         handleMovementInput(deltaTime);
         handleInventoryInput();
+        weapon.update(deltaTime);
     }
 
     /**
