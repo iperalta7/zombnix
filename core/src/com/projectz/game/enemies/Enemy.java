@@ -155,7 +155,7 @@ public class Enemy extends Actor {
         WeaponGun playerGun = this.targetedPlayer.getWeapon();
         ArrayList<Bullet> playerGunBullets = playerGun.getBullets();
         for(Bullet bullet : playerGunBullets){
-            if(abs(bullet.getPosition().x - this.position.x- (targetedPlayer.getPosition().x - relativeOrigin.x)) < bullet.getBulletRange() && abs(bullet.getPosition().y - this.position.y- (targetedPlayer.getPosition().y - relativeOrigin.y)) < bullet.getBulletRange()){
+            if(abs(this.position.x - bullet.getPosition().x - (targetedPlayer.getPosition().x - relativeOrigin.x)) < bullet.getBulletRange() && abs(this.position.y - bullet.getPosition().y - (targetedPlayer.getPosition().y - relativeOrigin.y)) < bullet.getBulletRange()){
                 this.health -= bullet.getDamage();
                 bullet.dispose();
                 return true;
