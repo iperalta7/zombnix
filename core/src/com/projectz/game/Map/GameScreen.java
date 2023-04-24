@@ -108,6 +108,8 @@ public class GameScreen implements Screen{
         inventory.addItem(Item.HealingPotion, 5);
         inventory.addItem(Item.SpeedPotion, 5);
         inventory.addItem(Item.sword,1);
+        hotBar = new HotBar(inventory);
+        hotBarRenderer = new HotBarRenderer(hotBar);
         stage.addActor(player);
         stage.addActor(statusHUDRenderer);
         stage.addActor(hotBarRenderer);
