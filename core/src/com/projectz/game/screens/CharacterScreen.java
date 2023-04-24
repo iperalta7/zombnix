@@ -49,6 +49,9 @@ public class CharacterScreen extends ScreenAdapter {
         buttons[0] = new ImageButton((char1_button));
         buttons[1] = new ImageButton((char2_button));
         Gdx.input.setInputProcessor(stage);
+
+        //If character is selected, load game screen
+        char_select_listener();
     }
 
     public void char_select_listener() {
@@ -74,9 +77,6 @@ public class CharacterScreen extends ScreenAdapter {
         delta = Gdx.graphics.getDeltaTime();
         Gdx.gl.glClearColor(0, 0, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        //If character is selected, load game screen
-        char_select_listener();
 
         stage.act(delta);
         stage.draw();

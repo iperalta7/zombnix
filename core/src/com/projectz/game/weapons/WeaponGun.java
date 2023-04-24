@@ -1,4 +1,4 @@
-package com.projectz.game.player;
+package com.projectz.game.weapons;
 
 // Weapon.java
 
@@ -6,11 +6,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Vector2;
+import com.projectz.game.player.Bullet;
+import com.projectz.game.player.Player;
 
 import java.util.ArrayList;
 
 //Weapon.java
-public class Weapon{
+public class WeaponGun extends Weapon{
 
     private Player player;
     private ArrayList<Bullet> bullets;
@@ -18,7 +20,10 @@ public class Weapon{
     private float fireRate;
     private float timeSinceLastShot;
 
-    public Weapon(Player player) {
+
+
+    public WeaponGun(Player player) {
+        super("Gun", "Weapons/pistol.png");
         this.player = player;
         bullets = new ArrayList<Bullet>();
         bulletSpeed = 500f;
@@ -59,16 +64,24 @@ public class Weapon{
                 .sub(player.getPosition().x + player.getWidth() / 2, player.getPosition().y + player.getHeight() / 2)
                 .nor();
 
-        float x = player.getPosition().x + player.getWidth() / 2;
-        float y = player.getPosition().y + player.getHeight() / 2;
+        float x = player.getStage().getWidth() / 2;
+        float y = player.getStage().getHeight() / 2;
 
         Bullet bullet = new Bullet(x, y, bulletDirection, bulletSpeed);
         bullets.add(bullet);
     }
 
+    public int getNumBullets() {
+        return bullets.size();
+    }
     public void dispose() {
         for (Bullet bullet : bullets) {
             bullet.dispose();
         }
+    }
+
+    @Override
+    public void onActivate() {
+
     }
 }

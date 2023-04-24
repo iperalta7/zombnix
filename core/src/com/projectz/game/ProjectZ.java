@@ -1,6 +1,10 @@
 package com.projectz.game;
-
 import com.badlogic.gdx.Game;
+
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.projectz.game.Map.GameScreen;
+import com.projectz.game.screens.MainMenu;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -8,7 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.projectz.game.player.Player;
 import com.projectz.game.screens.*;
-import jdk.tools.jmod.Main;
+//import jdk.tools.jmod.Main;
 
 public class ProjectZ extends Game {
     public SpriteBatch batch;
@@ -24,5 +28,6 @@ public class ProjectZ extends Game {
     public void dispose() {
         batch.dispose();
     }
+
 }
 
