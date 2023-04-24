@@ -10,6 +10,7 @@ import com.projectz.game.player.Bullet;
 import com.projectz.game.player.Player;
 
 import java.util.ArrayList;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 
 //Weapon.java
 public class WeaponGun extends Weapon{
@@ -61,7 +62,7 @@ public class WeaponGun extends Weapon{
     private void fireBullet() {
         Vector2 mousePosition = new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
         Vector2 bulletDirection = mousePosition
-                .sub(player.getPosition().x + player.getWidth() / 2, player.getPosition().y + player.getHeight() / 2)
+                .sub((Gdx.graphics.getWidth()) / 2, (Gdx.graphics.getHeight()) / 2)
                 .nor();
 
         float x = player.getStage().getWidth() / 2;
@@ -84,4 +85,6 @@ public class WeaponGun extends Weapon{
     public void onActivate() {
 
     }
+
+    public ArrayList<Bullet> getBullets(){return this.bullets;}
 }

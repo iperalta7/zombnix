@@ -114,7 +114,6 @@ public class Player extends Actor {
         camera.position.x = 0;//position.x;
         camera.position.y = 0;//position.y;
         camera.update();
-        weapon.update(deltaTime);
     }
 
     /**
@@ -127,7 +126,6 @@ public class Player extends Actor {
         setUpAnimation(deltaTime);
         handleMovementInput(deltaTime);
         handleInventoryInput();
-        weapon.update(deltaTime);
     }
 
     /**
@@ -201,13 +199,13 @@ public class Player extends Actor {
      * @param batch The Batch used to draw the player texture.
      */
     private void drawPlayer (Batch batch){
-        float factor = 2.4F;
+        float factor = 3.4F;
         float scale = camera.viewportWidth / Gdx.graphics.getWidth() * factor;
-        float width = playerTexture.getWidth() * scale;
-        float height = playerTexture.getHeight() * scale;
+        float width = 20.0f * scale;
+        float height = 20.0f * scale;
 
+        // Draw the player sprite at the current position
         batch.draw(playerSprite, (getStage().getWidth() - 20 * 2) / 2, (getStage().getHeight() - 20 * 2) / 2, width, height);
-
     }
 
     /**

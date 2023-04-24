@@ -8,9 +8,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.projectz.game.ProjectZ;
-import com.projectz.game.enemies.EnemyGeneric;
+import com.projectz.game.enemies.Enemy;
 import com.projectz.game.inventory.Inventory;
 import com.projectz.game.items.Item;
 import com.projectz.game.player.Player;
@@ -19,6 +20,7 @@ import com.projectz.game.ui.HotBar;
 import com.projectz.game.ui.HotBarRenderer;
 import com.projectz.game.ui.StatusHUD;
 import com.projectz.game.ui.StatusHUDRenderer;
+import com.projectz.game.waveGen.waveGenerator;
 
 public class GameScreen implements Screen{
     private TiledMap map;
@@ -27,8 +29,9 @@ public class GameScreen implements Screen{
     private boolean isPaused = false;
 
     Player player;
-    EnemyGeneric enemy;
+    Enemy enemy;
     Stage stage;
+    waveGenerator wave;
     Game game;
     Inventory inventory;
     Batch batch;
@@ -47,7 +50,9 @@ public class GameScreen implements Screen{
         updateCamera();
         renderer.setView(camera);
         renderer.render();
+        wave.update();
         handleInput();
+        wave.render(camera);
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
     }
@@ -63,7 +68,7 @@ public class GameScreen implements Screen{
     private void handleInput() {
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
-            public boolean keyDown(int keyCode) {
+            public boolean keyDown (int keyCode) {
                 if (keyCode == Input.Keys.E) {
                     game.setScreen(new InventoryScreen((ProjectZ) game, inventory));
                 }
@@ -83,10 +88,12 @@ public class GameScreen implements Screen{
 
     @Override
     public void resize(int width, int height){
+        /*
         camera.viewportWidth = width;
         camera.viewportHeight = height;
         camera.position.set(camera.viewportWidth / 3f, camera.viewportHeight / 3f, 0);
         camera.update();
+         */
     }
 
     @Override
@@ -100,8 +107,8 @@ public class GameScreen implements Screen{
     private void setupGame() {
         map = new TmxMapLoader().load("maps/zombie_map.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 3f);
-        setupCamera();
         setupPlayer();
+        setupCamera();
         setupEnemy();
         setupUI();
     }
@@ -127,7 +134,7 @@ public class GameScreen implements Screen{
      */
 
     private void setupEnemy() {
-        enemy = new EnemyGeneric(null, 100, player);
+        enemy = new Enemy(player, new Vector2(player.getPosition().x-100, player.getPosition().y-100), 10);
     }
 
     /**
@@ -136,8 +143,11 @@ public class GameScreen implements Screen{
     private void setupUI() {
         statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
         stage = new Stage();
+        wave = new waveGenerator();
         inventory = new Inventory();
         inventory.addItem(Item.HealingPotion, 5);
+        inventory.addItem(Item.SpeedPotion, 5);
+        inventory.addItem(Item.sword,1);
         hotBar = new HotBar(inventory);
         hotBarRenderer = new HotBarRenderer(hotBar);
         stage.addActor(player);
