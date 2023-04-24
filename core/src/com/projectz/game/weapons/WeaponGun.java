@@ -84,4 +84,6 @@ public class WeaponGun extends Weapon{
     public void onActivate() {
 
     }
+
+    public ArrayList<Bullet> getBullets(){return this.bullets;}
 }

@@ -9,11 +9,14 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 //Bullet.java
 public class Bullet extends Actor {
 
+    private float damage;
     private Vector2 position;
     private Vector2 direction;
     private float speed;
     private Texture bulletTexture;
     private boolean active;
+    private float bulletRange;
+
 
     public Bullet(float x, float y, Vector2 direction, float speed) {
         position = new Vector2(x, y);
@@ -22,6 +25,8 @@ public class Bullet extends Actor {
         bulletTexture = new Texture("bullet-blue.png");
         active = true;
         setBounds(position.x, position.y, bulletTexture.getWidth(), bulletTexture.getHeight());
+        this.damage = 20;
+        this.bulletRange = 10;
     }
 
     public boolean isActive() {
@@ -41,10 +46,24 @@ public class Bullet extends Actor {
 
     @Override
     public void draw(Batch batch, float alpha) {
-        batch.draw(bulletTexture, position.x, position.y);
+        if(this.active) {
+            batch.draw(bulletTexture, position.x, position.y);
+        }
     }
 
     public void dispose() {
+        this.active = false;
         bulletTexture.dispose();
     }
+
+    public Vector2 getPosition(){
+        return this.position;
+    }
+
+    public float getDamage(){return this.damage;}
+
+    public float getBulletRange(){
+        return this.bulletRange;
+    }
+
 }

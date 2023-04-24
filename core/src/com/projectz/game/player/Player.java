@@ -21,6 +21,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.projectz.game.inventory.Inventory;
 import com.projectz.game.items.Item;
 import com.projectz.game.weapons.WeaponGun;
+import com.projectz.game.player.Bullet;
 
 //Player.java
 public class Player extends Actor {
@@ -155,6 +156,14 @@ public class Player extends Actor {
 
     public int getHealth() {
         return health;
+    }
+    public void takeDamage(int damage){
+        if(this.health <= 0) {
+            this.health = 0;
+        }
+        else{
+            this.health -= damage;
+        }
     }
     public int getExpValue() {
         return expValue;
