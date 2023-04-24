@@ -27,7 +27,6 @@ public class GameScreen implements Screen{
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
     private boolean isPaused = false;
-
     Player player;
     Enemy enemy;
     Stage stage;
@@ -142,6 +141,7 @@ public class GameScreen implements Screen{
      */
     private void setupUI() {
         statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
+        Enemy enemy = new Enemy(player, new Vector2(player.getPosition().x-100, player.getPosition().y-100), 10);
         stage = new Stage();
         wave = new waveGenerator();
         inventory = new Inventory();

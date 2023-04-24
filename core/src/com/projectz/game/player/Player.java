@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.projectz.game.weapons.WeaponGun;
+import com.projectz.game.player.Bullet;
 
 /**
  * The Player class represents the main character in the game. It contains
@@ -67,7 +68,7 @@ public class Player extends Actor {
         position = new Vector2();
         playerSprite = playerAnimator.getFrame(0.0f);
     }
-
+    
     /**
      * Sets up the camera for the player.
      */
@@ -200,8 +201,9 @@ public class Player extends Actor {
      * @param batch The Batch used to draw the player texture.
      */
     private void drawPlayer (Batch batch){
-        float factor = 3.4F;
-        float scale = camera.viewportWidth / Gdx.graphics.getWidth() * factor;
+        // Calculate the new width and height of the texture based on the viewport size
+        float factor = 3.4f;//2.4F;
+        float scale = camera.viewportWidth / w * factor ; // w is the original window width
         float width = 20.0f * scale;
         float height = 20.0f * scale;
 
@@ -243,12 +245,14 @@ public class Player extends Actor {
     public int getHealth () {
         return health;
     }
+    
     /**
      * @return The player's current experience value.
      */
-    public int getExpValue () {
+    public int getExpValue() {
         return expValue;
     }
+    
     /**
      * @return The player's current experience level.
      */
