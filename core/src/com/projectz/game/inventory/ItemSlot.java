@@ -1,6 +1,5 @@
 package com.projectz.game.inventory;
 
-
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.projectz.game.items.Item;
 import com.projectz.game.items.Item.ItemType;

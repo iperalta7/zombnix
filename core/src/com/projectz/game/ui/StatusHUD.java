@@ -6,26 +6,24 @@ import com.projectz.game.player.Player;
 
 public class StatusHUD {
     private Player player;
-    private Sprite healthSprite;
-    private Sprite expSprite;
+
+    protected Sprite healthSprite;
+    protected Sprite expSprite;
+    protected Sprite pistolSprite;
+    protected int numBullets;
     public StatusHUD(Player player) {
         this.player = player;
         //Default Textures
         healthSprite = StatusHUDSprites.HEALTH_SPRITE_10;
         expSprite = StatusHUDSprites.EXP_SPRITE_10;
-    }
-
-    public Sprite getHealthSprite() {
-        return healthSprite;
-    }
-    public Sprite getExpSprite() {
-        return expSprite;
+        pistolSprite = StatusHUDSprites.PISTOL_SPRITE;
     }
     public void update() {
         int health = player.getHealth();
         int expValue = player.getExpValue();
         updateHealth(health);
         updateExp(expValue);
+        numBullets = player.getWeapon().getNumBullets();
     }
     private void updateHealth(int health) {
         if(health == 0) {

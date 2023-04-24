@@ -34,7 +34,7 @@ public abstract class Item {
     public boolean equals(Object i){
         return i.getClass() == this.getClass();
     }
-    
-    public abstract void onActivate();
-}
 
+    public abstract void onActivate();
+
+}

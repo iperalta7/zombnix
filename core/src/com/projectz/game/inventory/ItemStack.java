@@ -6,7 +6,7 @@ public class ItemStack {
 
     private int count = 0;
     private Item item;
-    
+
     public ItemStack(Item item, int count){
         this.count = count;
         this.item = item;
@@ -24,7 +24,6 @@ public class ItemStack {
         if(i <= 0) return;
         count += i;
     }
-
     public void reduce(int i){
         if(i <= 0) return;
         count -= i;

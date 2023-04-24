@@ -3,8 +3,7 @@ package com.projectz.game.weapons;
 public class WeaponSword extends Weapon{
 
     public WeaponSword() {
-        super("Sword", "sword.png");
-        
+        super("Sword", "Weapons/sword.png");
     }
 
     @Override
