@@ -29,6 +29,7 @@ import com.projectz.game.ui.HotBar;
 import com.projectz.game.ui.HotBarRenderer;
 import com.projectz.game.ui.StatusHUD;
 import com.projectz.game.ui.StatusHUDRenderer;
+import com.projectz.game.waveGen.waveGenerator;
 
 
 public class GameScreen implements Screen{
@@ -40,6 +41,7 @@ public class GameScreen implements Screen{
     Player player;
     EnemyGeneric enemy;
     Stage stage;
+    waveGenerator wave;
     Game game;
     Inventory inventory;
     Batch batch;
@@ -65,6 +67,7 @@ public class GameScreen implements Screen{
 
         renderer.setView(camera);
         renderer.render();
+        wave.update();
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
@@ -75,11 +78,10 @@ public class GameScreen implements Screen{
                 return true;
             }
         });
-
+        wave.render(camera);
         //default call to create stage (from documentation page)
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-
     }
 
     @Override
@@ -104,6 +106,7 @@ public class GameScreen implements Screen{
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
         statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
         stage = new Stage();
+        wave = new waveGenerator();
         inventory = new Inventory();
         inventory.addItem(Item.HealingPotion, 5);
         inventory.addItem(Item.SpeedPotion, 5);
