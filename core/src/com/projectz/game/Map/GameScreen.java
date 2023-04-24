@@ -85,17 +85,19 @@ public class GameScreen implements Screen{
 
     @Override
     public void resize(int width, int height){
+        /*
         camera.viewportWidth = width; 
         camera.viewportHeight = height;
         camera.position.set(camera.viewportWidth / 3f, camera.viewportHeight / 3f, 0);
         camera.update();
+        */
     }
 
 
     @Override
     public void show(){
         map = new TmxMapLoader().load("maps/zombie_map.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 3f);
+        renderer = new OrthogonalTiledMapRenderer(map, 4f);
         player = new Player();
         player.setPlayerPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
         camera = new OrthographicCamera();
@@ -114,6 +116,7 @@ public class GameScreen implements Screen{
         stage.addActor(statusHUDRenderer);
         stage.addActor(hotBarRenderer);
         stage.addActor(enemy);
+
     }   
 
 
