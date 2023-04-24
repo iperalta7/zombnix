@@ -27,6 +27,7 @@ import com.projectz.game.ui.HotBar;
 import com.projectz.game.ui.HotBarRenderer;
 import com.projectz.game.ui.StatusHUD;
 import com.projectz.game.ui.StatusHUDRenderer;
+import com.projectz.game.waveGen.waveGenerator;
 
 import com.projectz.game.enemies.Enemy;
 
@@ -38,6 +39,7 @@ public class GameScreen implements Screen{
     Player player;
     Enemy enemy;
     Stage stage;
+    waveGenerator wave;
     Game game;
     Inventory inventory;
     Batch batch;
@@ -63,6 +65,7 @@ public class GameScreen implements Screen{
 
         renderer.setView(camera);
         renderer.render();
+        wave.update();
 
 
         Gdx.input.setInputProcessor(new InputAdapter() {
@@ -74,7 +77,7 @@ public class GameScreen implements Screen{
                 return true;
             }
         });
-
+        wave.render(camera);
         //default call to create stage (from documentation page)
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
@@ -100,11 +103,13 @@ public class GameScreen implements Screen{
         statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
         Enemy enemy = new Enemy(player, new Vector2(player.getPosition().x-100, player.getPosition().y-100), 10);
         stage = new Stage();
+        wave = new waveGenerator();
         inventory = new Inventory();
         inventory.addItem(Item.HealingPotion, 5);
+        inventory.addItem(Item.SpeedPotion, 5);
+        inventory.addItem(Item.sword,1);
         hotBar = new HotBar(inventory);
         hotBarRenderer = new HotBarRenderer(hotBar);
-        //inventory.addItem(Item.SpeedPotion, 5);
         stage.addActor(player);
         stage.addActor(statusHUDRenderer);
         stage.addActor(hotBarRenderer);

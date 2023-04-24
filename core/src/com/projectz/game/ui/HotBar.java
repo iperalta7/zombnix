@@ -17,7 +17,7 @@ public class HotBar {
 
     public HotBar(Inventory inventory) {
         this.inventory = inventory;
-        hotBarSlots = inventory.getHotBarSlots();
+        hotBarSlots = inventory.getAllHotBarSlots();
         activeSlotNumber = 0;
         activeHotBarSlot = hotBarSlots.get(1);
         hotBarSlotSprites = new Sprite[9];
