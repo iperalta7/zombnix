@@ -134,12 +134,12 @@ public class Player extends Actor {
         // Calculate the new width and height of the texture based on the viewport size
         float factor = 2.4F;
         float scale = camera.viewportWidth / w * factor ; // w is the original window width
-        float width = 8.0f * scale;
+        float width = 20.0f * scale;
         float height = 20.0f * scale;
 
 
         // Draw the player sprite at the current position
-        batch.draw(playerSprite, position.x, position.y);
+        batch.draw(playerSprite, (getStage().getWidth() - 20 * 2) / 2, (getStage().getHeight() - 20 * 2) / 2, width, height);
          // Draw the bullets
         weapon.draw(batch, parentAlpha);
     }
