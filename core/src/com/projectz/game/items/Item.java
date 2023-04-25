@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.projectz.game.weapons.WeaponSword;
 
 public abstract class Item {
@@ -17,6 +18,7 @@ public abstract class Item {
     private ItemType type;
     private int maxStackSize = 64;
     private String itemPNG;
+    private Sprite itemSprite;
 
     private Texture ItemTexture;
 
@@ -34,6 +36,7 @@ public abstract class Item {
                 0, 0, pixmap100.getWidth(), pixmap100.getHeight()
         );
         this.ItemTexture = new Texture(pixmap100);
+        this.itemSprite = new Sprite(ItemTexture);
         pixmap200.dispose();
         pixmap100.dispose();
     }
@@ -57,4 +60,7 @@ public abstract class Item {
 
     public abstract void onActivate();
 
+    public Sprite getItemSprite() {
+        return itemSprite;
+    }
 }

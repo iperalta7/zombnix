@@ -47,9 +47,32 @@ public class GameScreen implements Screen{
     HotBar hotBar;
     HotBarRenderer hotBarRenderer;
     InventoryScreen inventoryScreen;
+    GameScreen currentScreen;
 
     public GameScreen(ProjectZ game) {
         this.game = game;
+        currentScreen = this;
+
+        map = new TmxMapLoader().load("maps/zombie_map.tmx");
+        renderer = new OrthogonalTiledMapRenderer(map, 4f);
+        player = new Player();
+        player.setPlayerPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
+        statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
+        Enemy enemy = new Enemy(player, new Vector2(player.getPosition().x-100, player.getPosition().y-100), 10);
+        stage = new Stage();
+        wave = new waveGenerator();
+        inventory = new Inventory();
+        inventory.addItem(Item.HealingPotion, 5);
+        inventory.addItem(Item.SpeedPotion, 5);
+        inventory.addItem(Item.sword,1);
+        hotBar = new HotBar(inventory);
+        hotBarRenderer = new HotBarRenderer(hotBar);
+        stage.addActor(player);
+        stage.addActor(statusHUDRenderer);
+        stage.addActor(hotBarRenderer);
+        stage.addActor(enemy);
     }
 
     @Override
@@ -72,7 +95,7 @@ public class GameScreen implements Screen{
             @Override
             public boolean keyDown (int keyCode) {
                 if (keyCode == Input.Keys.E) {
-                    game.setScreen(new InventoryScreen((ProjectZ) game, inventory));
+                    game.setScreen(new InventoryScreen((ProjectZ) game, inventory, currentScreen));
                 }
                 return true;
             }
@@ -96,33 +119,13 @@ public class GameScreen implements Screen{
 
     @Override
     public void show(){
-        map = new TmxMapLoader().load("maps/zombie_map.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 4f);
-        player = new Player();
-        player.setPlayerPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
-        statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
-        Enemy enemy = new Enemy(player, new Vector2(player.getPosition().x-100, player.getPosition().y-100), 10);
-        stage = new Stage();
-        wave = new waveGenerator();
-        inventory = new Inventory();
-        inventory.addItem(Item.HealingPotion, 5);
-        inventory.addItem(Item.SpeedPotion, 5);
-        inventory.addItem(Item.sword,1);
-        hotBar = new HotBar(inventory);
-        hotBarRenderer = new HotBarRenderer(hotBar);
-        stage.addActor(player);
-        stage.addActor(statusHUDRenderer);
-        stage.addActor(hotBarRenderer);
-        stage.addActor(enemy);
 
     }   
 
 
     @Override
     public void hide(){
-        dispose();
+
     }
 
 
