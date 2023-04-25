@@ -15,11 +15,9 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
-import com.projectz.game.player.Player;
-import com.projectz.game.enemies.EnemyGeneric;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.projectz.game.ProjectZ;
 import com.projectz.game.inventory.Inventory;
 import com.projectz.game.items.Item;
@@ -29,17 +27,19 @@ import com.projectz.game.ui.HotBar;
 import com.projectz.game.ui.HotBarRenderer;
 import com.projectz.game.ui.StatusHUD;
 import com.projectz.game.ui.StatusHUDRenderer;
+import com.projectz.game.waveGen.waveGenerator;
 
+import com.projectz.game.enemies.Enemy;
 
 public class GameScreen implements Screen{
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
     private boolean isPaused = false;
-
     Player player;
-    EnemyGeneric enemy;
+    Enemy enemy;
     Stage stage;
+    waveGenerator wave;
     Game game;
     Inventory inventory;
     Batch batch;
@@ -54,14 +54,15 @@ public class GameScreen implements Screen{
         currentScreen = this;
 
         map = new TmxMapLoader().load("maps/zombie_map.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 3f);
+        renderer = new OrthogonalTiledMapRenderer(map, 4f);
         player = new Player();
         player.setPlayerPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        enemy = new EnemyGeneric(null, 100, player);
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
         statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
+        Enemy enemy = new Enemy(player, new Vector2(player.getPosition().x-100, player.getPosition().y-100), 10);
         stage = new Stage();
+        wave = new waveGenerator();
         inventory = new Inventory();
         inventory.addItem(Item.HealingPotion, 5);
         inventory.addItem(Item.SpeedPotion, 5);
@@ -87,6 +88,8 @@ public class GameScreen implements Screen{
 
         renderer.setView(camera);
         renderer.render();
+        wave.update();
+
 
         Gdx.input.setInputProcessor(new InputAdapter() {
             @Override
@@ -97,27 +100,25 @@ public class GameScreen implements Screen{
                 return true;
             }
         });
-
+        wave.render(camera);
         //default call to create stage (from documentation page)
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-
     }
 
     @Override
     public void resize(int width, int height){
+        /*
         camera.viewportWidth = width; 
         camera.viewportHeight = height;
-
         camera.position.set(camera.viewportWidth / 3f, camera.viewportHeight / 3f, 0);
-        camera.update(); 
-
+        camera.update();
+        */
     }
 
 
     @Override
     public void show(){
-
 
     }   
 
