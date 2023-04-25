@@ -77,7 +77,8 @@ public class GameScreen implements Screen{
                 return true;
             }
         });
-        wave.render(camera);
+        wave.render();
+
         //default call to create stage (from documentation page)
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
@@ -105,7 +106,7 @@ public class GameScreen implements Screen{
         statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
         Enemy enemy = new Enemy(player, new Vector2(player.getPosition().x-100, player.getPosition().y-100), 10);
         stage = new Stage();
-        wave = new waveGenerator();
+        wave = new waveGenerator(player, stage);
         inventory = new Inventory();
         inventory.addItem(Item.HealingPotion, 5);
         inventory.addItem(Item.SpeedPotion, 5);
