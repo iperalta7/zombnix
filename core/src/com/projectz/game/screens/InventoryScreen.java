@@ -20,6 +20,7 @@ public class InventoryScreen extends ScreenAdapter {
     public static Stage inventoryStage;
     Inventory inventory;
     DragAndDrop dnd;
+    GameScreen gameScreen;
     InventoryActor inventoryActor;
     ProjectZ game;
 
@@ -27,7 +28,7 @@ public class InventoryScreen extends ScreenAdapter {
     private TextureRegion closeInventory;
     private ImageButton closeInventoryButton;
 
-    public InventoryScreen(ProjectZ game, Inventory inventory)  {
+    public InventoryScreen(ProjectZ game, Inventory inventory, GameScreen gameScreen)  {
         this.game = game;
         this.inventory = inventory;
         inventoryStage = new Stage(new ScreenViewport());
@@ -36,6 +37,7 @@ public class InventoryScreen extends ScreenAdapter {
         inventoryActor = new InventoryActor(inventory,dnd);
         inventoryStage.addActor(inventoryActor);
         inventoryCloseButton();
+        this.gameScreen = gameScreen;
     }
 
 
@@ -74,7 +76,7 @@ public class InventoryScreen extends ScreenAdapter {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 //Change to game screen
-                game.setScreen((new GameScreen(game)));
+                game.setScreen(gameScreen);
             }
         });
 

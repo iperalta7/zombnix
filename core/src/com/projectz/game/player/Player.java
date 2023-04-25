@@ -111,9 +111,11 @@ public class Player extends Actor {
         weapon.update(deltaTime);
 
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
+        /*if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
             inventory.useConsumable(Item.HealingPotion);
-        }
+<<<<<<< HEAD
+        }*/
+
         //Gets the current frame of our Animation
         if(prevPos.x == position.x && prevPos.y == position.y)
             playerAnimator.setState("STANDING");
