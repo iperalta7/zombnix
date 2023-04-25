@@ -47,6 +47,7 @@ public class HotBar {
                 hotBarItemSprites[i] = hotBarSlots.get(i).getStack().getItem().getItemSprite();
             } catch(Exception e) {
                 System.out.println("Item slot empty");
+                hotBarItemSprites[i] = null;
             }
 
         }

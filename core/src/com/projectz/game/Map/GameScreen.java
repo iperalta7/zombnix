@@ -47,9 +47,11 @@ public class GameScreen implements Screen{
     HotBar hotBar;
     HotBarRenderer hotBarRenderer;
     InventoryScreen inventoryScreen;
+    GameScreen currentScreen;
 
     public GameScreen(ProjectZ game) {
         this.game = game;
+        currentScreen = this;
     }
 
     @Override
@@ -70,7 +72,7 @@ public class GameScreen implements Screen{
             @Override
             public boolean keyDown (int keyCode) {
                 if (keyCode == Input.Keys.E) {
-                    game.setScreen(new InventoryScreen((ProjectZ) game, inventory));
+                    game.setScreen(new InventoryScreen((ProjectZ) game, inventory, currentScreen));
                 }
                 return true;
             }

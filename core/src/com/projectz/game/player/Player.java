@@ -88,9 +88,9 @@ public class Player extends Actor {
         weapon.update(deltaTime);
 
 
-        if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
+        /*if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
             inventory.useConsumable(Item.HealingPotion);
-        }
+        }*/
         weapon.update(deltaTime);
 
     }

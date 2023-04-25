@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.projectz.game.items.Item;
 import com.projectz.game.items.Item.ItemType;
 import com.projectz.game.items.ItemHealPotion;
+import com.projectz.game.weapons.WeaponGun;
 import com.projectz.game.weapons.WeaponSword;
 
 public class Inventory{
@@ -15,6 +16,7 @@ public class Inventory{
     private ArrayList<ItemSlot> hotBarSlots;
 
     private int slotCount = 18;
+    private final int HOTBAR_SLOT_COUNT = 9;
 
     public Inventory(){
         primary = new ItemSlot(ItemType.Weapon);
@@ -24,9 +26,10 @@ public class Inventory{
         hotBarSlots = new ArrayList<ItemSlot>();
         for(int i = 0; i < slotCount; i++){
             slots.add(new ItemSlot(ItemType.Consumable));
-            hotBarSlots.add(new ItemSlot(ItemType.Consumable));
         }
-
+        for(int i = 0; i < HOTBAR_SLOT_COUNT; i++) {
+            hotBarSlots.add(slots.get(i+9));
+        }
         hotBarSlots.get(2).setStack(new ItemStack(new WeaponSword(), 1));
     }
 
