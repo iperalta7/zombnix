@@ -90,16 +90,10 @@ public class GameScreen implements Screen{
         renderer.render();
         wave.update();
 
+        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+            game.setScreen(new InventoryScreen((ProjectZ) game, inventory, currentScreen));
+        }
 
-        Gdx.input.setInputProcessor(new InputAdapter() {
-            @Override
-            public boolean keyDown (int keyCode) {
-                if (keyCode == Input.Keys.E) {
-                    game.setScreen(new InventoryScreen((ProjectZ) game, inventory, currentScreen));
-                }
-                return true;
-            }
-        });
         wave.render(camera);
         //default call to create stage (from documentation page)
         stage.act(Gdx.graphics.getDeltaTime());
