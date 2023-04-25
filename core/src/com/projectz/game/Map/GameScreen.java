@@ -52,6 +52,26 @@ public class GameScreen implements Screen{
     public GameScreen(ProjectZ game) {
         this.game = game;
         currentScreen = this;
+
+        map = new TmxMapLoader().load("maps/zombie_map.tmx");
+        renderer = new OrthogonalTiledMapRenderer(map, 3f);
+        player = new Player();
+        player.setPlayerPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        enemy = new EnemyGeneric(null, 100, player);
+        camera = new OrthographicCamera();
+        camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
+        statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
+        stage = new Stage();
+        inventory = new Inventory();
+        inventory.addItem(Item.HealingPotion, 5);
+        inventory.addItem(Item.SpeedPotion, 5);
+        inventory.addItem(Item.sword,1);
+        hotBar = new HotBar(inventory);
+        hotBarRenderer = new HotBarRenderer(hotBar);
+        stage.addActor(player);
+        stage.addActor(statusHUDRenderer);
+        stage.addActor(hotBarRenderer);
+        stage.addActor(enemy);
     }
 
     @Override
@@ -97,32 +117,14 @@ public class GameScreen implements Screen{
 
     @Override
     public void show(){
-        map = new TmxMapLoader().load("maps/zombie_map.tmx");
-        renderer = new OrthogonalTiledMapRenderer(map, 3f);
-        player = new Player();
-        player.setPlayerPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
-        enemy = new EnemyGeneric(null, 100, player);
-        camera = new OrthographicCamera();
-        camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
-        statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
-        stage = new Stage();
-        inventory = new Inventory();
-        inventory.addItem(Item.HealingPotion, 5);
-        inventory.addItem(Item.SpeedPotion, 5);
-        inventory.addItem(Item.sword,1);
-        hotBar = new HotBar(inventory);
-        hotBarRenderer = new HotBarRenderer(hotBar);
-        stage.addActor(player);
-        stage.addActor(statusHUDRenderer);
-        stage.addActor(hotBarRenderer);
-        stage.addActor(enemy);
+
 
     }   
 
 
     @Override
     public void hide(){
-        dispose();
+
     }
 
 
