@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 public class ItemHealPotion extends Item{
 
     public ItemHealPotion() {
-        super("Healing Potion", ItemType.Consumable, 5, "healPotion.png");
+        super("Healing Potion", ItemType.Consumable, 5, "healPotion.png", 5);
     }
 
     @Override
