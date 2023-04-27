@@ -19,15 +19,16 @@ public abstract class Item {
     private int maxStackSize = 64;
     private String itemPNG;
     private Sprite itemSprite;
+    public int price;
 
     private Texture ItemTexture;
 
-    public Item(String name, ItemType t, int maxStackSize, String texture){
+    public Item(String name, ItemType t, int maxStackSize, String texture, int price){
         this.name = name;
         this.type = t;
         this.maxStackSize = maxStackSize;
         this.itemPNG = texture;
-
+        this.price = price;
         Pixmap pixmap200 = new Pixmap(Gdx.files.internal(this.itemPNG));
 
         Pixmap pixmap100 = new Pixmap(50, 50, pixmap200.getFormat());
