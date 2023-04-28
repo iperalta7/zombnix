@@ -73,7 +73,7 @@ public class Player extends Actor {
         health = 100;
         expLevel = 1;
         expValue = 0;
-        points = 100; 
+        points = 100;
     }
 
     public Vector2 getPosition(){
