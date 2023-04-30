@@ -4,6 +4,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.projectz.game.player.Player;
 
+/**
+ * This class contains the contents of the status HUD.
+ * It performs the operations when certain parameters
+ * such as player's health and experience are updated.
+ */
 public class StatusHUD {
     private Player player;
 
@@ -11,6 +16,12 @@ public class StatusHUD {
     protected Sprite expSprite;
     protected Sprite pistolSprite;
     protected int numBullets;
+
+    /**
+     * The constructor initializes the sprites for the
+     * health bar, experience bar, and pistol.
+     * @param player
+     */
     public StatusHUD(Player player) {
         this.player = player;
         //Default Textures
@@ -18,6 +29,11 @@ public class StatusHUD {
         expSprite = StatusHUDSprites.EXP_SPRITE_10;
         pistolSprite = StatusHUDSprites.PISTOL_SPRITE;
     }
+
+    /**
+     * This method gets the updated health and experience
+     * values from the player object.
+     */
     public void update() {
         int health = player.getHealth();
         int expValue = player.getExpValue();
@@ -25,6 +41,12 @@ public class StatusHUD {
         updateExp(expValue);
         numBullets = player.getWeapon().getNumBullets();
     }
+
+    /**
+     * This method updates the health sprite which is shown
+     * based on the number of health points the player has.
+     * @param health the updated health value
+     */
     private void updateHealth(int health) {
         if(health == 0) {
             healthSprite = StatusHUDSprites.HEALTH_SPRITE_0;
@@ -50,6 +72,12 @@ public class StatusHUD {
             healthSprite = StatusHUDSprites.HEALTH_SPRITE_10;
         }
     }
+
+    /**
+     * This method updates the experience sprite which is shown
+     * based on the number of experience points the player has.
+     * @param expValue the updated experience value
+     */
     public void updateExp(int expValue) {
 
     }
