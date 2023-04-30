@@ -109,7 +109,10 @@ public class GameScreen implements Screen{
         if(Gdx.input.isKeyJustPressed(Input.Keys.P)){
             game.setScreen(new ShopScreen((ProjectZ) game, player, inventory, currentScreen));
         }
-
+        pointTable.removeActor(pointLabel); 
+        pointLabel = new Label("Points: " + player.points, new Label.LabelStyle((new BitmapFont()), Color.WHITE));
+        pointTable.add(pointLabel); 
+        stage.addActor(pointTable);
         wave.render(camera);
         //default call to create stage (from documentation page)
         stage.act(Gdx.graphics.getDeltaTime());

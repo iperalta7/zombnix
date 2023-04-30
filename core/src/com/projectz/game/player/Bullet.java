@@ -47,7 +47,7 @@ public class Bullet extends Actor {
     @Override
     public void draw(Batch batch, float alpha) {
         if(this.active) {
-            batch.draw(bulletTexture, position.x, position.y);
+            batch.draw(bulletTexture, position.x, position.y, 8, 8);
         }
     }
 
