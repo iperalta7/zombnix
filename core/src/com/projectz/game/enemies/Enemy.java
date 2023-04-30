@@ -21,6 +21,7 @@ import static java.lang.Math.abs;
 public class Enemy extends Actor {
 
     int health;
+    Player player;
     protected TextureRegion enemySprite;
     protected EnemyAnimator enemyAnimator;
     protected Vector2 position;
@@ -59,6 +60,7 @@ public class Enemy extends Actor {
         this.attackDamage = attackDamage;
         this.lastAttackTime = System.currentTimeMillis();
         this.timeBetweenAttacks = 3000;
+        this.player = player; 
     }
 
 
@@ -148,6 +150,7 @@ public class Enemy extends Actor {
     public boolean aliveCheck(){
         if(this.health <= 0){
             this.alive = false;
+            player.points += 10; 
             this.dispose();
             return false;
         }
