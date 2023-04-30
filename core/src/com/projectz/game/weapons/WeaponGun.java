@@ -24,7 +24,7 @@ public class WeaponGun extends Weapon{
 
 
     public WeaponGun(Player player) {
-        super("Gun", "Weapons/pistol.png");
+        super("Gun", "Weapons/pistol.png", 15);
         this.player = player;
         bullets = new ArrayList<Bullet>();
         bulletSpeed = 500f;

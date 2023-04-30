@@ -26,7 +26,7 @@ public class Bullet extends Actor {
         active = true;
         setBounds(position.x, position.y, bulletTexture.getWidth(), bulletTexture.getHeight());
         this.damage = 20;
-        this.bulletRange = 10;
+        this.bulletRange = 20;
     }
 
     public boolean isActive() {
@@ -47,7 +47,7 @@ public class Bullet extends Actor {
     @Override
     public void draw(Batch batch, float alpha) {
         if(this.active) {
-            batch.draw(bulletTexture, position.x, position.y);
+            batch.draw(bulletTexture, position.x, position.y, 8, 8);
         }
     }
 

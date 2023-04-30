@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.projectz.game.player.Bullet;
@@ -20,7 +21,9 @@ import static java.lang.Math.abs;
 public class Enemy extends Actor {
 
     int health;
-    protected Texture enemyTexture;
+    Player player;
+    protected TextureRegion enemySprite;
+    protected EnemyAnimator enemyAnimator;
     protected Vector2 position;
     protected Vector2 relativeOrigin;
     protected float speed;
@@ -42,13 +45,14 @@ public class Enemy extends Actor {
      * @param attackDamage An integer describing the damage given by the enemy upon attack
      */
     public Enemy(Player player, Vector2 initial_position, int attackDamage){
+        this.enemyAnimator = new EnemyAnimator();
+        this.enemySprite = enemyAnimator.getFrame(0.0f);
         this.health = 100;
         this.position = initial_position;
         this.relativeOrigin = new Vector2(player.getPosition().x, player.getPosition().y);
         this.alive = true;
         this.targetedPlayer = player;
         this.attackDistance = 5;
-        this.enemyTexture = new Texture(createEnemyPixmap());
         this.minDistToChase = 500;
         this.attackCount = 0;
         this.speed = 1f;
@@ -56,6 +60,7 @@ public class Enemy extends Actor {
         this.attackDamage = attackDamage;
         this.lastAttackTime = System.currentTimeMillis();
         this.timeBetweenAttacks = 3000;
+        this.player = player; 
     }
 
 
@@ -73,6 +78,7 @@ public class Enemy extends Actor {
         aliveCheck();
         bulletHitCheck();
         attackUpdate();
+        enemySprite = enemyAnimator.getFrame(deltaTime);
     }
 
 
@@ -87,7 +93,9 @@ public class Enemy extends Actor {
      * @param parentAlpha From libGDX: The parent alpha, to be multiplied with this actor's alpha, allowing the parent's alpha to affect all children.
      */
     public void draw(Batch batch, float parentAlpha) {
-        batch.draw(enemyTexture, position.x - (targetedPlayer.getPosition().x - relativeOrigin.x), position.y - (targetedPlayer.getPosition().y - relativeOrigin.y));
+        //batch.draw(enemySprite, position.x - (targetedPlayer.getPosition().x - relativeOrigin.x), position.y - (targetedPlayer.getPosition().y - relativeOrigin.y));
+        //batch.draw((enemySprite, (getStage().getWidth() - 20 * 2) / 2, (getStage().getHeight() - 20 * 2) / 2, 4, 20));
+        batch.draw(enemySprite,position.x - (targetedPlayer.getPosition().x - relativeOrigin.x), position.y - (targetedPlayer.getPosition().y - relativeOrigin.y), 60, 60);
         itemDropAndDeadCheck();
     }
 
@@ -101,7 +109,7 @@ public class Enemy extends Actor {
      * Disposes of the enemy's assets on death. Currently only deletes texture.
      */
     public void dispose() {
-        enemyTexture.dispose();
+        //enemySprite.dispose();
         this.remove();
     }
 
@@ -114,6 +122,7 @@ public class Enemy extends Actor {
      * @param deltaTime Time in seconds since the last frame.
      */
     private void move(float deltaTime){
+        float thisPos = position.x;
         float enemyPlayerDisplacement = distanceToPlayer();
         if(enemyPlayerDisplacement <= minDistToChase){
             targetedMove();
@@ -121,6 +130,11 @@ public class Enemy extends Actor {
         if(enemyPlayerDisplacement >= attackDistance){
             attackCount = 0;
         }
+        if(thisPos < position.x){
+            enemyAnimator.setFacingRight(true);
+        }
+        else
+            enemyAnimator.setFacingRight(false);
     }
 
 
@@ -136,6 +150,7 @@ public class Enemy extends Actor {
     public boolean aliveCheck(){
         if(this.health <= 0){
             this.alive = false;
+            player.points += 10; 
             this.dispose();
             return false;
         }
