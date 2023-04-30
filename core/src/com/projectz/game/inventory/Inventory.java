@@ -30,6 +30,8 @@ public class Inventory{
         for(int i = 0; i < HOTBAR_SLOT_COUNT; i++) {
             hotBarSlots.add(slots.get(i+9));
         }
+        primary = hotBarSlots.get(0);
+        secondary = hotBarSlots.get(1);
         hotBarSlots.get(2).setStack(new ItemStack(new WeaponSword(), 1));
     }
 

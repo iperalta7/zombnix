@@ -44,7 +44,7 @@ public class SlotActor extends Window {
     }
 
     public void clearSlotActor() {
-        this.slot = null;
+        this.slot.clearSlot();
         this.itemPng = null;
     }
 
@@ -79,7 +79,7 @@ public class SlotActor extends Window {
     }
 
     public void replaceSlot(ItemSlot slot, Image itemPng) {
-        this.slot = slot;
+        this.slot.setStack(slot.getStack());
         this.itemPng = itemPng;
     }
 
