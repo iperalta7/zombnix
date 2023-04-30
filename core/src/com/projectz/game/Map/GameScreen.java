@@ -69,12 +69,12 @@ public class GameScreen implements Screen{
         Enemy enemy = new Enemy(player, new Vector2(player.getPosition().x-100, player.getPosition().y-100), 10);
         stage = new Stage();
         wave = new waveGenerator();
-        inventory = new Inventory();
+        inventory = new Inventory(player);
         inventory.addItem(Item.HealingPotion, 5);
         inventory.addItem(Item.SpeedPotion, 5);
         inventory.addItem(Item.sword,1);
         hotBar = new HotBar(inventory);
-        hotBarRenderer = new HotBarRenderer(hotBar);
+        hotBarRenderer = new HotBarRenderer(hotBar, player);
         pointTable = new Table();
         pointTable.setPosition(400,400);
         pointTable.setSize(400,300);

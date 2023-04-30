@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.projectz.game.items.Item;
 import com.projectz.game.items.Item.ItemType;
 import com.projectz.game.items.ItemHealPotion;
+import com.projectz.game.player.Player;
 import com.projectz.game.weapons.WeaponGun;
 import com.projectz.game.weapons.WeaponSword;
 
@@ -14,11 +15,12 @@ public class Inventory{
     private ItemSlot secondary;
     private ArrayList<ItemSlot> slots;
     private ArrayList<ItemSlot> hotBarSlots;
-
+    private Player player;
     private int slotCount = 18;
     private final int HOTBAR_SLOT_COUNT = 9;
 
-    public Inventory(){
+    public Inventory(Player player){
+        this.player = player;
         primary = new ItemSlot(ItemType.Weapon);
         secondary = new ItemSlot(ItemType.Weapon);
 
@@ -30,9 +32,9 @@ public class Inventory{
         for(int i = 0; i < HOTBAR_SLOT_COUNT; i++) {
             hotBarSlots.add(slots.get(i+9));
         }
-        primary = hotBarSlots.get(0);
-        secondary = hotBarSlots.get(1);
-        hotBarSlots.get(2).setStack(new ItemStack(new WeaponSword(), 1));
+        hotBarSlots.set(0, primary);
+        hotBarSlots.set(1, secondary);
+        hotBarSlots.get(2).setStack(new ItemStack(new WeaponGun(player), 1));
     }
 
     /** Returns true if the item was added to the inventory successfully, false if not. */
