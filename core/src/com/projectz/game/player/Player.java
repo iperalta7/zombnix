@@ -37,7 +37,7 @@ public class Player extends Actor {
     private OrthographicCamera camera;
 	Inventory inventory;
 
-
+    public boolean holdingGun;
     private int health;
     private int expValue;
     private int expLevel;
