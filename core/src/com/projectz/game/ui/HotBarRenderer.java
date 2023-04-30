@@ -10,6 +10,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.projectz.game.player.Player;
 import com.projectz.game.weapons.WeaponGun;
 
+/**
+ * This class is the renderer for the hot bar. It takes
+ * the contents of the HotBar class and displays them
+ * visually for the user to see. It extends the class
+ * "Actor" which is a libGDX class which can be added to
+ * the stage (screen).
+ */
 public class HotBarRenderer extends Actor {
     HotBar hotBar;
     private Player player;
@@ -18,6 +25,12 @@ public class HotBarRenderer extends Actor {
     private float timeCount;
     private BitmapFont fontDrawer;
 
+    /**
+     * The constructor sets up the camera and fonts used for
+     * displaying the hot bar.
+     * @param hotBar the hot bar object
+     * @param player the player object used by all other objects
+     */
     public HotBarRenderer(HotBar hotBar, Player player) {
         this.hotBar = hotBar;
         this.player = player;
@@ -27,6 +40,16 @@ public class HotBarRenderer extends Actor {
         fontDrawer = new BitmapFont(Gdx.files.internal("fonts/hud_font.fnt"));
         fontDrawer.getData().setScale(0.5f);
     }
+
+    /**
+     * This function draws the hot bar slot sprites,
+     * the hot bar item sprites, and the item name when
+     * a hot bar key is pressed (1-9).
+     * @param batch the batch used to draw to the screen
+     * @param parentAlpha the parent alpha, to be multiplied
+     *                    with this actor's alpha, allowing
+     *                    the parent's alpha to affect all children
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
@@ -65,6 +88,14 @@ public class HotBarRenderer extends Actor {
         }
         displayItemName(batch);
     }
+
+    /**
+     * This function is called periodically by libGDX. It
+     * fills the hot bar's sprites, tells the player object
+     * whether a gun is selected, and checks keyboard input
+     * for key presses 1-9 to select hot bar slots.
+     * @param deltaTime time in seconds since the last frame
+     */
     @Override
     public void act(float deltaTime) {
         hotBar.fillSlotItemSprites();
@@ -114,6 +145,12 @@ public class HotBarRenderer extends Actor {
         }
         //TODO add ability to scroll through hotbar
     }
+
+    /**
+     * This method displays the name of the selected
+     * item as soon as it is selected.
+     * @param batch same batch as "act" method
+     */
     private void displayItemName(Batch batch) {
         if(timeCount < 1) {
             fontDrawer.setColor(1.0f, 1.0f, 1.0f, 1-timeCount);

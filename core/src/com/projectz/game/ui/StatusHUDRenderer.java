@@ -11,6 +11,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.projectz.game.player.Player;
 
+/**
+ * This class is the renderer for the status HUD. It takes
+ * the contents of the StatusHUD class and displays them
+ * visually for the user to see. It extends the class
+ * "Actor" which is a libGDX class which can be added to
+ * the stage (screen).
+ */
 public class StatusHUDRenderer extends Actor {
     private StatusHUD statusHUD;
     private Player player;
@@ -21,6 +28,12 @@ public class StatusHUDRenderer extends Actor {
     private float timeCount;
     private int expAddNumber;
 
+    /**
+     * The constructor sets up the camera and fonts used for
+     * displaying the status HUD.
+     * @param statusHUD the status HUD object
+     * @param player the player object used by all other objects
+     */
     public StatusHUDRenderer(StatusHUD statusHUD, Player player) {
         this.statusHUD = statusHUD;
         this.player = player;
@@ -32,6 +45,14 @@ public class StatusHUDRenderer extends Actor {
         expAddNumber = 0;
     }
 
+    /**
+     * This function calls the status HUD update method,
+     * draws the health and experience bars, and prints the
+     * health and experience values next to the bars.
+     * @param batch the batch used to draw to the screen
+     * @param parentAlpha the parent alpha, to be multiplied with this actor's alpha, allowing the parent's alpha to affect all
+     *           children
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
@@ -57,6 +78,12 @@ public class StatusHUDRenderer extends Actor {
             fontDrawer.draw(batch, "+"+Integer.toString(expAddNumber), 400, 65);
         }
     }
+
+    /**
+     * This function is called periodically by libGDX. It
+     * updates the time count with the delta time.
+     * @param deltaTime time in seconds since the last frame
+     */
     @Override
     public void act(float deltaTime) {
         //Update time
