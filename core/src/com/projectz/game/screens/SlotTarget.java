@@ -4,6 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
 import com.projectz.game.inventory.Inventory;
 import com.projectz.game.inventory.ItemSlot;
+import com.projectz.game.inventory.ItemStack;
 import com.projectz.game.items.Item;
 
 public class SlotTarget extends Target{
@@ -20,10 +21,10 @@ public class SlotTarget extends Target{
 
     @Override
     public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
-        if(slotActor.getSlotIndex() == 9 && ((ItemSlot) payload.getObject()).getSlotType() == Item.ItemType.Consumable) {
+        if(slotActor.getSlotIndex() == 9 && (((ItemStack)payload.getObject()).getItem().getType() == Item.ItemType.Consumable)) {
             return false;
         }
-        else if(slotActor.getSlotIndex() == 10 && ((ItemSlot) payload.getObject()).getSlotType() == Item.ItemType.Consumable) {
+        else if(slotActor.getSlotIndex() == 10 && (((ItemStack)payload.getObject()).getItem().getType() == Item.ItemType.Consumable)) {
             return false;
         }
         return true;
@@ -33,20 +34,22 @@ public class SlotTarget extends Target{
     public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
         //Check if item is dropped into WeaponSlot (update primary/secondary slot)
         if(slotActor.getCellType() == 2 && slotActor.getSlotIndex() == 9) {
-            inventory.setPrimary((ItemSlot) payload.getObject());
+            //inventory.setPrimary((ItemSlot) payload.getObject());
+            inventory.getPrimary().setStack((ItemStack)payload.getObject());
         }
         else if(slotActor.getCellType() == 2 && slotActor.getSlotIndex() == 10) {
-            inventory.setSecondary((ItemSlot) payload.getObject());
+            //inventory.setSecondary((ItemSlot) payload.getObject());
+            inventory.getSecondary().setStack((ItemStack)payload.getObject());
         }
 
         //Accepts Drop
         if(slot.isEmpty()) {
             this.slot.clearSlot();
-            this.slot = (ItemSlot) payload.getObject();
-            this.slotActor.replaceSlot((ItemSlot) payload.getObject(), (Image) payload.getDragActor());
+            this.slot.setStack((ItemStack)payload.getObject());
+            this.slotActor.replaceSlot(slot, (Image) payload.getDragActor());
             ((Image) payload.getDragActor()).setUserObject(slotActor);
             slotActor.add((Image) payload.getDragActor());
-            inventory.getAllInventory().set(this.slotActor.getSlotIndex(), (ItemSlot) payload.getObject());
+            inventory.getAllInventory().get(this.slotActor.getSlotIndex()).setStack((ItemStack)payload.getObject());
         }
     }
 }

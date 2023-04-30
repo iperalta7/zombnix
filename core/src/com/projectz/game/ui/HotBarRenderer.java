@@ -65,6 +65,7 @@ public class HotBarRenderer extends Actor {
     }
     @Override
     public void act(float deltaTime) {
+        hotBar.fillSlotItemSprites();
         timeCount += deltaTime;
         if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
             hotBar.setActiveHotBarSlot(0);

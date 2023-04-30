@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Target;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop.Payload;
 import com.projectz.game.inventory.Inventory;
 import com.projectz.game.inventory.ItemSlot;
+import com.projectz.game.inventory.ItemStack;
 
 public class SlotSource extends Source {
     private DragAndDrop dnd;
@@ -30,10 +31,11 @@ public class SlotSource extends Source {
         }
         else {
             Payload payload = new Payload();
-            ItemSlot payloadSlot = new ItemSlot(slot.getStack().getItem().getType());
-            payloadSlot.add(slot.getStack().getItem(), slot.getStack().getCount());
+            //ItemSlot payloadSlot = new ItemSlot(slot.getStack().getItem().getType());
+            ItemStack payloadStack = new ItemStack(slot.getStack().getItem(), slot.getStack().getCount());
+            //payloadSlot.add(slot.getStack().getItem(), slot.getStack().getCount());
 
-            payload.setObject(payloadSlot);
+            payload.setObject(payloadStack);
             payload.setDragActor(slotActor.getItemImage());
             dnd.setDragActorPosition(getActor().getWidth() / 2, -getActor().getHeight() / 2);
             InventoryScreen.inventoryStage.addActor(slotActor.getItemImage());

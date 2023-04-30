@@ -41,12 +41,13 @@ public class HotBar {
         }
     }
 
-    private void fillSlotItemSprites() {
+    protected void fillSlotItemSprites() {
         for(int i = 0; i < hotBarItemSprites.length; i++) {
             try {
                 hotBarItemSprites[i] = hotBarSlots.get(i).getStack().getItem().getItemSprite();
+                //System.out.println("Item filled");
             } catch(Exception e) {
-                System.out.println("Item slot empty");
+                //System.out.println("Item slot empty");
                 hotBarItemSprites[i] = null;
             }
 
