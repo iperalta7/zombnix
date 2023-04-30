@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.projectz.game.player.Player;
+import com.projectz.game.weapons.WeaponGun;
 
 public class HotBarRenderer extends Actor {
     HotBar hotBar;
@@ -17,8 +18,9 @@ public class HotBarRenderer extends Actor {
     private float timeCount;
     private BitmapFont fontDrawer;
 
-    public HotBarRenderer(HotBar hotBar) {
+    public HotBarRenderer(HotBar hotBar, Player player) {
         this.hotBar = hotBar;
+        this.player = player;
         camera = new OrthographicCamera();
         camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         timeCount = 3;
@@ -67,6 +69,13 @@ public class HotBarRenderer extends Actor {
     public void act(float deltaTime) {
         hotBar.fillSlotItemSprites();
         timeCount += deltaTime;
+        if(!hotBar.activeHotBarSlot.isEmpty() && hotBar.activeHotBarSlot.getItemName().equals("Gun")) {
+            player.holdingGun = true;
+        }
+        else {
+            player.holdingGun = false;
+        }
+
         if(Gdx.input.isKeyPressed(Input.Keys.NUM_1)) {
             hotBar.setActiveHotBarSlot(0);
             timeCount = 0;

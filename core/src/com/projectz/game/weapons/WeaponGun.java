@@ -36,7 +36,7 @@ public class WeaponGun extends Weapon{
         timeSinceLastShot += delta;
 
         // fire bullet when space is pressed and fire rate allows it
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && timeSinceLastShot >= fireRate) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && timeSinceLastShot >= fireRate && player.holdingGun) {
             fireBullet();
             timeSinceLastShot = 0f;
         }
