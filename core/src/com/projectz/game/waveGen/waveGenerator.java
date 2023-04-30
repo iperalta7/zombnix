@@ -48,6 +48,9 @@ public class waveGenerator extends ApplicationAdapter {
         spawnedZombies = new Array<>();
     }
 
+    /**
+     * Initializes variables for the WaveGenerator class.
+     */
     private void initializeVariables() {
         currRoundNum = 0;
         numZombiePerRound = 5;
@@ -79,6 +82,9 @@ public class waveGenerator extends ApplicationAdapter {
         }
     }
 
+    /**
+     * Ends the current round and begins the break before the next round.
+     */
     private void endRoundAndBeginBreak() {
         waveInProgress = false;
         roundEndTime = 0;
@@ -86,12 +92,18 @@ public class waveGenerator extends ApplicationAdapter {
         Gdx.app.log("ZombieWaveGeneratorTest", "Round " + currRoundNum + " over. Next round starting in 20 seconds...");
     }
 
+    /**
+     * Handles the logic for when a wave is not in progress.
+     */
     private void handleWaveNotInProgress() {
         if (TimeUtils.timeSinceMillis(breakEndTime) >= 0) {
             beginNextRound();
         }
     }
 
+    /**
+     * Begins the next round.
+     */
     private void beginNextRound() {
         currRoundNum++;
         numZombiePerRound += 3;
@@ -102,6 +114,9 @@ public class waveGenerator extends ApplicationAdapter {
         zombiesSpawnedThisRound = 0;
     }
 
+    /**
+     * Updates the number of remaining zombies.
+     */
     private void updateRemainingZombies() {
         for (Enemy zombie : spawnedZombies) {
             if (!zombie.aliveCheck()) {
@@ -111,6 +126,9 @@ public class waveGenerator extends ApplicationAdapter {
         }
     }
 
+    /**
+     * Spawns a new zombie in the game.
+     */
     private void spawnZombie() {
         Vector2 spawnPosition = calculateSpawnPosition();
         Enemy newZombie = new Enemy(player, spawnPosition, 10);
@@ -118,6 +136,11 @@ public class waveGenerator extends ApplicationAdapter {
         stage.addActor(newZombie);
     }
 
+    /**
+     * Calculates the spawn position for a new zombie.
+     *
+     * @return Vector2 representing the spawn position.
+     */
     private Vector2 calculateSpawnPosition() {
         float distance = 100 + (float) (Math.random() * 200);
         float angle = (float) (Math.random() * 2 * Math.PI);
@@ -126,6 +149,9 @@ public class waveGenerator extends ApplicationAdapter {
         return new Vector2(spawnX, spawnY);
     }
 
+    /**
+     * Renders the wave information on screen.
+     */
     public void render() {
         batch.begin();
         batch.setProjectionMatrix(batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
@@ -133,6 +159,11 @@ public class waveGenerator extends ApplicationAdapter {
         batch.end();
     }
 
+    /**
+     * Renders the wave and remaining zombie information text on screen.
+     *
+     * @param batch The SpriteBatch used for rendering.
+     */
     private void renderText(SpriteBatch batch) {
         String roundText = "Round " + currRoundNum;
         font.draw(batch, roundText, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() - font.getLineHeight());
@@ -145,6 +176,11 @@ public class waveGenerator extends ApplicationAdapter {
         }
     }
 
+    /**
+     * Renders the countdown timer before the next round starts on screen.
+     *
+     * @param batch The SpriteBatch used for rendering.
+     */
     private void renderCountdown(SpriteBatch batch) {
         long timeRemaining = (breakEndTime - TimeUtils.millis()) / 1000;
         String countdownText = "Next round in: " + timeRemaining + " seconds";
