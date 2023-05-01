@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
@@ -36,7 +35,7 @@ public class Enemy extends Actor {
     protected int attackDamage;
     protected long lastAttackTime;
     protected int timeBetweenAttacks;
-
+    protected boolean hasSpawned = false;
 
     /**
      * Initializes values of the Enemy.
@@ -95,7 +94,13 @@ public class Enemy extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         //batch.draw(enemySprite, position.x - (targetedPlayer.getPosition().x - relativeOrigin.x), position.y - (targetedPlayer.getPosition().y - relativeOrigin.y));
         //batch.draw((enemySprite, (getStage().getWidth() - 20 * 2) / 2, (getStage().getHeight() - 20 * 2) / 2, 4, 20));
-        batch.draw(enemySprite,position.x - (targetedPlayer.getPosition().x - relativeOrigin.x), position.y - (targetedPlayer.getPosition().y - relativeOrigin.y), 60, 60);
+        if(!hasSpawned) {
+            batch.draw(enemySprite, position.x, position.y, 60, 60);
+            hasSpawned = true;
+        }
+        else {
+            batch.draw(enemySprite, position.x - (targetedPlayer.getPosition().x - relativeOrigin.x), position.y - (targetedPlayer.getPosition().y - relativeOrigin.y), 60, 60);
+        }
         itemDropAndDeadCheck();
     }
 
