@@ -1,3 +1,7 @@
+/**
+ * The Player class represents the player object in the game.
+ * It handles movement, animation, weapon, health, and experience values.
+ */
 package com.projectz.game.player;
 
 import com.badlogic.gdx.Gdx;
@@ -23,78 +27,86 @@ import com.projectz.game.items.Item;
 import com.projectz.game.weapons.WeaponGun;
 import com.projectz.game.player.Bullet;
 
-//Player.java
 public class Player extends Actor {
 
     private Vector2 position;
     private TextureRegion playerSprite;
 
     private Animator playerAnimator;
-    public final float speed;
+    private final float speed;
     private WeaponGun weapon;
+    private OrthographicCamera camera;
+    private Inventory inventory;
     float w = Gdx.graphics.getWidth();
     float h = Gdx.graphics.getHeight();
-    private OrthographicCamera camera;
-	Inventory inventory;
-
     public boolean holdingGun;
     private int health;
     private int expValue;
     private int expLevel;
     public int points;
 
-
-
-    //default constructor
-    //this is where we give the player a texture/skin
-    // speed is defaulted ( smaller equals slower...vice versa)
-
-
-    // Health and XP values are initialized
-
-    public Player () {
+    /**
+     * Constructor for the Player class.
+     * Initializes the player's position, sprite, speed, weapon, and camera.
+     * Also initializes health, experience, and points.
+     */
+    public Player() {
         playerAnimator = new Animator();
         playerAnimator.setState("RUNNING");
         position = new Vector2();
-
         playerSprite = playerAnimator.getFrame(0.0f);
         speed = 100f;
         weapon = new WeaponGun(this);
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
-		// Testing the inventory system.
-		//inventory = new Inventory();
-		//inventory.printInventory();
-		//inventory.addItem(Item.HealingPotion, 5);
-		//inventory.printInventory();
-
-
-        // Initialize health and xp
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         health = 100;
         expLevel = 1;
         expValue = 0;
         points = 100;
     }
 
-    public Vector2 getPosition(){
+    /**
+     * Returns the position of the player.
+     *
+     * @return Vector2 representing the player's position.
+     */
+    public Vector2 getPosition() {
         return position;
     }
 
-
-
-    public void setPlayerPosition(float x, float y){
+    /**
+     * Sets the position of the player.
+     *
+     * @param x float representing the x-coordinate.
+     * @param y float representing the y-coordinate.
+     */
+    public void setPlayerPosition(float x, float y) {
         position.x = x;
         position.y = y;
     }
 
-    //changes the position of player object based on input
+    /**
+     * Updates the player's position based on user input.
+     * Also updates the player's animation and camera position.
+     *
+     * @param deltaTime float representing the time between frames.
+     */
     @Override
     public void act(float deltaTime) {
-        super.act(deltaTime);
         Vector2 prevPos = new Vector2();
         prevPos.x = position.x;
         prevPos.y = position.y;
+        handleMovement(deltaTime);
+        weapon.update(deltaTime);
+        updateAnimation(prevPos, deltaTime);
+        updateCamera();
+    }
 
+    /**
+     * Handle the movement for the player
+     * @param deltaTime float representing the the time between frames
+     */
+    public void handleMovement(float deltaTime){
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             position.y += speed * deltaTime;
         }
@@ -109,74 +121,110 @@ public class Player extends Actor {
             position.x += speed * deltaTime;
             playerAnimator.setFacingRight(true);
         }
-
-        weapon.update(deltaTime);
-
-
-        /*if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_3)){
-            inventory.useConsumable(Item.HealingPotion);
-<<<<<<< HEAD
-        }*/
-
-        //Gets the current frame of our Animation
-        if(prevPos.x == position.x && prevPos.y == position.y)
-            playerAnimator.setState("STANDING");
-        else
-            playerAnimator.setState("RUNNING");
-        playerSprite = playerAnimator.getFrame(deltaTime);
-
-        // update the camera position to follow the player
-        camera.position.x = 0;//position.x;
-        camera.position.y = 0;//position.y;
-        camera.update();
-
-        weapon.update(deltaTime);
     }
-    //draw method for player
+
+    /**
+     * Updates the Player Animation based on the prevPos.
+     * @param prevPos Vector2 representing the position of the player.
+     * @param deltaTime float representing the time between frames.
+     */
+    public void updateAnimation(Vector2 prevPos, float deltaTime){
+        if (prevPos.x == position.x && prevPos.y == position.y) {
+            playerAnimator.setState("STANDING");
+        } else {
+            playerAnimator.setState("RUNNING");
+        }
+        playerSprite = playerAnimator.getFrame(deltaTime);
+    }
+
+    /**
+     * Updates the camera position to follow the player.
+     */
+    public void updateCamera() {
+        camera.position.x = 0;
+        camera.position.y = 0;
+        camera.update();
+    }
+
+    /**
+     * Draws the player sprite and weapon on the screen.
+     *
+     * @param batch       the batch used to draw the sprite.
+     * @param parentAlpha the alpha value of the parent actor.
+     */
     @Override
     public void draw(Batch batch, float parentAlpha) {
-
-        // Calculate the new width and height of the texture based on the viewport size
-        float factor = 3.4f;//2.4F;
-        float scale = camera.viewportWidth / w * factor ; // w is the original window width
+        float factor = 3.4f;
+        float scale = camera.viewportWidth / Gdx.graphics.getWidth() * factor;
         float width = 20.0f * scale;
         float height = 20.0f * scale;
 
-
-        // Draw the player sprite at the current position
-        batch.draw(playerSprite, (getStage().getWidth() - 20 * 2) / 2, (getStage().getHeight() - 20 * 2) / 2, width, height);
-         // Draw the bullets
+        batch.draw(playerSprite, (getStage().getCamera().position.x - 20 / 2), (getStage().getCamera().position.y - 20 / 2), 60, 60);
         weapon.draw(batch, parentAlpha);
     }
 
-    public WeaponGun getWeapon() {
-        return weapon;
-    }
-    //used for memory management
-    public void dispose() {
-        weapon.dispose();
-        //playerSprite.dispose();
-    }
-
-    public int getHealth() {
-        return health;
-    }
-    public void takeDamage(int damage){
-        if(this.health <= 0) {
+    /**
+     * Updates the player's health when they take damage.
+     *
+     * @param damage the amount of damage taken.
+     */
+    public void takeDamage(int damage) {
+        if (this.health <= 0) {
             this.health = 0;
-        }
-        else{
+        } else {
             this.health -= damage;
         }
     }
+
+    /**
+     * Disposes of any resources used by the player object.
+     */
+    public void dispose() {
+        weapon.dispose();
+    }
+
+    /**
+     * Returns the player's current health value.
+     *
+     * @return the player's current health value.
+     */
+    public int getHealth() {
+        return health;
+    }
+
+    /**
+     * Returns the player's current experience value.
+     *
+     * @return the player's current experience value.
+     */
     public int getExpValue() {
         return expValue;
     }
+
+    /**
+     * Returns the player's current experience level.
+     *
+     * @return the player's current experience level.
+     */
     public int getExpLevel() {
         return expLevel;
     }
-    public void setExpValue(int expValue) {
-        this.expValue = expValue;
+
+    /**
+     * Returns the player's current points value.
+     *
+     * @return the player's current points value.
+     */
+    public int getPoints() {
+        return points;
+    }
+
+    /**
+     * Returns the player's current weapon.
+     *
+     * @return the player's current weapon.
+     */
+    public WeaponGun getWeapon() {
+        return weapon;
     }
 }
-
