@@ -28,6 +28,14 @@ public class InventoryScreen extends ScreenAdapter {
     private TextureRegion closeInventory;
     private ImageButton closeInventoryButton;
 
+    /**
+     * Constructor for the InventoryScreen Class
+     * Initializes the inventory stage for the inventory actor to act on
+     *
+     * @param game ProjectZ game itself
+     * @param inventory player inventory.
+     * @param gameScreen previous state of the game screen
+     */
     public InventoryScreen(ProjectZ game, Inventory inventory, GameScreen gameScreen)  {
         this.game = game;
         this.inventory = inventory;
@@ -41,7 +49,10 @@ public class InventoryScreen extends ScreenAdapter {
     }
 
 
-
+    /**
+     * Renders the inventory stage
+     * @param delta
+     */
     @Override
     public void render (float delta) {
         inventoryStage.getViewport().update(800, 600, true);
@@ -52,19 +63,35 @@ public class InventoryScreen extends ScreenAdapter {
         inventoryStage.draw();
     }
 
+    /**
+     * Show method of screen adapter
+     */
     @Override
     public void show () {}
 
+
+    /**
+     * Resize the stage based on the viewport
+     */
     @Override
     public void resize(int width, int height) {
         inventoryStage.getViewport().update(width, height, true);
     }
 
+
+    /**
+     * Dispose of the stage after inventory screen is closed
+     */
     @Override
     public void dispose () {
         inventoryStage.dispose();
     }
 
+
+    /**
+     * Creates style for the close button for the inventory screen.
+     * If button is clicked, then switch back to the game screen.
+     */
     private void inventoryCloseButton() {
         closeInventory = new TextureRegion(new Texture(Gdx.files.internal("exitInventory.png")));
         buttonStyle = new ImageButton.ImageButtonStyle();

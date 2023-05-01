@@ -27,6 +27,14 @@ public class InventoryActor extends Window {
     int screenHeight = Gdx.graphics.getHeight() / 2;
     int screenWidth = Gdx.graphics.getWidth() / 2;
 
+    /**
+     * Constructor for the InventoryActor Class
+     * Initializes the inventory window
+     * Initializes cells, table, and slot actors
+     *
+     * @param inventory player inventory.
+     * @param dnd Drag and Drop utility.
+     */
     public InventoryActor(Inventory inventory, DragAndDrop dnd) {
         super("", loadDefualtInventory());
 
@@ -43,6 +51,11 @@ public class InventoryActor extends Window {
         this.add(inventoryTable);
     }
 
+    /**
+     * Loads default inventory background design
+     *
+     * @return inventoryStyle how the inventory is designed
+     */
     private static WindowStyle loadDefualtInventory() {
         WindowStyle inventoryStyle = new Window.WindowStyle(new BitmapFont(),
                 Color.BLACK, new TextureRegionDrawable(new Texture("inventory.png")));
@@ -50,7 +63,9 @@ public class InventoryActor extends Window {
         return inventoryStyle;
     }
 
-
+    /**
+     * Loads blurred background behind the inventory
+     */
     private void initScreenBackground() {
         Image background = new Image( new Texture("Background_Tiles.jpg"));
         background.setHeight(background.getHeight() * 3);
@@ -58,6 +73,10 @@ public class InventoryActor extends Window {
         InventoryScreen.inventoryStage.addActor(background);
     }
 
+    /**
+     * Initiates the inventory table properties.
+     * sets the size of table and default padding between cells.
+     */
     private void initTable() {
         inventoryTable = new Table();
         inventoryTable.setSize(250,430);
@@ -65,6 +84,14 @@ public class InventoryActor extends Window {
         inventoryTable.setDebug(true);
     }
 
+    /**
+     * Initiates the physical slot cells as slot actors.
+     * Loads different types of cells (inventory, hot-bar, or weapon cell).
+     * adds the drag and drop functionality by adding sources and targets to slot actors.
+     *
+     * @param inventory player inventory
+     * @param dnd drag and drop utility
+     */
     private void initSlotCells(Inventory inventory, DragAndDrop dnd) {
         SlotActor slotActor;
         int i = 0;

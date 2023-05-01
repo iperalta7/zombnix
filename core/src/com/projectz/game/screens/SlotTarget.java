@@ -12,6 +12,13 @@ public class SlotTarget extends Target{
     private SlotActor slotActor;
     Inventory inventory;
 
+    /**
+     * Constructor for the SlotTarget Class
+     * Allows items to be dragged to a target cells
+     *
+     * @param slotActor slotActor window that contains the itemSlot
+     * @param inventory player inventory
+     */
     public SlotTarget(SlotActor slotActor, Inventory inventory) {
         super(slotActor);
         this.slotActor = slotActor;
@@ -19,6 +26,11 @@ public class SlotTarget extends Target{
         this.inventory = inventory;
     }
 
+    /**
+     * Return true if the drag is possible.
+     * Return false if trying to drag a consumable item to a weapon cell.
+     * @return drag if drag is valid or not valid
+     */
     @Override
     public boolean drag(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
         if(slotActor.getSlotIndex() == 9 && (((ItemStack)payload.getObject()).getItem().getType() == Item.ItemType.Consumable)) {
@@ -30,6 +42,11 @@ public class SlotTarget extends Target{
         return true;
     }
 
+    /**
+     * Dropping the item to an appropriate slot actor window
+     * Accepts drop if cell is empty
+     * checks whether an item is dropped in a weapon cell
+     */
     @Override
     public void drop(DragAndDrop.Source source, DragAndDrop.Payload payload, float x, float y, int pointer) {
         //Check if item is dropped into WeaponSlot (update primary/secondary slot)

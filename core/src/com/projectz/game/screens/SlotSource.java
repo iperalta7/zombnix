@@ -16,6 +16,13 @@ public class SlotSource extends Source {
     private SlotActor slotActor;
     private Inventory inventory;
 
+    /**
+     * Constructor for the SlotSource Class.
+     * Makes slot actors sources, which allow items to be dragged initially
+     * @param inventory player inventory.
+     * @param dnd Drag and Drop utility.
+     * @param slotActor window that contains the itemSlot
+     */
     public SlotSource(SlotActor slotActor, DragAndDrop dnd, Inventory inventory) {
         super(slotActor);
         this.dnd = dnd;
@@ -23,6 +30,11 @@ public class SlotSource extends Source {
         this.inventory = inventory;
     }
 
+    /**
+     * Makes items available to initially drag.
+     * Set the payload dragActor to the item png.
+     * Set the payload object to the item stack
+     */
     @Override
     public DragAndDrop.Payload dragStart(InputEvent event, float x, float y, int pointer) {
         ItemSlot slot = slotActor.getItemSlot();
@@ -44,6 +56,11 @@ public class SlotSource extends Source {
         }
     }
 
+    /**
+     * Checks for placement in non-target regions
+     * and will return item to original slot if placed somewhere
+     * where no item can go.
+     */
     @Override
     public void dragStop(InputEvent event, float x, float y, int pointer, Payload payload, Target target) {
         Image itemPng = slotActor.getItemImage();
