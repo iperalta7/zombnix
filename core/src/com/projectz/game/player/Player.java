@@ -144,7 +144,7 @@ public class Player extends Actor {
 
 
         // Draw the player sprite at the current position
-        batch.draw(playerSprite, (getStage().getWidth() - 20 * 2) / 2, (getStage().getHeight() - 20 * 2) / 2, width, height);
+        batch.draw(playerSprite, (getStage().getWidth() - 20 * 2) / 2, (getStage().getHeight() - 20 * 2) / 2, 60, 60);
          // Draw the bullets
         weapon.draw(batch, parentAlpha);
     }
