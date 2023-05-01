@@ -3,6 +3,12 @@ package com.projectz.game.ui;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+/**
+ * This class is a container for the sprites for the
+ * health and experience bars. It consists of 10 increments
+ * for each bar (0%, 10%, ..., 100%). It also contains the
+ * pistol sprite.
+ */
 public class StatusHUDSprites {
     static final Sprite HEALTH_SPRITE_0 = new Sprite(new Texture("StatusHUDImages/healthtexture0.png"));
     static final Sprite HEALTH_SPRITE_1 = new Sprite(new Texture("StatusHUDImages/healthtexture1.png"));
