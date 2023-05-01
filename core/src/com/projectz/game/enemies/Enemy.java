@@ -21,16 +21,16 @@ import static java.lang.Math.abs;
 public class Enemy extends Actor {
 
     int health;
-    Player player;
+    static Player player;
     protected TextureRegion enemySprite;
     protected EnemyAnimator enemyAnimator;
     protected Vector2 position;
     protected Vector2 relativeOrigin;
     protected float speed;
     protected boolean alive;
-    protected Player targetedPlayer;
-    protected float minDistToChase;
-    protected float attackDistance;
+    static protected Player targetedPlayer;
+    static protected float minDistToChase;
+    static protected float attackDistance;
     protected int attackCount;
     protected Vector2 direction;
     protected int attackDamage;
@@ -125,7 +125,7 @@ public class Enemy extends Actor {
         float thisPos = position.x;
         float enemyPlayerDisplacement = distanceToPlayer();
         if(enemyPlayerDisplacement <= minDistToChase){
-            targetedMove();
+            targetedMove(deltaTime);
         }
         if(enemyPlayerDisplacement >= attackDistance){
             attackCount = 0;
@@ -245,12 +245,12 @@ public class Enemy extends Actor {
     /**
      * Sets the new enemy position when targeting the player
      */
-    public void targetedMove(){
+    public void targetedMove(float deltaTime){
         this.direction.x = targetedPlayer.getPosition().x - position.x;
         this.direction.y = targetedPlayer.getPosition().y - position.y;
         this.direction.nor();
-        position.x += direction.x * this.speed;
-        position.y += direction.y * this.speed;
+        position.x += direction.x + this.speed * deltaTime;
+        position.y += direction.y + this.speed * deltaTime;
     }
 
 
