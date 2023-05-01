@@ -66,7 +66,6 @@ public class GameScreen implements Screen{
         camera = new OrthographicCamera();
         camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
         statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
-        Enemy enemy = new Enemy(player, new Vector2(player.getPosition().x-100, player.getPosition().y-100), 10);
         stage = new Stage();
         wave = new waveGenerator(player, stage);
         inventory = new Inventory(player);
@@ -83,7 +82,6 @@ public class GameScreen implements Screen{
         stage.addActor(player);
         stage.addActor(statusHUDRenderer);
         stage.addActor(hotBarRenderer);
-        stage.addActor(enemy);
         stage.addActor(pointTable);
     }
 
@@ -91,8 +89,6 @@ public class GameScreen implements Screen{
     public void render(float delta){
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-
         // update the camera position to follow the player
         camera.position.x = player.getPosition().x;
         camera.position.y = player.getPosition().y;
