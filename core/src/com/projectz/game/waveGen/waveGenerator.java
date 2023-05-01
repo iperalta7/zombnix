@@ -53,7 +53,7 @@ public class waveGenerator extends ApplicationAdapter {
      */
     private void initializeVariables() {
         currRoundNum = 0;
-        numZombiePerRound = 5;
+        numZombiePerRound = 0;
         waveInProgress = false;
         roundEndTime = 0;
         breakEndTime = 0;
@@ -88,7 +88,7 @@ public class waveGenerator extends ApplicationAdapter {
     private void endRoundAndBeginBreak() {
         waveInProgress = false;
         roundEndTime = 0;
-        breakEndTime = System.currentTimeMillis() + 20000;
+        breakEndTime = System.currentTimeMillis() + 15000;
         Gdx.app.log("ZombieWaveGeneratorTest", "Round " + currRoundNum + " over. Next round starting in 20 seconds...");
     }
 
@@ -144,8 +144,31 @@ public class waveGenerator extends ApplicationAdapter {
     private Vector2 calculateSpawnPosition() {
         float distance = 100 + (float) (Math.random() * 200);
         float angle = (float) (Math.random() * 2 * Math.PI);
-        float spawnX = player.getPosition().x + distance * (float) Math.cos(angle);
-        float spawnY = player.getPosition().y + distance * (float) Math.sin(angle);
+        float playerX = player.getPosition().x;
+        float playerY = player.getPosition().y;
+        float spawnX, spawnY;
+
+        // Randomly choose one of four positions around the player
+        int pos = (int) (Math.random() * 4);
+        switch (pos) {
+            case 0:
+                spawnX = playerX + distance * (float) Math.cos(angle);
+                spawnY = playerY + distance * (float) Math.sin(angle);
+                break;
+            case 1:
+                spawnX = playerX - distance * (float) Math.cos(angle);
+                spawnY = playerY + distance * (float) Math.sin(angle);
+                break;
+            case 2:
+                spawnX = playerX + distance * (float) Math.cos(angle);
+                spawnY = playerY - distance * (float) Math.sin(angle);
+                break;
+            default: // pos == 3
+                spawnX = playerX - distance * (float) Math.cos(angle);
+                spawnY = playerY - distance * (float) Math.sin(angle);
+                break;
+        }
+
         return new Vector2(spawnX, spawnY);
     }
 
