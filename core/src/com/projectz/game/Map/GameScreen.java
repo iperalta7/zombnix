@@ -55,6 +55,7 @@ public class GameScreen implements Screen{
     InventoryScreen inventoryScreen;
     GameScreen currentScreen;
     Label pointLabel; 
+    BitmapFont pointFont;
     public Table pointTable;
 
     public GameScreen(ProjectZ game) {
@@ -69,7 +70,7 @@ public class GameScreen implements Screen{
         camera.setToOrtho(false, ProjectZ.VIRTUAL_WIDTH, ProjectZ.VIRTUAL_HEIGHT);
         mapViewport = new FitViewport(ProjectZ.VIRTUAL_WIDTH, ProjectZ.VIRTUAL_HEIGHT, camera);
         statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
-        Enemy enemy = new Enemy(player, new Vector2(player.getPosition().x-100, player.getPosition().y-100), 10);
+        this.enemy = new Enemy(player, new Vector2(player.getPosition().x-100, player.getPosition().y-100), 10);
         stage = new Stage(new FitViewport(ProjectZ.VIRTUAL_WIDTH, ProjectZ.VIRTUAL_HEIGHT));
         wave = new waveGenerator();
         inventory = new Inventory(player);
@@ -81,7 +82,8 @@ public class GameScreen implements Screen{
         pointTable = new Table();
         pointTable.setPosition(400,400);
         pointTable.setSize(400,300);
-        pointLabel = new Label("Points: " + player.points, new Label.LabelStyle((new BitmapFont()), Color.WHITE));
+        pointFont = new BitmapFont();
+        pointLabel = new Label("Points: " + player.points, new Label.LabelStyle(pointFont, Color.WHITE));
         pointTable.add(pointLabel); 
         stage.addActor(player);
         stage.addActor(statusHUDRenderer);
@@ -106,17 +108,14 @@ public class GameScreen implements Screen{
         renderer.render();
         wave.update();
 
-        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
             game.setScreen(new InventoryScreen((ProjectZ) game, inventory, currentScreen));
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.P)){
             game.setScreen(new ShopScreen((ProjectZ) game, player, inventory, currentScreen));
         }
-        pointTable.removeActor(pointLabel); 
-        pointLabel = new Label("Points: " + player.points, new Label.LabelStyle((new BitmapFont()), Color.WHITE));
-        pointTable.add(pointLabel); 
-        stage.addActor(pointTable);
+        pointLabel.setText("Points: " + player.points);
         wave.render(camera);
         stage.getViewport().apply();
         //default call to create stage (from documentation page)
