@@ -93,7 +93,7 @@ public class Inventory{
 
     public void swapPrimary(){
         ItemStack buffer = primary.getStack();
-        primary.setStack(primary.getStack());
+        primary.setStack(secondary.getStack());
         secondary.setStack(buffer);
     }
 
