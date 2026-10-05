@@ -44,6 +44,14 @@ public class Player extends Actor {
     private int expValue;
     private int expLevel;
     public int points;
+    private float mapWidth = Float.MAX_VALUE;
+    private float mapHeight = Float.MAX_VALUE;
+    // Camera centre in world coordinates, set by GameScreen each frame (null = follows player)
+    private final Vector2 cameraPosition = new Vector2();
+    private boolean hasCameraPosition = false;
+    // The sprite is drawn 60x60 from (position - 10), so it spans [-10, +50] around position
+    private static final float SPRITE_MARGIN_LEFT = 10f;
+    private static final float SPRITE_MARGIN_RIGHT = 50f;
 
     /**
      * Constructor for the Player class.
@@ -86,6 +94,49 @@ public class Player extends Actor {
     }
 
     /**
+     * Sets the world size the player is confined to (the map size in world pixels).
+     */
+    public void setMapBounds(float mapWidth, float mapHeight) {
+        this.mapWidth = mapWidth;
+        this.mapHeight = mapHeight;
+        clampToMap();
+    }
+
+    private void clampToMap() {
+        float minX = SPRITE_MARGIN_LEFT, maxX = mapWidth - SPRITE_MARGIN_RIGHT;
+        float minY = SPRITE_MARGIN_LEFT, maxY = mapHeight - SPRITE_MARGIN_RIGHT;
+        position.x = maxX < minX ? mapWidth / 2f : Math.max(minX, Math.min(position.x, maxX));
+        position.y = maxY < minY ? mapHeight / 2f : Math.max(minY, Math.min(position.y, maxY));
+    }
+
+    /**
+     * Sets the world position of the (clamped) map camera. Called by GameScreen each frame.
+     */
+    public void setCameraPosition(float x, float y) {
+        cameraPosition.set(x, y);
+        hasCameraPosition = true;
+    }
+
+    /**
+     * Returns the world position of the map camera (the player position until the camera is set).
+     * Anything drawn in world space on the stage should be offset by this, not by the player position.
+     */
+    public Vector2 getCameraPosition() {
+        return hasCameraPosition ? cameraPosition : position;
+    }
+
+    /**
+     * Returns the stage position where the sprite is drawn (its bottom-left corner plus the
+     * 10px sprite origin offset, i.e. the former "stage camera centre"): stage centre plus
+     * (player - camera). Equals the stage centre when the camera is not clamped.
+     */
+    public Vector2 getScreenPosition() {
+        Vector2 cam = getCameraPosition();
+        return new Vector2(getStage().getCamera().position.x + position.x - cam.x,
+                           getStage().getCamera().position.y + position.y - cam.y);
+    }
+
+    /**
      * Updates the player's position based on user input.
      * Also updates the player's animation and camera position.
      *
@@ -121,6 +172,7 @@ public class Player extends Actor {
             position.x += speed * deltaTime;
             playerAnimator.setFacingRight(true);
         }
+        clampToMap();
     }
 
     /**
@@ -159,7 +211,8 @@ public class Player extends Actor {
         float width = 20.0f * scale;
         float height = 20.0f * scale;
 
-        batch.draw(playerSprite, (getStage().getCamera().position.x - 20 / 2), (getStage().getCamera().position.y - 20 / 2), 60, 60);
+        Vector2 screenPos = getScreenPosition();
+        batch.draw(playerSprite, (screenPos.x - 20 / 2), (screenPos.y - 20 / 2), 60, 60);
         weapon.draw(batch, parentAlpha);
     }
 
