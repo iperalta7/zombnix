@@ -11,6 +11,7 @@ import com.projectz.game.player.Player;
 
 import java.util.ArrayList;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 
 //Weapon.java
 public class WeaponGun extends Weapon{
@@ -60,13 +61,22 @@ public class WeaponGun extends Weapon{
     }
 
     private void fireBullet() {
-        Vector2 mousePosition = new Vector2(Gdx.input.getX(), Gdx.graphics.getHeight() - Gdx.input.getY());
-        Vector2 bulletDirection = mousePosition
-                .sub((Gdx.graphics.getWidth()) / 2, (Gdx.graphics.getHeight()) / 2)
-                .nor();
+        Stage stage = player.getStage();
 
-        float x = player.getStage().getWidth() / 2;
-        float y = player.getStage().getHeight() / 2;
+        // The player sprite is drawn 60x60 from (camera - 10), so its centre is camera + 20
+        Vector2 spriteCenter = new Vector2(stage.getCamera().position.x + 20, stage.getCamera().position.y + 20);
+        Vector2 mousePosition = stage.screenToStageCoordinates(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+
+        Vector2 bulletDirection = mousePosition.sub(spriteCenter);
+        // Mouse is on top of the player, there is no direction to fire in
+        if (bulletDirection.isZero(1f)) {
+            return;
+        }
+        bulletDirection.nor();
+
+        // Bullets are drawn 8x8 from their bottom left corner, so offset by half to centre them
+        float x = spriteCenter.x - 4;
+        float y = spriteCenter.y - 4;
 
         Bullet bullet = new Bullet(x, y, bulletDirection, bulletSpeed);
         bullets.add(bullet);
