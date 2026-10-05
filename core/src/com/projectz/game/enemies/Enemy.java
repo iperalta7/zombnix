@@ -97,7 +97,7 @@ public class Enemy extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         //batch.draw(enemySprite, position.x - (targetedPlayer.getPosition().x - relativeOrigin.x), position.y - (targetedPlayer.getPosition().y - relativeOrigin.y));
         //batch.draw((enemySprite, (getStage().getWidth() - 20 * 2) / 2, (getStage().getHeight() - 20 * 2) / 2, 4, 20));
-        batch.draw(enemySprite,position.x - (targetedPlayer.getPosition().x - relativeOrigin.x), position.y - (targetedPlayer.getPosition().y - relativeOrigin.y), 60, 60);
+        batch.draw(enemySprite,position.x - (targetedPlayer.getCameraPosition().x - relativeOrigin.x), position.y - (targetedPlayer.getCameraPosition().y - relativeOrigin.y), 60, 60);
         itemDropAndDeadCheck();
     }
 
@@ -172,8 +172,8 @@ public class Enemy extends Actor {
         WeaponGun playerGun = this.targetedPlayer.getWeapon();
         ArrayList<Bullet> playerGunBullets = playerGun.getBullets();
         // Enemy sprite is drawn 60x60 from its bottom-left corner; compare centres in stage space
-        float enemyCenterX = this.position.x - (targetedPlayer.getPosition().x - relativeOrigin.x) + ENEMY_HALF_EXTENT;
-        float enemyCenterY = this.position.y - (targetedPlayer.getPosition().y - relativeOrigin.y) + ENEMY_HALF_EXTENT;
+        float enemyCenterX = this.position.x - (targetedPlayer.getCameraPosition().x - relativeOrigin.x) + ENEMY_HALF_EXTENT;
+        float enemyCenterY = this.position.y - (targetedPlayer.getCameraPosition().y - relativeOrigin.y) + ENEMY_HALF_EXTENT;
         for(Bullet bullet : playerGunBullets){
             if(!bullet.isActive()){
                 continue;
