@@ -14,20 +14,40 @@ public class Bullet extends Actor {
     private Vector2 position;
     private Vector2 direction;
     private float speed;
-    private Texture bulletTexture;
+    private static Texture sharedTexture;
     private boolean active;
-    private float bulletRange;
+    /** Radius (px) around the bullet's centre used for hit detection against enemies. */
+    private float hitRadius;
+    /** Maximum distance (px) a bullet travels from its spawn point before it is removed. */
+    private static final float MAX_TRAVEL_DISTANCE = 600f;
+    private final Vector2 spawnPosition;
+
+    /** Lazily loads the single texture shared by all bullets. */
+    private static Texture getTexture() {
+        if (sharedTexture == null) {
+            sharedTexture = new Texture("bullet-blue.png");
+        }
+        return sharedTexture;
+    }
+
+    /** Disposes the shared texture; it is reloaded lazily if a bullet needs it again. */
+    public static void disposeSharedTexture() {
+        if (sharedTexture != null) {
+            sharedTexture.dispose();
+            sharedTexture = null;
+        }
+    }
 
 
     public Bullet(float x, float y, Vector2 direction, float speed) {
         position = new Vector2(x, y);
         this.direction = direction;
         this.speed = speed;
-        bulletTexture = new Texture("bullet-blue.png");
+        spawnPosition = new Vector2(x, y);
         active = true;
-        setBounds(position.x, position.y, bulletTexture.getWidth(), bulletTexture.getHeight());
+        setBounds(position.x, position.y, getTexture().getWidth(), getTexture().getHeight());
         this.damage = 20;
-        this.bulletRange = 20;
+        this.hitRadius = 4;
     }
 
     public boolean isActive() {
@@ -37,10 +57,10 @@ public class Bullet extends Actor {
     @Override
     public void act(float delta) {
         position.add(direction.x * speed * delta, direction.y * speed * delta);
-        setBounds(position.x, position.y, bulletTexture.getWidth(), bulletTexture.getHeight());
+        setBounds(position.x, position.y, getTexture().getWidth(), getTexture().getHeight());
 
-        // check if bullet is off screen
-        if (position.x < 0 || position.y < 0 || position.x > ProjectZ.VIRTUAL_WIDTH || position.y > ProjectZ.VIRTUAL_HEIGHT) {
+        // deactivate once the bullet has travelled its maximum distance
+        if (position.dst2(spawnPosition) > MAX_TRAVEL_DISTANCE * MAX_TRAVEL_DISTANCE) {
             active = false;
         }
     }
@@ -48,13 +68,17 @@ public class Bullet extends Actor {
     @Override
     public void draw(Batch batch, float alpha) {
         if(this.active) {
-            batch.draw(bulletTexture, position.x, position.y, 8, 8);
+            batch.draw(getTexture(), position.x, position.y, 8, 8);
         }
+    }
+
+    /** Marks the bullet as inactive so its owner removes it. Does not touch the shared texture. */
+    public void deactivate() {
+        this.active = false;
     }
 
     public void dispose() {
         this.active = false;
-        bulletTexture.dispose();
     }
 
     public Vector2 getPosition(){
@@ -63,8 +87,8 @@ public class Bullet extends Actor {
 
     public float getDamage(){return this.damage;}
 
-    public float getBulletRange(){
-        return this.bulletRange;
+    public float getHitRadius(){
+        return this.hitRadius;
     }
 
 }

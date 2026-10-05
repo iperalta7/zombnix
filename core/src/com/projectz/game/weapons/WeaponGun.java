@@ -89,6 +89,7 @@ public class WeaponGun extends Weapon{
         for (Bullet bullet : bullets) {
             bullet.dispose();
         }
+        Bullet.disposeSharedTexture();
     }
 
     @Override

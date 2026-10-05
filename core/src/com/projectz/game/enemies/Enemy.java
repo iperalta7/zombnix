@@ -20,6 +20,8 @@ import static java.lang.Math.abs;
  */
 public class Enemy extends Actor {
 
+    private static final float ENEMY_HALF_EXTENT = 30f;
+
     int health;
     Player player;
     protected TextureRegion enemySprite;
@@ -55,7 +57,7 @@ public class Enemy extends Actor {
         this.attackDistance = 5;
         this.minDistToChase = 500;
         this.attackCount = 0;
-        this.speed = 1f;
+        this.speed = 60f; // pixels per second (1 px/frame at 60fps)
         this.direction = new Vector2();
         this.attackDamage = attackDamage;
         this.lastAttackTime = System.currentTimeMillis();
@@ -125,7 +127,7 @@ public class Enemy extends Actor {
         float thisPos = position.x;
         float enemyPlayerDisplacement = distanceToPlayer();
         if(enemyPlayerDisplacement <= minDistToChase){
-            targetedMove();
+            targetedMove(deltaTime);
         }
         if(enemyPlayerDisplacement >= attackDistance){
             attackCount = 0;
@@ -169,10 +171,20 @@ public class Enemy extends Actor {
     public boolean bulletHitCheck(){
         WeaponGun playerGun = this.targetedPlayer.getWeapon();
         ArrayList<Bullet> playerGunBullets = playerGun.getBullets();
+        // Enemy sprite is drawn 60x60 from its bottom-left corner; compare centres in stage space
+        float enemyCenterX = this.position.x - (targetedPlayer.getPosition().x - relativeOrigin.x) + ENEMY_HALF_EXTENT;
+        float enemyCenterY = this.position.y - (targetedPlayer.getPosition().y - relativeOrigin.y) + ENEMY_HALF_EXTENT;
         for(Bullet bullet : playerGunBullets){
-            if(abs(this.position.x - bullet.getPosition().x - (targetedPlayer.getPosition().x - relativeOrigin.x)) < bullet.getBulletRange() && abs(this.position.y - bullet.getPosition().y - (targetedPlayer.getPosition().y - relativeOrigin.y)) < bullet.getBulletRange()){
+            if(!bullet.isActive()){
+                continue;
+            }
+            // Bullet is drawn 8x8 from its bottom-left corner
+            float bulletCenterX = bullet.getPosition().x + 4;
+            float bulletCenterY = bullet.getPosition().y + 4;
+            float reach = ENEMY_HALF_EXTENT + bullet.getHitRadius();
+            if(abs(enemyCenterX - bulletCenterX) < reach && abs(enemyCenterY - bulletCenterY) < reach){
                 this.health -= bullet.getDamage();
-                bullet.dispose();
+                bullet.deactivate();
                 return true;
             }
         }
@@ -246,11 +258,19 @@ public class Enemy extends Actor {
      * Sets the new enemy position when targeting the player
      */
     public void targetedMove(){
+        targetedMove(1f / 60f);
+    }
+
+    /**
+     * Sets the new enemy position when targeting the player, scaled by elapsed time.
+     * @param deltaTime Time in seconds since the last frame.
+     */
+    public void targetedMove(float deltaTime){
         this.direction.x = targetedPlayer.getPosition().x - position.x;
         this.direction.y = targetedPlayer.getPosition().y - position.y;
         this.direction.nor();
-        position.x += direction.x * this.speed;
-        position.y += direction.y * this.speed;
+        position.x += direction.x * this.speed * deltaTime;
+        position.y += direction.y * this.speed * deltaTime;
     }
 
 
