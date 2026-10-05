@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.projectz.game.Map.GameScreen;
 import com.projectz.game.ProjectZ;
 import com.projectz.game.inventory.*;
@@ -39,7 +39,7 @@ public class InventoryScreen extends ScreenAdapter {
     public InventoryScreen(ProjectZ game, Inventory inventory, GameScreen gameScreen)  {
         this.game = game;
         this.inventory = inventory;
-        inventoryStage = new Stage(new ScreenViewport());
+        inventoryStage = new Stage(new FitViewport(ProjectZ.VIRTUAL_WIDTH, ProjectZ.VIRTUAL_HEIGHT));
         dnd = new DragAndDrop();
         Gdx.input.setInputProcessor(inventoryStage);
         inventoryActor = new InventoryActor(inventory,dnd);
@@ -55,7 +55,7 @@ public class InventoryScreen extends ScreenAdapter {
      */
     @Override
     public void render (float delta) {
-        inventoryStage.getViewport().update(800, 600, true);
+        inventoryStage.getViewport().apply();
         Gdx.gl.glClearColor(0, 0, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 

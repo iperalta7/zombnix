@@ -16,7 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.projectz.game.Map.GameScreen;
 import com.projectz.game.ProjectZ;
 
@@ -35,15 +35,15 @@ public class CharacterScreen extends ScreenAdapter {
     private TextureRegionDrawable char_backgroundDraw;
     private Image background;
 
-    int screenHeight = Gdx.graphics.getHeight() / 2;
-    int screenWidth = Gdx.graphics.getWidth() / 2;
+    int screenHeight = ProjectZ.VIRTUAL_HEIGHT / 2;
+    int screenWidth = ProjectZ.VIRTUAL_WIDTH / 2;
 
     ProjectZ game;
     GameScreen game_screen;
 
     public CharacterScreen(ProjectZ game) {
         this.game = game;
-        stage = new Stage(new ScreenViewport());
+        stage = new Stage(new FitViewport(ProjectZ.VIRTUAL_WIDTH, ProjectZ.VIRTUAL_HEIGHT));
         table = new Table();
         table.setSize(250,430);
         table.setPosition(screenWidth - 250 / 2, screenHeight - 430 / 2);
@@ -90,7 +90,7 @@ public class CharacterScreen extends ScreenAdapter {
 
     @Override
     public void render (float delta) {
-        stage.getViewport().update(800, 600, true);
+        stage.getViewport().apply();
         delta = Gdx.graphics.getDeltaTime();
         Gdx.gl.glClearColor(0, 0, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -98,6 +98,11 @@ public class CharacterScreen extends ScreenAdapter {
 
         stage.act(delta);
         stage.draw();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        stage.getViewport().update(width, height, true);
     }
 
     @Override

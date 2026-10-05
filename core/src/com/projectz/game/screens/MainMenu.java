@@ -7,7 +7,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.projectz.game.Map.GameScreen;
 import com.projectz.game.ProjectZ;
 
@@ -27,6 +30,7 @@ public class MainMenu extends ScreenAdapter {
     private BitmapFont fontDrawer;
 
     ProjectZ game;
+    private Viewport viewport = new FitViewport(ProjectZ.VIRTUAL_WIDTH, ProjectZ.VIRTUAL_HEIGHT);
 
     public MainMenu(ProjectZ game) {
         this.game = game;
@@ -54,8 +58,8 @@ public class MainMenu extends ScreenAdapter {
      */
     public void drawButton() {
         //Play Button Position on Screen
-        int x = Gdx.graphics.getWidth() / 2 - play_button_unactive.getWidth() / 2;
-        int y = Gdx.graphics.getHeight() / 2 - play_button_unactive.getHeight() / 2;
+        int x = ProjectZ.VIRTUAL_WIDTH / 2 - play_button_unactive.getWidth() / 2;
+        int y = ProjectZ.VIRTUAL_HEIGHT / 2 - play_button_unactive.getHeight() / 2;
 
         //Play Button Dimensions
         int play_width = play_button_region.getRegionWidth();
@@ -64,8 +68,9 @@ public class MainMenu extends ScreenAdapter {
         int exit_height = exit_button_region.getRegionHeight();
 
         //Mouse Positions
-        int mouseX = Gdx.input.getX();
-        int mouseY = Gdx.graphics.getHeight() - Gdx.input.getY();
+        Vector2 mouse = viewport.unproject(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
+        float mouseX = mouse.x;
+        float mouseY = mouse.y;
 
         //Calculates the mouse position relative to the play button
         this.play_button_hover = mouseX >= x && mouseX <= x + play_width && mouseY >= y && mouseY <= y + play_height;
@@ -94,9 +99,11 @@ public class MainMenu extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1,0,0,1);
+        Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        viewport.apply();
+        game.batch.setProjectionMatrix(viewport.getCamera().combined);
         game.batch.begin();
 
         //Draw background for title screen
@@ -125,7 +132,7 @@ public class MainMenu extends ScreenAdapter {
 
     @Override
     public void resize(int width, int height) {
-
+        viewport.update(width, height, true);
     }
 
     @Override

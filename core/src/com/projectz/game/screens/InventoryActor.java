@@ -1,4 +1,5 @@
 package com.projectz.game.screens;
+import com.projectz.game.ProjectZ;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -24,8 +25,8 @@ public class InventoryActor extends Window {
     final private int HOT_BAR_CELL = 1;
     final private int WEAPON_CELL = 2;
 
-    int screenHeight = Gdx.graphics.getHeight() / 2;
-    int screenWidth = Gdx.graphics.getWidth() / 2;
+    int screenHeight = ProjectZ.VIRTUAL_HEIGHT / 2;
+    int screenWidth = ProjectZ.VIRTUAL_WIDTH / 2;
 
     /**
      * Constructor for the InventoryActor Class
