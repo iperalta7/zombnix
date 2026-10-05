@@ -1,4 +1,5 @@
 package com.projectz.game.player;
+import com.projectz.game.ProjectZ;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
@@ -39,7 +40,7 @@ public class Bullet extends Actor {
         setBounds(position.x, position.y, bulletTexture.getWidth(), bulletTexture.getHeight());
 
         // check if bullet is off screen
-        if (position.x < 0 || position.y < 0 || position.x > Gdx.graphics.getWidth() || position.y > Gdx.graphics.getHeight()) {
+        if (position.x < 0 || position.y < 0 || position.x > ProjectZ.VIRTUAL_WIDTH || position.y > ProjectZ.VIRTUAL_HEIGHT) {
             active = false;
         }
     }

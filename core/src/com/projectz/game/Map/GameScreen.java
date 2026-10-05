@@ -21,6 +21,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.projectz.game.ProjectZ;
 import com.projectz.game.inventory.Inventory;
 import com.projectz.game.items.Item;
@@ -39,6 +40,7 @@ public class GameScreen implements Screen{
     private TiledMap map;
     private OrthogonalTiledMapRenderer renderer;
     private OrthographicCamera camera;
+    private FitViewport mapViewport;
     private boolean isPaused = false;
     Player player;
     Enemy enemy;
@@ -62,12 +64,13 @@ public class GameScreen implements Screen{
         map = new TmxMapLoader().load("maps/zombie_map.tmx");
         renderer = new OrthogonalTiledMapRenderer(map, 4f);
         player = new Player();
-        player.setPlayerPosition(Gdx.graphics.getWidth()/2, Gdx.graphics.getHeight()/2);
+        player.setPlayerPosition(ProjectZ.VIRTUAL_WIDTH/2, ProjectZ.VIRTUAL_HEIGHT/2);
         camera = new OrthographicCamera();
-        camera.setToOrtho(false,Gdx.graphics.getWidth(), Gdx.graphics.getHeight() );
+        camera.setToOrtho(false, ProjectZ.VIRTUAL_WIDTH, ProjectZ.VIRTUAL_HEIGHT);
+        mapViewport = new FitViewport(ProjectZ.VIRTUAL_WIDTH, ProjectZ.VIRTUAL_HEIGHT, camera);
         statusHUDRenderer = new StatusHUDRenderer(new StatusHUD(player), player);
         Enemy enemy = new Enemy(player, new Vector2(player.getPosition().x-100, player.getPosition().y-100), 10);
-        stage = new Stage();
+        stage = new Stage(new FitViewport(ProjectZ.VIRTUAL_WIDTH, ProjectZ.VIRTUAL_HEIGHT));
         wave = new waveGenerator();
         inventory = new Inventory(player);
         inventory.addItem(Item.HealingPotion, 5);
@@ -98,6 +101,7 @@ public class GameScreen implements Screen{
         camera.position.y = player.getPosition().y;
         camera.update();
 
+        mapViewport.apply();
         renderer.setView(camera);
         renderer.render();
         wave.update();
@@ -114,6 +118,7 @@ public class GameScreen implements Screen{
         pointTable.add(pointLabel); 
         stage.addActor(pointTable);
         wave.render(camera);
+        stage.getViewport().apply();
         //default call to create stage (from documentation page)
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
@@ -121,12 +126,9 @@ public class GameScreen implements Screen{
 
     @Override
     public void resize(int width, int height){
-        /*
-        camera.viewportWidth = width; 
-        camera.viewportHeight = height;
-        camera.position.set(camera.viewportWidth / 3f, camera.viewportHeight / 3f, 0);
-        camera.update();
-        */
+        // The map camera keeps following the player, so only the viewport rectangle is updated
+        mapViewport.update(width, height);
+        stage.getViewport().update(width, height, true);
     }
 
 

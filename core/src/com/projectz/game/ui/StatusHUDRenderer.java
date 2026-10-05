@@ -1,4 +1,5 @@
 package com.projectz.game.ui;
+import com.projectz.game.ProjectZ;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -38,7 +39,7 @@ public class StatusHUDRenderer extends Actor {
         this.statusHUD = statusHUD;
         this.player = player;
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        camera.setToOrtho(false, ProjectZ.VIRTUAL_WIDTH, ProjectZ.VIRTUAL_HEIGHT);
         fontDrawer = new BitmapFont(Gdx.files.internal("fonts/hud_font.fnt"));
         fontDrawer.getData().setScale(0.5f);
         timeCount = 3;

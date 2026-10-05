@@ -1,4 +1,5 @@
 package com.projectz.game.waveGen;
+import com.projectz.game.ProjectZ;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -62,7 +63,7 @@ public class waveGenerator extends ApplicationAdapter {
 
         // Begin the SpriteBatch and set the projection matrix
         batch.begin();
-        batch.setProjectionMatrix(batch.getProjectionMatrix().setToOrtho2D(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()));
+        batch.setProjectionMatrix(batch.getProjectionMatrix().setToOrtho2D(0, 0, ProjectZ.VIRTUAL_WIDTH, ProjectZ.VIRTUAL_HEIGHT));
 
         // Draw the round number at the top center of the screen
         //String roundText = "Round " + curr_roundNum;
@@ -70,7 +71,7 @@ public class waveGenerator extends ApplicationAdapter {
 
         //Gdx.app.log("ZombieWaveGeneratorTest", "Round " + curr_roundNum + " starting...");
         String starting_roundText = "Round " + curr_roundNum + " starting...";
-        font.draw(batch, starting_roundText, (Gdx.graphics.getWidth()) / 2, Gdx.graphics.getHeight() - font.getLineHeight());
+        font.draw(batch, starting_roundText, ProjectZ.VIRTUAL_WIDTH / 2, ProjectZ.VIRTUAL_HEIGHT - font.getLineHeight());
         // End the SpriteBatch
         batch.end();
     }

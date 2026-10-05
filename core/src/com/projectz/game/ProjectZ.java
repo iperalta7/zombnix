@@ -15,6 +15,10 @@ import com.projectz.game.screens.*;
 //import jdk.tools.jmod.Main;
 
 public class ProjectZ extends Game {
+    /** Size of the game's world in pixels. Windows of any size are scaled to fit this (letterboxed). */
+    public static final int VIRTUAL_WIDTH = 800;
+    public static final int VIRTUAL_HEIGHT = 600;
+
     public SpriteBatch batch;
 
     @Override

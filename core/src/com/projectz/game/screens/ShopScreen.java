@@ -25,7 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 
 /**
@@ -51,8 +51,8 @@ public class ShopScreen extends ScreenAdapter {
     ProjectZ game;
     GameScreen gameScreen;
 
-    int screenHeight = Gdx.graphics.getHeight() / 2;
-    int screenWidth = Gdx.graphics.getWidth() / 2;
+    int screenHeight = ProjectZ.VIRTUAL_HEIGHT / 2;
+    int screenWidth = ProjectZ.VIRTUAL_WIDTH / 2;
 
     //Window elements:
     private Window.WindowStyle inventoryStyle;
@@ -71,7 +71,7 @@ public class ShopScreen extends ScreenAdapter {
        this.player = player;
        this.inventory = inventory;  
        this.gameScreen = gameScreen;
-       shopStage = new Stage(new ScreenViewport());
+       shopStage = new Stage(new FitViewport(ProjectZ.VIRTUAL_WIDTH, ProjectZ.VIRTUAL_HEIGHT));
        Gdx.input.setInputProcessor(shopStage);
        loadWindow();
        loadItems();
@@ -272,7 +272,7 @@ public class ShopScreen extends ScreenAdapter {
      */
     @Override
     public void render (float delta) {
-        shopStage.getViewport().update(800, 600, true);
+        shopStage.getViewport().apply();
         Gdx.gl.glClearColor(0, 0, .25f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         shopStage.act();
@@ -284,7 +284,7 @@ public class ShopScreen extends ScreenAdapter {
      */
     @Override
     public void resize(int width, int height) {
-
+        shopStage.getViewport().update(width, height, true);
     }
     /**
      * This is the pause function, right now there is no uses
