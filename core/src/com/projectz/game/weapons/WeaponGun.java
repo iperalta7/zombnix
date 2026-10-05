@@ -63,8 +63,9 @@ public class WeaponGun extends Weapon{
     private void fireBullet() {
         Stage stage = player.getStage();
 
-        // The player sprite is drawn 60x60 from (camera - 10), so its centre is camera + 20
-        Vector2 spriteCenter = new Vector2(stage.getCamera().position.x + 20, stage.getCamera().position.y + 20);
+        // The player sprite is drawn 60x60 from (screen position - 10), so its centre is screen position + 20.
+        // The screen position moves away from the stage centre when the camera is clamped at a map edge.
+        Vector2 spriteCenter = player.getScreenPosition().add(20, 20);
         Vector2 mousePosition = stage.screenToStageCoordinates(new Vector2(Gdx.input.getX(), Gdx.input.getY()));
 
         Vector2 bulletDirection = mousePosition.sub(spriteCenter);
@@ -89,6 +90,7 @@ public class WeaponGun extends Weapon{
         for (Bullet bullet : bullets) {
             bullet.dispose();
         }
+        Bullet.disposeSharedTexture();
     }
 
     @Override
